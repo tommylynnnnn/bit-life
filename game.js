@@ -27,7 +27,7 @@ let player = {
     science: 0,
     art: 0
   },
-  clubs: [ { name: "Chess Club", name: "Art Club", name: "Band", name: "Study Club" }
+  clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
     ],
   teachers: []
 }
