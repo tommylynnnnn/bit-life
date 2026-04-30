@@ -22,6 +22,19 @@ function randomName() {
          last[Math.floor(Math.random() * last.length)];
 }
 
+// Random gender generator
+function randomGender() {
+  return Math.random() < 0.5 ? "male" : "female";
+}
+
+// Avatar emoji based on gender + age
+function genderEmoji(gender, age) {
+  if (age <= 5) return "👶";
+  if (age <= 12) return gender === "male" ? "👦" : "👧";
+  if (age <= 19) return "🧑";
+  return gender === "male" ? "👨" : "👩";
+}
+
 let events = [];
 
 // Load base events + DLC later
@@ -83,7 +96,7 @@ function updateUI() {
     familyList.innerHTML =
       player.relationships.family.length === 0
         ? "<p>No family relationships yet.</p>"
-        : player.relationships.family.map(f => `<p>${f.name}</p>`).join("");
+        : player.relationships.family.map(f => `<p>${f.emoji || ""} ${f.name}</p>`).join("");
   }
 
   if (friendsList) {
@@ -91,7 +104,7 @@ function updateUI() {
       player.relationships.friends.length === 0
         ? "<p>No friends yet.</p>"
         : player.relationships.friends.map(fr => `
-            <p>${fr.name} — closeness ${fr.closeness}%</p>
+            <p>${fr.emoji} ${fr.name} — closeness ${fr.closeness}%</p>
           `).join("");
   }
 
@@ -99,14 +112,14 @@ function updateUI() {
     romanticList.innerHTML =
       player.relationships.romantic.length === 0
         ? "<p>No romantic relationships yet.</p>"
-        : player.relationships.romantic.map(r => `<p>${r.name}</p>`).join("");
+        : player.relationships.romantic.map(r => `<p>${r.emoji || ""} ${r.name}</p>`).join("");
   }
 
   if (petsList) {
     petsList.innerHTML =
       player.relationships.pets.length === 0
         ? "<p>No pets yet.</p>"
-        : player.relationships.pets.map(p => `<p>${p.name}</p>`).join("");
+        : player.relationships.pets.map(p => `<p>${p.emoji || ""} ${p.name}</p>`).join("");
   }
 }
 
@@ -158,11 +171,18 @@ function runEvent() {
 function applyChoice(effects, npcName = null) {
   for (let stat in effects) {
     if (stat === "addFriend" && npcName) {
+
+      const gender = randomGender();
+      const emoji = genderEmoji(gender, player.age);
+
       player.relationships.friends.push({
         name: npcName,
+        gender: gender,
+        emoji: emoji,
         closeness: 50,
         ageMet: player.age
       });
+
     } else if (player.hasOwnProperty(stat)) {
       player[stat] += effects[stat];
     }
