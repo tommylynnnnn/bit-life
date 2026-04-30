@@ -842,10 +842,16 @@ function ageUp() {
 // ------------------------------
 // CLOSE POPUP
 // ------------------------------
+// ------------------------------
+// POPUP CLOSE
+// ------------------------------
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
 
+// ------------------------------
+// PRESCHOOL CLASSMATES
+// ------------------------------
 function generatePreschoolClassmates() {
   const count = Math.floor(Math.random() * 7) + 7; // 7–13 classmates
 
@@ -866,6 +872,63 @@ function generatePreschoolClassmates() {
   }
 }
 
+// ------------------------------
+// ELEMENTARY CLASSMATE GENERATOR
+// ------------------------------
+function generateElementaryClassmates() {
+  const count = Math.floor(Math.random() * 6) + 10; // 10–15 classmates
+
+  player.relationships.classmates = [];
+
+  for (let i = 0; i < count; i++) {
+    const gender = randomGender();
+    const age = Math.floor(Math.random() * 3) + 6; // ages 6–8
+
+    player.relationships.classmates.push({
+      name: randomName(),
+      gender: gender,
+      age: age,
+      emoji: genderEmoji(gender, age),
+      closeness: Math.floor(Math.random() * 40) + 20,
+      type: "classmate"
+    });
+  }
+}
+
+// ------------------------------
+// TEACHER GENERATOR
+// ------------------------------
+function generateTeachers() {
+  const teacherNames = ["Ms. Carter", "Mr. Lopez", "Mrs. Singh", "Mr. Brown", "Ms. Nguyen"];
+
+  player.education.teachers = [
+    { subject: "Math", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
+    { subject: "Reading", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
+    { subject: "Science", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
+    { subject: "Art", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] }
+  ];
+}
+
+// ------------------------------
+// CLUB GENERATOR
+// ------------------------------
+function generateClubs() {
+  const possibleClubs = ["Chess Club", "Art Club", "Robotics", "Drama", "Sports", "Choir"];
+  const count = Math.floor(Math.random() * 3) + 2; // 2–4 clubs
+
+  player.education.clubs = [];
+
+  for (let i = 0; i < count; i++) {
+    const club = possibleClubs[Math.floor(Math.random() * possibleClubs.length)];
+    if (!player.education.clubs.includes(club)) {
+      player.education.clubs.push(club);
+    }
+  }
+}
+
+// ------------------------------
+// PRESCHOOL POPUP
+// ------------------------------
 function openClassmatePopup(index) {
   const c = player.relationships.classmates[index];
 
@@ -885,6 +948,28 @@ function openClassmatePopup(index) {
   popup.style.display = "flex";
 }
 
+function classmateInteract(index) {
+  const c = player.relationships.classmates[index];
+
+  const change = Math.floor(Math.random() * 10) + 5;
+  c.closeness = clamp(c.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>You arranged a playdate with ${c.name}.</p>
+      <p>Closeness is now ${c.closeness}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
+// ------------------------------
+// ELEMENTARY POPUP
+// ------------------------------
 function openElementaryClassmatePopup(index) {
   const c = player.relationships.classmates[index];
 
@@ -953,87 +1038,9 @@ function elementaryInteract(index, type) {
   updateUI();
 }
 
-function classmateInteract(index) {
-  const c = player.relationships.classmates[index];
-
-  const change = Math.floor(Math.random() * 10) + 5;
-  c.closeness = clamp(c.closeness + change);
-
-  const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${c.emoji} ${c.name}</h2>
-      <p>You arranged a playdate with ${c.name}.</p>
-      <p>Closeness is now ${c.closeness}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
-  function generateElementaryClassmates() {
-  const count = Math.floor(Math.random() * 6) + 10; // 10–15 classmates
-
-  player.relationships.classmates = [];
-
-  for (let i = 0; i < count; i++) {
-    const gender = randomGender();
-    const age = Math.floor(Math.random() * 3) + 6; // ages 6–8
-
-    player.relationships.classmates.push({
-      name: randomName(),
-      gender: gender,
-      age: age,
-      emoji: genderEmoji(gender, age),
-      closeness: Math.floor(Math.random() * 40) + 20,
-      type: "classmate"
-    });
-  }
-}
-
-  function generateTeachers() {
-  const teacherNames = ["Ms. Carter", "Mr. Lopez", "Mrs. Singh", "Mr. Brown", "Ms. Nguyen"];
-
-  player.education.teachers = [
-    { subject: "Math", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
-    { subject: "Reading", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
-    { subject: "Science", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
-    { subject: "Art", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] }
-  ];
-}
-
-  function generateClubs() {
-  const possibleClubs = ["Chess Club", "Art Club", "Robotics", "Drama", "Sports", "Choir"];
-  const count = Math.floor(Math.random() * 3) + 2; // 2–4 clubs
-
-  player.education.clubs = [];
-
-  for (let i = 0; i < count; i++) {
-    const club = possibleClubs[Math.floor(Math.random() * possibleClubs.length)];
-    if (!player.education.clubs.includes(club)) {
-      player.education.clubs.push(club);
-    }
-  }
-}
-
-
-  updateUI();
-}
-
 // ------------------------------
 // TABS + AGE BUTTON
 // ------------------------------
-window.onload = () => {
-  document.querySelectorAll(".tabBtn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-      document.getElementById(btn.dataset.tab).classList.add("active");
-    });
-  });
-
-  document.getElementById("ageBtn").addEventListener("click", ageUp);
-
-  loadEvents().then(updateUI);
-};
-
 window.onload = () => {
   document.querySelectorAll(".tabBtn").forEach(btn => {
     btn.addEventListener("click", () => {
