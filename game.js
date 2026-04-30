@@ -599,6 +599,40 @@ function showGameOver() {
 // ------------------------------
 // AGE UP
 // ------------------------------
+function runEvent() {
+  const possible = events.filter(e => {
+    return player.age >= e.ageRange[0] && player.age <= e.ageRange[1];
+  });
+
+  const eventText = document.getElementById("eventText");
+  const choiceBox = document.getElementById("choices");
+
+  if (possible.length === 0) {
+    eventText.textContent = "Nothing special happened this year.";
+    choiceBox.innerHTML = "";
+    return;
+  }
+
+  const event = possible[Math.floor(Math.random() * possible.length)];
+
+  let npcName = null;
+  if (event.text.includes("{name}")) {
+    npcName = randomName();
+  }
+
+  const finalText = npcName ? event.text.replace("{name}", npcName) : event.text;
+  eventText.textContent = finalText;
+
+  choiceBox.innerHTML = "";
+
+  event.choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.textContent = choice.text;
+    btn.onclick = () => applyChoice(choice.effects, npcName);
+    choiceBox.appendChild(btn);
+  });
+}
+
 function ageUp() {
   player.age++;
   player.emoji = genderEmoji(player.gender, player.age);
