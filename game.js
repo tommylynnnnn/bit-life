@@ -16,7 +16,8 @@ let player = {
     friends: [],
     romantic: [],
     pets: [],
-    deceased: []
+    deceased: [].
+    classmates: []
   }
 };
 
@@ -290,6 +291,38 @@ function updateUI() {
     el.addEventListener("click", () => openPetPopup(el.dataset.index));
   });
 }
+
+const schoolLevel = document.getElementById("schoolLevel");
+const classmatesList = document.getElementById("classmatesList");
+
+if (player.age < 3) {
+  schoolLevel.textContent = "Too young for school.";
+  classmatesList.innerHTML = "<p>No classmates yet.</p>";
+} 
+else if (player.age <= 5) {
+  schoolLevel.textContent = "Preschool";
+  classmatesList.innerHTML = player.relationships.classmates.map((c, index) => `
+    <p class="clickableClassmate" data-index="${index}">
+      ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+    </p>
+  `).join("");
+} 
+else if (player.age <= 13) {
+  schoolLevel.textContent = "Elementary School";
+  classmatesList.innerHTML = "<p>Elementary classmates coming soon.</p>";
+} 
+else if (player.age <= 18) {
+  schoolLevel.textContent = "High School";
+  classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
+} 
+else {
+  schoolLevel.textContent = "College / University";
+  classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
+}
+
+document.querySelectorAll(".clickableClassmate").forEach(el => {
+  el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
+});
 
 // ------------------------------
 // POPUP SYSTEM (PARENTS)
@@ -733,6 +766,18 @@ function ageUp() {
     p.age++;
   });
 
+  player.relationships.classmates.forEach(c => {
+  c.age++;
+  c.emoji = genderEmoji(c.gender, c.age);
+});
+  
+    if (player.age === 3) {
+  generatePreschoolClassmates();
+}
+  if (player.age === 6) {
+  player.relationships.classmates = [];
+}
+
   checkDeaths();
   runEvent();
   updateUI();
@@ -743,6 +788,64 @@ function ageUp() {
 // ------------------------------
 function closePopup() {
   document.getElementById("popup").style.display = "none";
+}
+
+function generatePreschoolClassmates() {
+  const count = Math.floor(Math.random() * 7) + 7; // 7–13 classmates
+
+  player.relationships.classmates = [];
+
+  for (let i = 0; i < count; i++) {
+    const gender = randomGender();
+    const age = Math.floor(Math.random() * 3) + 3; // ages 3–5
+
+    player.relationships.classmates.push({
+      name: randomName(),
+      gender: gender,
+      age: age,
+      emoji: genderEmoji(gender, age),
+      closeness: Math.floor(Math.random() * 40) + 20,
+      type: "classmate"
+    });
+  }
+}
+
+function openClassmatePopup(index) {
+  const c = player.relationships.classmates[index];
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>Age: ${c.age}</p>
+      <p>Closeness: ${c.closeness}%</p>
+
+      <button class="popupBtn" onclick="classmateInteract(${index})">Arrange Playdate</button>
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function classmateInteract(index) {
+  const c = player.relationships.classmates[index];
+
+  const change = Math.floor(Math.random() * 10) + 5;
+  c.closeness = clamp(c.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>You arranged a playdate with ${c.name}.</p>
+      <p>Closeness is now ${c.closeness}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
 }
 
 // ------------------------------
