@@ -599,6 +599,33 @@ function showGameOver() {
 // ------------------------------
 // AGE UP
 // ------------------------------
+function applyChoice(effects, npcName = null) {
+  for (let stat in effects) {
+
+    // Add friend event
+    if (stat === "addFriend" && npcName) {
+      const gender = randomGender();
+      player.relationships.friends.push({
+        name: npcName,
+        gender: gender,
+        age: player.age,
+        emoji: genderEmoji(gender, player.age),
+        closeness: 50
+      });
+      continue;
+    }
+
+    // Normal stat changes
+    if (player.hasOwnProperty(stat)) {
+      player[stat] = clamp(player[stat] + effects[stat]);
+    }
+  }
+
+  document.getElementById("choices").innerHTML = "";
+  document.getElementById("eventText").textContent = "You made your choice.";
+  updateUI();
+}
+
 function runEvent() {
   const possible = events.filter(e => {
     return player.age >= e.ageRange[0] && player.age <= e.ageRange[1];
