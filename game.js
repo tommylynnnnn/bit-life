@@ -205,7 +205,44 @@ function updateUI() {
   const romanticList = document.getElementById("romanticList");
   const petsList = document.getElementById("petsList");
   const deceasedList = document.getElementById("deceasedList");
+// ------------------------------
+// EDUCATION TAB
+// ------------------------------
+const schoolLevel = document.getElementById("schoolLevel");
+const classmatesList = document.getElementById("classmatesList");
 
+if (schoolLevel && classmatesList) {
+
+  if (player.age < 3) {
+    schoolLevel.textContent = "Too young for school.";
+    classmatesList.innerHTML = "<p>No classmates yet.</p>";
+  } 
+  else if (player.age <= 5) {
+    schoolLevel.textContent = "Preschool";
+    classmatesList.innerHTML = player.relationships.classmates.map((c, index) => `
+      <p class="clickableClassmate" data-index="${index}">
+        ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+      </p>
+    `).join("");
+  } 
+  else if (player.age <= 13) {
+    schoolLevel.textContent = "Elementary School";
+    classmatesList.innerHTML = "<p>Elementary classmates coming soon.</p>";
+  } 
+  else if (player.age <= 18) {
+    schoolLevel.textContent = "High School";
+    classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
+  } 
+  else {
+    schoolLevel.textContent = "College / University";
+    classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
+  }
+
+  // Make classmates clickable
+  document.querySelectorAll(".clickableClassmate").forEach(el => {
+    el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
+  });
+}
   // Parents
   if (familyList) {
     familyList.innerHTML =
@@ -291,38 +328,6 @@ function updateUI() {
     el.addEventListener("click", () => openPetPopup(el.dataset.index));
   });
 }
-
-const schoolLevel = document.getElementById("schoolLevel");
-const classmatesList = document.getElementById("classmatesList");
-
-if (player.age < 3) {
-  schoolLevel.textContent = "Too young for school.";
-  classmatesList.innerHTML = "<p>No classmates yet.</p>";
-} 
-else if (player.age <= 5) {
-  schoolLevel.textContent = "Preschool";
-  classmatesList.innerHTML = player.relationships.classmates.map((c, index) => `
-    <p class="clickableClassmate" data-index="${index}">
-      ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
-    </p>
-  `).join("");
-} 
-else if (player.age <= 13) {
-  schoolLevel.textContent = "Elementary School";
-  classmatesList.innerHTML = "<p>Elementary classmates coming soon.</p>";
-} 
-else if (player.age <= 18) {
-  schoolLevel.textContent = "High School";
-  classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
-} 
-else {
-  schoolLevel.textContent = "College / University";
-  classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
-}
-
-document.querySelectorAll(".clickableClassmate").forEach(el => {
-  el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
-});
 
 // ------------------------------
 // POPUP SYSTEM (PARENTS)
