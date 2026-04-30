@@ -301,3 +301,11 @@ html {
   overflow-x: hidden;
 }
 
+.clickableClassmate {
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.clickableClassmate:hover {
+  text-decoration: underline;
+}
