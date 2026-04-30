@@ -174,15 +174,16 @@ function startGame() {
 // UPDATE UI
 // ------------------------------
 function updateUI() {
-  // Player header
+
+  // ------------------------------
+  // HEADER + STATS
+  // ------------------------------
   const header = document.getElementById("playerHeader");
   if (header) header.textContent = player.name ? `${player.emoji} ${player.name}` : "";
 
-  // Age label
   const ageLabel = document.getElementById("ageLabel");
   if (ageLabel) ageLabel.textContent = `Age: ${player.age} years`;
 
-  // Stats
   const stats = [
     { key: "happiness", id: "happiness" },
     { key: "health", id: "health" },
@@ -198,7 +199,9 @@ function updateUI() {
     if (text) text.textContent = val + "%";
   });
 
-  // Personal tab
+  // ------------------------------
+  // PERSONAL TAB
+  // ------------------------------
   const personal = document.getElementById("personal");
   if (personal) {
     personal.innerHTML = `
@@ -210,35 +213,19 @@ function updateUI() {
     `;
   }
 
-  // RELATIONSHIPS TAB
-  const familyList = document.getElementById("familyList");
-  const siblingsList = document.getElementById("siblingsList");
-  const friendsList = document.getElementById("friendsList");
-  const romanticList = document.getElementById("romanticList");
-  const petsList = document.getElementById("petsList");
-  const deceasedList = document.getElementById("deceasedList");
-
   // ------------------------------
-  // EDUCATION TAB
+  // EDUCATION TAB — SCHOOL LEVEL + CLASSMATES
   // ------------------------------
   const schoolLevel = document.getElementById("schoolLevel");
   const classmatesList = document.getElementById("classmatesList");
-  const clubOptions = document.getElementById("clubOptions");
-  const subtabs = document.querySelector(".subtabs");
-  const subtabContent = document.querySelectorAll(".subtab");
-
-  // Club selector (available clubs)
-  if (clubOptions) {
-    clubOptions.innerHTML = player.education.clubs.map(club => `
-      <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
-    `).join("");
-  }
 
   if (schoolLevel && classmatesList) {
+
     if (player.age < 3) {
       schoolLevel.textContent = "Too young for school.";
       classmatesList.innerHTML = "<p>No classmates yet.</p>";
     }
+
     else if (player.age <= 5) {
       // PRESCHOOL
       schoolLevel.textContent = "Preschool";
@@ -253,6 +240,7 @@ function updateUI() {
         el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
       });
     }
+
     else if (player.age <= 13) {
       // ELEMENTARY
       schoolLevel.textContent = "Elementary School";
@@ -269,17 +257,24 @@ function updateUI() {
         el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
       });
     }
+
     else if (player.age <= 18) {
       schoolLevel.textContent = "High School";
       classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
     }
+
     else {
       schoolLevel.textContent = "College / University";
       classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
     }
   }
 
-  // Show/hide subtabs (no subtabs in preschool)
+  // ------------------------------
+  // SUBTABS — SHOW/HIDE
+  // ------------------------------
+  const subtabs = document.querySelector(".subtabs");
+  const subtabContent = document.querySelectorAll(".subtab");
+
   if (subtabs) {
     if (player.age <= 5) {
       subtabs.style.display = "none";
@@ -289,7 +284,9 @@ function updateUI() {
     }
   }
 
+  // ------------------------------
   // GRADES SUBTAB
+  // ------------------------------
   const eduGrades = document.getElementById("edu-grades");
   if (eduGrades) {
     eduGrades.innerHTML = `
@@ -301,27 +298,35 @@ function updateUI() {
     `;
   }
 
-  // CLUBS SUBTAB
-  const eduClubs = document.getElementById("edu-clubs");
-  if (eduClubs) {
-    const joinedClubsDiv = document.getElementById("joinedClubs");
-    if (joinedClubsDiv) {
-      joinedClubsDiv.innerHTML =
-        !player.education.joinedClubs || player.education.joinedClubs.length === 0
-          ? "<p>You have not joined any clubs yet.</p>"
-          : player.education.joinedClubs.map((c, index) => `
-              <p class="clickableClub" data-index="${index}">
-                ${c.name} — Loyalty: ${c.loyalty}%
-              </p>
-            `).join("");
-
-      document.querySelectorAll(".clickableClub").forEach(el => {
-        el.addEventListener("click", () => openClubPopup(el.dataset.index));
-      });
-    }
+  // ------------------------------
+  // CLUB SELECTOR + CLUBS SUBTAB
+  // ------------------------------
+  const clubOptions = document.getElementById("clubOptions");
+  if (clubOptions) {
+    clubOptions.innerHTML = player.education.clubs.map(club => `
+      <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
+    `).join("");
   }
 
+  const joinedClubsDiv = document.getElementById("joinedClubs");
+  if (joinedClubsDiv) {
+    joinedClubsDiv.innerHTML =
+      !player.education.joinedClubs || player.education.joinedClubs.length === 0
+        ? "<p>You have not joined any clubs yet.</p>"
+        : player.education.joinedClubs.map((c, index) => `
+            <p class="clickableClub" data-index="${index}">
+              ${c.name} — Loyalty: ${c.loyalty}%
+            </p>
+          `).join("");
+
+    document.querySelectorAll(".clickableClub").forEach(el => {
+      el.addEventListener("click", () => openClubPopup(el.dataset.index));
+    });
+  }
+
+  // ------------------------------
   // TEACHERS SUBTAB
+  // ------------------------------
   const eduTeachers = document.getElementById("edu-teachers");
   if (eduTeachers) {
     eduTeachers.innerHTML =
@@ -331,61 +336,73 @@ function updateUI() {
   }
 
   // ------------------------------
-  // RELATIONSHIPS LISTS
+  // RELATIONSHIPS TABS
   // ------------------------------
+  const familyList = document.getElementById("familyList");
   if (familyList) {
     familyList.innerHTML =
       player.relationships.family.length === 0
         ? "<p>No parents listed.</p>"
         : player.relationships.family.map((p, index) => `
-            <p class="clickableFamily" data-type="parent" data-index="${index}">
+            <p class="clickableFamily" data-index="${index}">
               ${p.emoji} ${p.relation}: ${p.name} — age ${p.age}, closeness ${p.closeness}%
             </p>
           `).join("");
+
+    document.querySelectorAll(".clickableFamily").forEach(el => {
+      el.addEventListener("click", () => openParentPopup(el.dataset.index));
+    });
   }
 
+  const siblingsList = document.getElementById("siblingsList");
   if (siblingsList) {
     siblingsList.innerHTML =
       player.relationships.siblings.length === 0
         ? "<p>No siblings.</p>"
         : player.relationships.siblings.map((s, index) => `
-            <p class="clickableSibling" data-type="sibling" data-index="${index}">
+            <p class="clickableSibling" data-index="${index}">
               ${s.emoji} ${s.relation}: ${s.name} — age ${s.age}, closeness ${s.closeness}%
             </p>
           `).join("");
+
+    document.querySelectorAll(".clickableSibling").forEach(el => {
+      el.addEventListener("click", () => openSiblingPopup(el.dataset.index));
+    });
   }
 
+  const friendsList = document.getElementById("friendsList");
   if (friendsList) {
     friendsList.innerHTML =
       player.relationships.friends.length === 0
         ? "<p>No friends yet.</p>"
         : player.relationships.friends.map((fr, index) => `
-            <p class="clickableFriend" data-type="friend" data-index="${index}">
+            <p class="clickableFriend" data-index="${index}">
               ${fr.emoji} ${fr.name} — age ${fr.age}, closeness ${fr.closeness}%
             </p>
           `).join("");
+
+    document.querySelectorAll(".clickableFriend").forEach(el => {
+      el.addEventListener("click", () => openFriendPopup(el.dataset.index));
+    });
   }
 
-  if (romanticList) {
-    romanticList.innerHTML =
-      player.relationships.romantic.length === 0
-        ? "<p>No romantic relationships yet.</p>"
-        : player.relationships.romantic.map((r, index) => `
-            <p>${r.emoji} ${r.name}</p>
-          `).join("");
-  }
-
+  const petsList = document.getElementById("petsList");
   if (petsList) {
     petsList.innerHTML =
       player.relationships.pets.length === 0
         ? "<p>No pets.</p>"
         : player.relationships.pets.map((p, index) => `
-            <p class="clickablePet" data-type="pet" data-index="${index}">
+            <p class="clickablePet" data-index="${index}">
               ${p.emoji} ${p.name} — age ${p.age}, closeness ${p.closeness}%
             </p>
           `).join("");
+
+    document.querySelectorAll(".clickablePet").forEach(el => {
+      el.addEventListener("click", () => openPetPopup(el.dataset.index));
+    });
   }
 
+  const deceasedList = document.getElementById("deceasedList");
   if (deceasedList) {
     deceasedList.innerHTML =
       player.relationships.deceased.length === 0
@@ -395,24 +412,9 @@ function updateUI() {
           `).join("");
   }
 
-  // CLICKABLE RELATIONSHIPS
-  document.querySelectorAll(".clickableFamily").forEach(el => {
-    el.addEventListener("click", () => openParentPopup(el.dataset.index));
-  });
-
-  document.querySelectorAll(".clickableSibling").forEach(el => {
-    el.addEventListener("click", () => openSiblingPopup(el.dataset.index));
-  });
-
-  document.querySelectorAll(".clickableFriend").forEach(el => {
-    el.addEventListener("click", () => openFriendPopup(el.dataset.index));
-  });
-
-  document.querySelectorAll(".clickablePet").forEach(el => {
-    el.addEventListener("click", () => openPetPopup(el.dataset.index));
-  });
-
+  // ------------------------------
   // SUBTAB BUTTONS
+  // ------------------------------
   document.querySelectorAll(".subtabBtn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".subtab").forEach(s => s.classList.remove("active"));
