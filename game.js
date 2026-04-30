@@ -274,6 +274,18 @@ if (schoolLevel && classmatesList) {
   });
 }
 
+  const subtabs = document.querySelector(".subtabs");
+const subtabContent = document.querySelectorAll(".subtab");
+
+if (player.age <= 5) {
+  // Hide subtabs in preschool
+  subtabs.style.display = "none";
+  subtabContent.forEach(s => s.style.display = "none");
+} else {
+  // Show subtabs in elementary and beyond
+  subtabs.style.display = "flex";
+}
+
   document.getElementById("edu-grades").innerHTML = `
   <p>Math: ${player.education.grades.math}%</p>
   <p>Reading: ${player.education.grades.reading}%</p>
