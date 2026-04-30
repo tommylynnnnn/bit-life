@@ -489,6 +489,51 @@ function petInteract(index, type) {
 // ------------------------------
 // FRIEND POPUP (unchanged)
 // ------------------------------
+function interact(index, type) {
+  const fr = player.relationships.friends[index];
+  let result = "";
+  let change = 0;
+
+  if (type === "hangout") {
+    change = Math.floor(Math.random() * 10) + 3;
+    result = `You hung out with ${fr.name}.`;
+  }
+
+  if (type === "talk") {
+    change = Math.floor(Math.random() * 6) + 2;
+    result = `You talked with ${fr.name}.`;
+  }
+
+  if (type === "play") {
+    change = Math.floor(Math.random() * 8) + 3;
+    result = `You played with ${fr.name}.`;
+  }
+
+  if (type === "study") {
+    change = Math.floor(Math.random() * 5) + 1;
+    result = `You studied with ${fr.name}.`;
+  }
+
+  if (type === "party") {
+    change = Math.floor(Math.random() * 12) + 4;
+    result = `You partied with ${fr.name}.`;
+  }
+
+  fr.closeness = clamp(fr.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${fr.emoji} ${fr.name}</h2>
+      <p>${result}</p>
+      <p>Closeness is now ${fr.closeness}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
 function openFriendPopup(index) {
   const fr = player.relationships.friends[index];
 
