@@ -53,46 +53,89 @@ function clamp(val) {
   return Math.max(0, Math.min(100, val));
 }
 
-// Start game: pick name + gender
+// ------------------------------
+// START GAME + FAMILY GENERATOR
+// ------------------------------
 function startGame() {
-  const nameInput = document.getElementById("playerNameInput");
-  const genderInput = document.getElementById("playerGenderInput");
 
-  const name = nameInput ? nameInput.value.trim() : "";
-  const gender = genderInput ? genderInput.value : "male";
+  function generateFamily() {
+    const roll = Math.random();
+    let hasMom = false;
+    let hasDad = false;
 
-  if (!name) {
-    alert("Please enter a name.");
-    return;
+    if (roll < 0.33) {
+      hasMom = true;
+      hasDad = true;
+    } else if (roll < 0.66) {
+      hasMom = true;
+    } else {
+      hasDad = true;
+    }
+
+    if (hasMom) {
+      const momAge = Math.floor(Math.random() * 15) + 25;
+      player.relationships.family.push({
+        name: randomName(),
+        gender: "female",
+        age: momAge,
+        emoji: genderEmoji("female", momAge),
+        closeness: 80,
+        relation: "Mother"
+      });
+    }
+
+    if (hasDad) {
+      const dadAge = Math.floor(Math.random() * 15) + 25;
+      player.relationships.family.push({
+        name: randomName(),
+        gender: "male",
+        age: dadAge,
+        emoji: genderEmoji("male", dadAge),
+        closeness: 80,
+        relation: "Father"
+      });
+    }
+
+    if (Math.random() < 0.5) {
+      const petNames = ["Buddy", "Luna", "Max", "Bella", "Charlie", "Milo", "Coco"];
+      const pet = petNames[Math.floor(Math.random() * petNames.length)];
+
+      player.relationships.pets.push({
+        name: pet,
+        gender: randomGender(),
+        age: 0,
+        emoji: "🐶",
+        closeness: 70,
+        relation: "Pet"
+      });
+    }
   }
+
+  const name = document.getElementById("playerNameInput").value.trim();
+  const gender = document.getElementById("playerGenderInput").value;
+
+  if (!name) return alert("Please enter a name.");
 
   player.name = name;
   player.gender = gender;
   player.emoji = genderEmoji(gender, player.age);
 
-  const startScreen = document.getElementById("startScreen");
-  if (startScreen) startScreen.style.display = "none";
+  generateFamily();
 
+  document.getElementById("startScreen").style.display = "none";
   updateUI();
 }
 
-// Update UI for BitLife-style layout
+// ------------------------------
+// UPDATE UI
+// ------------------------------
 function updateUI() {
-  // Player header (emoji + name)
   const header = document.getElementById("playerHeader");
-  if (header) {
-    header.textContent = player.name
-      ? `${player.emoji} ${player.name}`
-      : "";
-  }
+  if (header) header.textContent = player.name ? `${player.emoji} ${player.name}` : "";
 
-  // Age label in header
   const ageLabel = document.getElementById("ageLabel");
-  if (ageLabel) {
-    ageLabel.textContent = `Age: ${player.age} years`;
-  }
+  if (ageLabel) ageLabel.textContent = `Age: ${player.age} years`;
 
-  // Update stat bars + percentages
   const stats = [
     { key: "happiness", id: "happiness" },
     { key: "health", id: "health" },
@@ -104,12 +147,10 @@ function updateUI() {
     const val = clamp(player[s.key]);
     const bar = document.getElementById(`stat-${s.id}`);
     const text = document.getElementById(`stat-${s.id}-text`);
-
     if (bar) bar.style.width = val + "%";
     if (text) text.textContent = val + "%";
   });
 
-  // Personal tab content
   const personal = document.getElementById("personal");
   if (personal) {
     personal.innerHTML = `
@@ -121,7 +162,6 @@ function updateUI() {
     `;
   }
 
-  // RELATIONSHIPS TAB
   const familyList = document.getElementById("familyList");
   const friendsList = document.getElementById("friendsList");
   const romanticList = document.getElementById("romanticList");
@@ -131,7 +171,9 @@ function updateUI() {
     familyList.innerHTML =
       player.relationships.family.length === 0
         ? "<p>No family relationships yet.</p>"
-        : player.relationships.family.map(f => `<p>${f.emoji || ""} ${f.name}</p>`).join("");
+        : player.relationships.family.map(f => `
+            <p>${f.emoji} ${f.relation}: ${f.name} — age ${f.age}, closeness ${f.closeness}%</p>
+          `).join("");
   }
 
   if (friendsList) {
@@ -144,7 +186,6 @@ function updateUI() {
             </p>
           `).join("");
 
-    // Make friends clickable
     document.querySelectorAll(".clickableFriend").forEach(el => {
       el.addEventListener("click", () => openFriendPopup(el.dataset.index));
     });
@@ -154,42 +195,50 @@ function updateUI() {
     romanticList.innerHTML =
       player.relationships.romantic.length === 0
         ? "<p>No romantic relationships yet.</p>"
-        : player.relationships.romantic.map(r => `<p>${r.emoji || ""} ${r.name}</p>`).join("");
+        : player.relationships.romantic.map(r => `<p>${r.emoji} ${r.name}</p>`).join("");
   }
 
   if (petsList) {
     petsList.innerHTML =
       player.relationships.pets.length === 0
         ? "<p>No pets yet.</p>"
-        : player.relationships.pets.map(p => `<p>${p.emoji || ""} ${p.name}</p>`).join("");
+        : player.relationships.pets.map(p => `
+            <p>${p.emoji} ${p.name} — age ${p.age}, closeness ${p.closeness}%</p>
+          `).join("");
   }
 }
 
-// Age up logic
+// ------------------------------
+// AGE UP
+// ------------------------------
 function ageUp() {
   player.age++;
-  if (player.gender) {
-    player.emoji = genderEmoji(player.gender, player.age);
-  }
+  player.emoji = genderEmoji(player.gender, player.age);
 
-  // NPCs age with you + update their emoji based on THEIR age + decay
   player.relationships.friends.forEach(fr => {
     fr.age++;
     fr.emoji = genderEmoji(fr.gender, fr.age);
+    fr.closeness = clamp(fr.closeness - Math.floor(Math.random() * 4));
+  });
 
-    const decay = Math.floor(Math.random() * 4); // 0–3 decay
-    fr.closeness = clamp(fr.closeness - decay);
+  player.relationships.family.forEach(f => {
+    f.age++;
+    f.emoji = genderEmoji(f.gender, f.age);
+  });
+
+  player.relationships.pets.forEach(p => {
+    p.age++;
   });
 
   runEvent();
   updateUI();
 }
 
-// Event system
+// ------------------------------
+// EVENTS
+// ------------------------------
 function runEvent() {
-  const possible = events.filter(e => {
-    return player.age >= e.ageRange[0] && player.age <= e.ageRange[1];
-  });
+  const possible = events.filter(e => player.age >= e.ageRange[0] && player.age <= e.ageRange[1]);
 
   const eventText = document.getElementById("eventText");
   const choiceBox = document.getElementById("choices");
@@ -202,13 +251,9 @@ function runEvent() {
 
   const event = possible[Math.floor(Math.random() * possible.length)];
 
-  // Generate NPC name if needed
   let npcName = null;
-  if (event.text.includes("{name}")) {
-    npcName = randomName();
-  }
+  if (event.text.includes("{name}")) npcName = randomName();
 
-  // Replace placeholder
   const finalText = npcName ? event.text.replace("{name}", npcName) : event.text;
   eventText.textContent = finalText;
 
@@ -222,13 +267,13 @@ function runEvent() {
   });
 }
 
-// Apply choice effects
+// ------------------------------
+// APPLY CHOICE
+// ------------------------------
 function applyChoice(effects, npcName = null) {
   for (let stat in effects) {
     if (stat === "addFriend" && npcName) {
-
       const gender = randomGender();
-
       player.relationships.friends.push({
         name: npcName,
         gender: gender,
@@ -236,7 +281,6 @@ function applyChoice(effects, npcName = null) {
         emoji: genderEmoji(gender, player.age),
         closeness: 50
       });
-
     } else if (player.hasOwnProperty(stat)) {
       player[stat] += effects[stat];
     }
@@ -250,7 +294,6 @@ function applyChoice(effects, npcName = null) {
 // ------------------------------
 // POPUP SYSTEM
 // ------------------------------
-
 function openFriendPopup(index) {
   const fr = player.relationships.friends[index];
 
@@ -259,17 +302,9 @@ function openFriendPopup(index) {
     <button class="popupBtn" onclick="interact(${index}, 'talk')">Talk To</button>
   `;
 
-  if (player.age <= 12) {
-    buttons += `<button class="popupBtn" onclick="interact(${index}, 'play')">Play</button>`;
-  }
-
-  if (player.age >= 10) {
-    buttons += `<button class="popupBtn" onclick="interact(${index}, 'study')">Study</button>`;
-  }
-
-  if (player.age >= 16) {
-    buttons += `<button class="popupBtn" onclick="interact(${index}, 'party')">Party</button>`;
-  }
+  if (player.age <= 12) buttons += `<button class="popupBtn" onclick="interact(${index}, 'play')">Play</button>`;
+  if (player.age >= 10) buttons += `<button class="popupBtn" onclick="interact(${index}, 'study')">Study</button>`;
+  if (player.age >= 16) buttons += `<button class="popupBtn" onclick="interact(${index}, 'party')">Party</button>`;
 
   buttons += `<button class="popupBtn popupClose" onclick="closePopup()">Close</button>`;
 
@@ -336,7 +371,9 @@ function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
 
-// Tabs
+// ------------------------------
+// TABS + AGE BUTTON
+// ------------------------------
 document.querySelectorAll(".tabBtn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -344,7 +381,6 @@ document.querySelectorAll(".tabBtn").forEach(btn => {
   });
 });
 
-// Age button
 document.getElementById("ageBtn").addEventListener("click", ageUp);
 
 // Start game
