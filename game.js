@@ -277,7 +277,6 @@ if (schoolLevel && classmatesList) {
     schoolLevel.textContent = "College / University";
     classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
   }
-}
 
   // Make classmates clickable
   document.querySelectorAll(".clickableClassmate").forEach(el => {
