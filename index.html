@@ -1,1 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LifeSim</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <header>
+    <button id="ageBtn">Age Up</button>
+    <div id="statsBar">
+      <span id="ageStat">Age: 0</span>
+      <span id="moneyStat">$0</span>
+    </div>
+  </header>
+
+  <main>
+    <div id="eventText">Welcome to your new life.</div>
+    <div id="choices"></div>
+  </main>
+
+  <nav>
+    <button class="tabBtn" data-tab="personal">Personal</button>
+    <button class="tabBtn" data-tab="school">School</button>
+    <button class="tabBtn" data-tab="job">Job</button>
+  </nav>
+
+  <section id="tabContent">
+    <div id="personal" class="tab">Loading stats...</div>
+    <div id="school" class="tab">School info will go here.</div>
+    <div id="job" class="tab">Job info will go here.</div>
+  </section>
+
+  <script src="game.js"></script>
+</body>
+</html>
