@@ -9,14 +9,15 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   display: flex;
-  justify-content: center;   /* centers horizontally */
-  align-items: center;       /* centers vertically */
-  min-height: 100vh;         /* full screen height */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
+/* GAME SHELL */
 .game-shell {
   width: 100%;
-  max-width: 480px;   /* BitLife phone width */
+  max-width: 480px;
   margin: 0 auto;
   background: #f5f5f5;
   border-radius: 18px;
@@ -26,20 +27,26 @@ body {
   flex-direction: column;
 }
 
-/* Header */
-
+/* HEADER */
 .game-header {
   background: #c00000;
   color: #fff;
   padding: 12px 16px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.playerHeader {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .game-title {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .game-name {
@@ -62,10 +69,10 @@ body {
   cursor: pointer;
   font-size: 14px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  margin-top: 6px;
 }
 
-/* Main card */
-
+/* MAIN CARD */
 .game-card {
   background: #ffffff;
   margin: 12px;
@@ -80,8 +87,7 @@ body {
   margin-bottom: 12px;
 }
 
-/* Choices */
-
+/* CHOICES */
 .choices button {
   width: 100%;
   margin-bottom: 8px;
@@ -98,8 +104,7 @@ body {
   background: #f0f0f0;
 }
 
-/* Stats */
-
+/* STATS */
 .stats-panel {
   margin-top: 10px;
   border-top: 1px solid #eee;
@@ -140,8 +145,7 @@ body {
   text-align: right;
 }
 
-/* Bottom nav */
-
+/* BOTTOM NAV */
 .bottom-nav {
   display: flex;
   border-top: 1px solid #ddd;
@@ -161,8 +165,7 @@ body {
   background: #f0f0f0;
 }
 
-/* Tabs */
-
+/* TABS */
 .tab-content {
   padding: 10px 14px 14px;
   background: #ffffff;
@@ -178,39 +181,7 @@ body {
   display: block;
 }
 
-/* Mobile tweaks */
-
-@media (max-width: 480px) {
-  body {
-    padding: 10px 5px;
-  }
-
-  .game-shell {
-    border-radius: 14px;
-  }
-}
-
-html {
-  font-size: calc(14px + 0.3vw);
-}
-
-.age-button,
-.nav-btn,
-.choices button {
-  font-size: calc(12px + 0.3vw);
-}
-
-.stat-label,
-.stat-value {
-  font-size: calc(11px + 0.2vw);
-}
-
-@media (min-width: 900px) {
-  .game-shell {
-    transform: scale(1.15);
-  }
-}
-
+/* CLICKABLE FRIENDS */
 .clickableFriend {
   cursor: pointer;
   padding: 4px 0;
@@ -220,7 +191,7 @@ html {
   text-decoration: underline;
 }
 
-/* Popup overlay */
+/* POPUP OVERLAY */
 .popupOverlay {
   position: fixed;
   inset: 0;
@@ -231,7 +202,7 @@ html {
   z-index: 1000;
 }
 
-/* Popup card */
+/* POPUP CARD */
 .popupCard {
   background: #f5f5f5;
   border-radius: 16px;
@@ -266,10 +237,45 @@ html {
 .popupClose {
   background: #ddd;
 }
-#playerNameInput, #playerGenderInput {
+
+/* START SCREEN INPUTS */
+#playerNameInput,
+#playerGenderInput {
   width: 100%;
   padding: 8px;
   margin: 6px 0;
   border-radius: 8px;
   border: 1px solid #ccc;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  body {
+    padding: 10px 5px;
+  }
+
+  .game-shell {
+    border-radius: 14px;
+  }
+}
+
+html {
+  font-size: calc(14px + 0.3vw);
+}
+
+.age-button,
+.nav-btn,
+.choices button {
+  font-size: calc(12px + 0.3vw);
+}
+
+.stat-label,
+.stat-value {
+  font-size: calc(11px + 0.2vw);
+}
+
+@media (min-width: 900px) {
+  .game-shell {
+    transform: scale(1.15);
+  }
 }
