@@ -105,7 +105,7 @@ function updateUI() {
         ? "<p>No friends yet.</p>"
         : player.relationships.friends.map((fr, index) => `
             <p class="clickableFriend" data-index="${index}">
-              ${fr.emoji} ${fr.name} — closeness ${fr.closeness}%
+              ${fr.emoji} ${fr.name} — age ${fr.age}, closeness ${fr.closeness}%
             </p>
           `).join("");
 
@@ -134,10 +134,10 @@ function updateUI() {
 function ageUp() {
   player.age++;
 
-  // NPCs age with you + update their emoji
+  // NPCs age with you + update their emoji based on THEIR age
   player.relationships.friends.forEach(fr => {
-    fr.ageMet++; // track how long you've known them
-    fr.emoji = genderEmoji(fr.gender, player.age);
+    fr.age++;
+    fr.emoji = genderEmoji(fr.gender, fr.age);
   });
 
   runEvent();
@@ -187,14 +187,13 @@ function applyChoice(effects, npcName = null) {
     if (stat === "addFriend" && npcName) {
 
       const gender = randomGender();
-      const emoji = genderEmoji(gender, player.age);
 
       player.relationships.friends.push({
         name: npcName,
         gender: gender,
-        emoji: emoji,
-        closeness: 50,
-        ageMet: player.age
+        age: player.age,
+        emoji: genderEmoji(gender, player.age),
+        closeness: 50
       });
 
     } else if (player.hasOwnProperty(stat)) {
@@ -218,12 +217,12 @@ function openFriendPopup(index) {
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${fr.emoji} ${fr.name}</h2>
+      <p>Age: ${fr.age}</p>
       <p>Closeness: ${fr.closeness}%</p>
-      <p>Known since age: ${fr.ageMet}</p>
 
-      <button onclick="interact(${index}, 'hangout')">Hang Out</button>
-      <button onclick="interact(${index}, 'talk')">Talk To</button>
-      <button onclick="closePopup()">Close</button>
+      <button class="popupBtn" onclick="interact(${index}, 'hangout')">Hang Out</button>
+      <button class="popupBtn" onclick="interact(${index}, 'talk')">Talk To</button>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
 
@@ -254,7 +253,7 @@ function interact(index, type) {
       <h2>${fr.emoji} ${fr.name}</h2>
       <p>${result}</p>
       <p>Closeness is now ${fr.closeness}%</p>
-      <button onclick="closePopup()">Close</button>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
 
