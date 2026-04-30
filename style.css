@@ -294,3 +294,10 @@ html {
 .clickableFriend:hover {
   text-decoration: underline;
 }
+
+.game-card {
+  max-height: 60vh;   /* or 65vh if you want more space */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
