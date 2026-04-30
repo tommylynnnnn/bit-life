@@ -28,7 +28,6 @@ let player = {
     art: 0
   },
   clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
-    ],
   teachers: []
 }
 };
