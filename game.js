@@ -385,7 +385,7 @@ if (schoolLevel && classmatesList) {
     document.getElementById("edu-" + btn.dataset.subtab).classList.add("active");
   });
 });
-}
+
 
 // ------------------------------
 // POPUP SYSTEM (PARENTS)
