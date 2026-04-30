@@ -103,9 +103,16 @@ function updateUI() {
     friendsList.innerHTML =
       player.relationships.friends.length === 0
         ? "<p>No friends yet.</p>"
-        : player.relationships.friends.map(fr => `
-            <p>${fr.emoji} ${fr.name} — closeness ${fr.closeness}%</p>
+        : player.relationships.friends.map((fr, index) => `
+            <p class="clickableFriend" data-index="${index}">
+              ${fr.emoji} ${fr.name} — closeness ${fr.closeness}%
+            </p>
           `).join("");
+
+    // Make friends clickable
+    document.querySelectorAll(".clickableFriend").forEach(el => {
+      el.addEventListener("click", () => openFriendPopup(el.dataset.index));
+    });
   }
 
   if (romanticList) {
@@ -126,6 +133,13 @@ function updateUI() {
 // Age up logic
 function ageUp() {
   player.age++;
+
+  // NPCs age with you + update their emoji
+  player.relationships.friends.forEach(fr => {
+    fr.ageMet++; // track how long you've known them
+    fr.emoji = genderEmoji(fr.gender, player.age);
+  });
+
   runEvent();
   updateUI();
 }
@@ -191,6 +205,64 @@ function applyChoice(effects, npcName = null) {
   document.getElementById("choices").innerHTML = "";
   document.getElementById("eventText").textContent = "You made your choice.";
   updateUI();
+}
+
+// ------------------------------
+// POPUP SYSTEM
+// ------------------------------
+
+function openFriendPopup(index) {
+  const fr = player.relationships.friends[index];
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${fr.emoji} ${fr.name}</h2>
+      <p>Closeness: ${fr.closeness}%</p>
+      <p>Known since age: ${fr.ageMet}</p>
+
+      <button onclick="interact(${index}, 'hangout')">Hang Out</button>
+      <button onclick="interact(${index}, 'talk')">Talk To</button>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function interact(index, type) {
+  const fr = player.relationships.friends[index];
+
+  let result = "";
+  let change = 0;
+
+  if (type === "hangout") {
+    change = Math.floor(Math.random() * 10) + 1;
+    result = `You hung out with ${fr.name}. It went well!`;
+  }
+
+  if (type === "talk") {
+    change = Math.floor(Math.random() * 6) + 1;
+    result = `You had a nice conversation with ${fr.name}.`;
+  }
+
+  fr.closeness = clamp(fr.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${fr.emoji} ${fr.name}</h2>
+      <p>${result}</p>
+      <p>Closeness is now ${fr.closeness}%</p>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
 }
 
 // Tabs
