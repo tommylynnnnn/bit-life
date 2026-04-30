@@ -12,9 +12,11 @@ let player = {
 
   relationships: {
     family: [],
+    siblings: [],
     friends: [],
     romantic: [],
-    pets: []
+    pets: [],
+    deceased: []
   }
 };
 
@@ -45,7 +47,6 @@ let events = [];
 async function loadEvents() {
   const base = await fetch("data/events.json").then(r => r.json());
   events = [...base];
-  console.log("Loaded events:", events);
 }
 
 // Clamp stats between 0–100
@@ -59,6 +60,7 @@ function clamp(val) {
 function startGame() {
 
   function generateFamily() {
+    // Parents
     const roll = Math.random();
     let hasMom = false;
     let hasDad = false;
@@ -80,7 +82,8 @@ function startGame() {
         age: momAge,
         emoji: genderEmoji("female", momAge),
         closeness: 80,
-        relation: "Mother"
+        relation: "Mother",
+        type: "parent"
       });
     }
 
@@ -92,10 +95,36 @@ function startGame() {
         age: dadAge,
         emoji: genderEmoji("male", dadAge),
         closeness: 80,
-        relation: "Father"
+        relation: "Father",
+        type: "parent"
       });
     }
 
+    // Siblings (0–3)
+    const siblingCount = Math.floor(Math.random() * 4);
+
+    for (let i = 0; i < siblingCount; i++) {
+      const gender = randomGender();
+      const ageDifference = Math.floor(Math.random() * 6) - 3; // -3 to +2
+      const siblingAge = Math.max(0, player.age + ageDifference);
+
+      let relation = "";
+      if (siblingAge > player.age) relation = gender === "male" ? "Older Brother" : "Older Sister";
+      else if (siblingAge < player.age) relation = gender === "male" ? "Younger Brother" : "Younger Sister";
+      else relation = gender === "male" ? "Brother" : "Sister";
+
+      player.relationships.siblings.push({
+        name: randomName(),
+        gender: gender,
+        age: siblingAge,
+        emoji: genderEmoji(gender, siblingAge),
+        closeness: 60,
+        relation: relation,
+        type: "sibling"
+      });
+    }
+
+    // Pets (50% chance)
     if (Math.random() < 0.5) {
       const petNames = ["Buddy", "Luna", "Max", "Bella", "Charlie", "Milo", "Coco"];
       const pet = petNames[Math.floor(Math.random() * petNames.length)];
@@ -106,11 +135,13 @@ function startGame() {
         age: 0,
         emoji: "🐶",
         closeness: 70,
-        relation: "Pet"
+        relation: "Pet",
+        type: "pet"
       });
     }
   }
 
+  // Player setup
   const name = document.getElementById("playerNameInput").value.trim();
   const gender = document.getElementById("playerGenderInput").value;
 
@@ -130,12 +161,15 @@ function startGame() {
 // UPDATE UI
 // ------------------------------
 function updateUI() {
+  // Player header
   const header = document.getElementById("playerHeader");
   if (header) header.textContent = player.name ? `${player.emoji} ${player.name}` : "";
 
+  // Age label
   const ageLabel = document.getElementById("ageLabel");
   if (ageLabel) ageLabel.textContent = `Age: ${player.age} years`;
 
+  // Stats
   const stats = [
     { key: "happiness", id: "happiness" },
     { key: "health", id: "health" },
@@ -151,6 +185,7 @@ function updateUI() {
     if (text) text.textContent = val + "%";
   });
 
+  // Personal tab
   const personal = document.getElementById("personal");
   if (personal) {
     personal.innerHTML = `
@@ -162,137 +197,297 @@ function updateUI() {
     `;
   }
 
+  // RELATIONSHIPS TAB
   const familyList = document.getElementById("familyList");
+  const siblingsList = document.getElementById("siblingsList");
   const friendsList = document.getElementById("friendsList");
   const romanticList = document.getElementById("romanticList");
   const petsList = document.getElementById("petsList");
+  const deceasedList = document.getElementById("deceasedList");
 
+  // Parents
   if (familyList) {
     familyList.innerHTML =
       player.relationships.family.length === 0
-        ? "<p>No family relationships yet.</p>"
-        : player.relationships.family.map(f => `
-            <p>${f.emoji} ${f.relation}: ${f.name} — age ${f.age}, closeness ${f.closeness}%</p>
+        ? "<p>No parents listed.</p>"
+        : player.relationships.family.map((p, index) => `
+            <p class="clickableFamily" data-type="parent" data-index="${index}">
+              ${p.emoji} ${p.relation}: ${p.name} — age ${p.age}, closeness ${p.closeness}%
+            </p>
           `).join("");
   }
 
+  // Siblings
+  if (siblingsList) {
+    siblingsList.innerHTML =
+      player.relationships.siblings.length === 0
+        ? "<p>No siblings.</p>"
+        : player.relationships.siblings.map((s, index) => `
+            <p class="clickableSibling" data-type="sibling" data-index="${index}">
+              ${s.emoji} ${s.relation}: ${s.name} — age ${s.age}, closeness ${s.closeness}%
+            </p>
+          `).join("");
+  }
+
+  // Friends
   if (friendsList) {
     friendsList.innerHTML =
       player.relationships.friends.length === 0
         ? "<p>No friends yet.</p>"
         : player.relationships.friends.map((fr, index) => `
-            <p class="clickableFriend" data-index="${index}">
+            <p class="clickableFriend" data-type="friend" data-index="${index}">
               ${fr.emoji} ${fr.name} — age ${fr.age}, closeness ${fr.closeness}%
             </p>
           `).join("");
-
-    document.querySelectorAll(".clickableFriend").forEach(el => {
-      el.addEventListener("click", () => openFriendPopup(el.dataset.index));
-    });
   }
 
+  // Romantic
   if (romanticList) {
     romanticList.innerHTML =
       player.relationships.romantic.length === 0
         ? "<p>No romantic relationships yet.</p>"
-        : player.relationships.romantic.map(r => `<p>${r.emoji} ${r.name}</p>`).join("");
+        : player.relationships.romantic.map((r, index) => `
+            <p>${r.emoji} ${r.name}</p>
+          `).join("");
   }
 
+  // Pets
   if (petsList) {
     petsList.innerHTML =
       player.relationships.pets.length === 0
-        ? "<p>No pets yet.</p>"
-        : player.relationships.pets.map(p => `
-            <p>${p.emoji} ${p.name} — age ${p.age}, closeness ${p.closeness}%</p>
+        ? "<p>No pets.</p>"
+        : player.relationships.pets.map((p, index) => `
+            <p class="clickablePet" data-type="pet" data-index="${index}">
+              ${p.emoji} ${p.name} — age ${p.age}, closeness ${p.closeness}%
+            </p>
           `).join("");
   }
+
+  // Deceased
+  if (deceasedList) {
+    deceasedList.innerHTML =
+      player.relationships.deceased.length === 0
+        ? "<p>No deceased family members.</p>"
+        : player.relationships.deceased.map(d => `
+            <p>${d.emoji} ${d.relation}: ${d.name} — died at ${d.age}</p>
+          `).join("");
+  }
+
+  // CLICKABLE FAMILY
+  document.querySelectorAll(".clickableFamily").forEach(el => {
+    el.addEventListener("click", () => openParentPopup(el.dataset.index));
+  });
+
+  document.querySelectorAll(".clickableSibling").forEach(el => {
+    el.addEventListener("click", () => openSiblingPopup(el.dataset.index));
+  });
+
+  document.querySelectorAll(".clickableFriend").forEach(el => {
+    el.addEventListener("click", () => openFriendPopup(el.dataset.index));
+  });
+
+  document.querySelectorAll(".clickablePet").forEach(el => {
+    el.addEventListener("click", () => openPetPopup(el.dataset.index));
+  });
 }
 
 // ------------------------------
-// AGE UP
+// POPUP SYSTEM (PARENTS)
 // ------------------------------
-function ageUp() {
-  player.age++;
-  player.emoji = genderEmoji(player.gender, player.age);
+function openParentPopup(index) {
+  const p = player.relationships.family[index];
 
-  player.relationships.friends.forEach(fr => {
-    fr.age++;
-    fr.emoji = genderEmoji(fr.gender, fr.age);
-    fr.closeness = clamp(fr.closeness - Math.floor(Math.random() * 4));
-  });
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${p.emoji} ${p.relation}: ${p.name}</h2>
+      <p>Age: ${p.age}</p>
+      <p>Closeness: ${p.closeness}%</p>
 
-  player.relationships.family.forEach(f => {
-    f.age++;
-    f.emoji = genderEmoji(f.gender, f.age);
-  });
+      <button class="popupBtn" onclick="parentInteract(${index}, 'talk')">Talk To</button>
+      <button class="popupBtn" onclick="parentInteract(${index}, 'hug')">Hug</button>
+      <button class="popupBtn" onclick="parentInteract(${index}, 'spend')">Spend Time</button>
+      <button class="popupBtn" onclick="parentInteract(${index}, 'advice')">Ask for Advice</button>
 
-  player.relationships.pets.forEach(p => {
-    p.age++;
-  });
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
 
-  runEvent();
+  popup.style.display = "flex";
+}
+
+function parentInteract(index, type) {
+  const p = player.relationships.family[index];
+  let result = "";
+  let change = 0;
+
+  if (type === "talk") {
+    change = Math.floor(Math.random() * 6) + 2;
+    result = `You had a conversation with ${p.name}.`;
+  }
+
+  if (type === "hug") {
+    change = Math.floor(Math.random() * 8) + 3;
+    result = `You hugged ${p.name}.`;
+  }
+
+  if (type === "spend") {
+    change = Math.floor(Math.random() * 10) + 4;
+    result = `You spent quality time with ${p.name}.`;
+  }
+
+  if (type === "advice") {
+    change = Math.floor(Math.random() * 5) + 1;
+    result = `${p.name} gave you advice.`;
+  }
+
+  p.closeness = clamp(p.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${p.emoji} ${p.relation}: ${p.name}</h2>
+      <p>${result}</p>
+      <p>Closeness is now ${p.closeness}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
   updateUI();
 }
 
 // ------------------------------
-// EVENTS
+// POPUP SYSTEM (SIBLINGS)
 // ------------------------------
-function runEvent() {
-  const possible = events.filter(e => player.age >= e.ageRange[0] && player.age <= e.ageRange[1]);
+function openSiblingPopup(index) {
+  const s = player.relationships.siblings[index];
 
-  const eventText = document.getElementById("eventText");
-  const choiceBox = document.getElementById("choices");
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${s.emoji} ${s.relation}: ${s.name}</h2>
+      <p>Age: ${s.age}</p>
+      <p>Closeness: ${s.closeness}%</p>
 
-  if (possible.length === 0) {
-    eventText.textContent = "Nothing special happened this year.";
-    choiceBox.innerHTML = "";
-    return;
-  }
+      <button class="popupBtn" onclick="siblingInteract(${index}, 'play')">Play</button>
+      <button class="popupBtn" onclick="siblingInteract(${index}, 'joke')">Joke Around</button>
+      <button class="popupBtn" onclick="siblingInteract(${index}, 'compliment')">Compliment</button>
+      <button class="popupBtn" onclick="siblingInteract(${index}, 'insult')">Insult</button>
+      <button class="popupBtn" onclick="siblingInteract(${index}, 'bond')">Bond</button>
+      <button class="popupBtn" onclick="siblingInteract(${index}, 'fight')">Fight</button>
 
-  const event = possible[Math.floor(Math.random() * possible.length)];
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
 
-  let npcName = null;
-  if (event.text.includes("{name}")) npcName = randomName();
-
-  const finalText = npcName ? event.text.replace("{name}", npcName) : event.text;
-  eventText.textContent = finalText;
-
-  choiceBox.innerHTML = "";
-
-  event.choices.forEach(choice => {
-    const btn = document.createElement("button");
-    btn.textContent = choice.text;
-    btn.onclick = () => applyChoice(choice.effects, npcName);
-    choiceBox.appendChild(btn);
-  });
+  popup.style.display = "flex";
 }
 
-// ------------------------------
-// APPLY CHOICE
-// ------------------------------
-function applyChoice(effects, npcName = null) {
-  for (let stat in effects) {
-    if (stat === "addFriend" && npcName) {
-      const gender = randomGender();
-      player.relationships.friends.push({
-        name: npcName,
-        gender: gender,
-        age: player.age,
-        emoji: genderEmoji(gender, player.age),
-        closeness: 50
-      });
-    } else if (player.hasOwnProperty(stat)) {
-      player[stat] += effects[stat];
-    }
+function siblingInteract(index, type) {
+  const s = player.relationships.siblings[index];
+  let result = "";
+  let change = 0;
+
+  if (type === "play") {
+    change = Math.floor(Math.random() * 10) + 3;
+    result = `You played with ${s.name}.`;
   }
 
-  document.getElementById("choices").innerHTML = "";
-  document.getElementById("eventText").textContent = "You made your choice.";
+  if (type === "joke") {
+    change = Math.floor(Math.random() * 8) + 2;
+    result = `You joked around with ${s.name}.`;
+  }
+
+  if (type === "compliment") {
+    change = Math.floor(Math.random() * 6) + 2;
+    result = `You complimented ${s.name}.`;
+  }
+
+  if (type === "insult") {
+    change = -(Math.floor(Math.random() * 10) + 5);
+    result = `You insulted ${s.name}.`;
+  }
+
+  if (type === "bond") {
+    change = Math.floor(Math.random() * 12) + 4;
+    result = `You bonded with ${s.name}.`;
+  }
+
+  if (type === "fight") {
+    change = -(Math.floor(Math.random() * 15) + 5);
+    result = `You fought with ${s.name}.`;
+  }
+
+  s.closeness = clamp(s.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${s.emoji} ${s.relation}: ${s.name}</h2>
+      <p>${result}</p>
+      <p>Closeness is now ${s.closeness}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
   updateUI();
 }
 
 // ------------------------------
-// POPUP SYSTEM
+// POPUP SYSTEM (PETS)
+// ------------------------------
+function openPetPopup(index) {
+  const p = player.relationships.pets[index];
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${p.emoji} ${p.name}</h2>
+      <p>Age: ${p.age}</p>
+      <p>Closeness: ${p.closeness}%</p>
+
+      <button class="popupBtn" onclick="petInteract(${index}, 'play')">Play</button>
+      <button class="popupBtn" onclick="petInteract(${index}, 'outside')">Take Outside</button>
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function petInteract(index, type) {
+  const p = player.relationships.pets[index];
+  let result = "";
+  let change = 0;
+
+  if (type === "play") {
+    change = Math.floor(Math.random() * 10) + 3;
+    result = `You played with ${p.name}.`;
+  }
+
+  if (type === "outside") {
+    change = Math.floor(Math.random() * 8) + 2;
+    result = `You took ${p.name} outside.`;
+  }
+
+  p.closeness = clamp(p.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${p.emoji} ${p.name}</h2>
+      <p>${result}</p>
+      <p>Closeness is now ${p.closeness}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
+// ------------------------------
+// FRIEND POPUP (unchanged)
 // ------------------------------
 function openFriendPopup(index) {
   const fr = player.relationships.friends[index];
@@ -321,52 +516,125 @@ function openFriendPopup(index) {
   popup.style.display = "flex";
 }
 
-function interact(index, type) {
-  const fr = player.relationships.friends[index];
-
-  let result = "";
-  let change = 0;
-
-  if (type === "hangout") {
-    change = Math.floor(Math.random() * 10) + 1;
-    result = `You hung out with ${fr.name}. It went well!`;
+// ------------------------------
+// DEATH SYSTEM
+// ------------------------------
+function checkDeaths() {
+  // PLAYER DEATH
+  if (player.age > 65) {
+    const chance = (player.age - 65) * 0.02; // 2% per year past 65
+    if (Math.random() < chance) {
+      showGameOver();
+      return;
+    }
   }
 
-  if (type === "talk") {
-    change = Math.floor(Math.random() * 6) + 1;
-    result = `You had a nice conversation with ${fr.name}.`;
-  }
+  // PARENTS
+  player.relationships.family = player.relationships.family.filter(p => {
+    if (p.age > 65 && Math.random() < (p.age - 65) * 0.03) {
+      showDeathPopup(p);
+      moveToDeceased(p);
+      return false;
+    }
+    return true;
+  });
 
-  if (type === "play" && player.age <= 12) {
-    change = Math.floor(Math.random() * 12) + 3;
-    result = `You played games with ${fr.name}.`;
-  }
+  // SIBLINGS
+  player.relationships.siblings = player.relationships.siblings.filter(s => {
+    if (s.age > 65 && Math.random() < (s.age - 65) * 0.02) {
+      showDeathPopup(s);
+      moveToDeceased(s);
+      return false;
+    }
+    return true;
+  });
 
-  if (type === "study" && player.age >= 10) {
-    change = Math.floor(Math.random() * 8) + 2;
-    result = `You studied together with ${fr.name}.`;
-  }
+  // PETS
+  player.relationships.pets = player.relationships.pets.filter(p => {
+    if (p.age > 12 && Math.random() < (p.age - 12) * 0.05) {
+      showDeathPopup(p);
+      moveToDeceased(p);
+      return false;
+    }
+    return true;
+  });
+}
 
-  if (type === "party" && player.age >= 16) {
-    change = Math.floor(Math.random() * 15) + 5;
-    result = `You partied with ${fr.name}.`;
-  }
+function moveToDeceased(person) {
+  player.relationships.deceased.push({
+    name: person.name,
+    relation: person.relation,
+    emoji: person.emoji,
+    age: person.age
+  });
+}
 
-  fr.closeness = clamp(fr.closeness + change);
-
+function showDeathPopup(person) {
   const popup = document.getElementById("popup");
   popup.innerHTML = `
     <div class="popupCard">
-      <h2>${fr.emoji} ${fr.name}</h2>
-      <p>${result}</p>
-      <p>Closeness is now ${fr.closeness}%</p>
+      <h2>${person.emoji} ${person.name}</h2>
+      <p>${person.relation} has passed away at age ${person.age}.</p>
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
+  popup.style.display = "flex";
+}
 
+function showGameOver() {
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>💀 You Have Died</h2>
+      <p>You passed away at age ${player.age}.</p>
+      <p>Your life has come to an end.</p>
+    </div>
+  `;
+  popup.style.display = "flex";
+
+  // Freeze game
+  document.getElementById("ageBtn").disabled = true;
+}
+
+// ------------------------------
+// AGE UP
+// ------------------------------
+function ageUp() {
+  player.age++;
+  player.emoji = genderEmoji(player.gender, player.age);
+
+  // Age family
+  player.relationships.family.forEach(p => {
+    p.age++;
+    p.emoji = genderEmoji(p.gender, p.age);
+  });
+
+  // Age siblings
+  player.relationships.siblings.forEach(s => {
+    s.age++;
+    s.emoji = genderEmoji(s.gender, s.age);
+  });
+
+  // Age friends
+  player.relationships.friends.forEach(fr => {
+    fr.age++;
+    fr.emoji = genderEmoji(fr.gender, fr.age);
+    fr.closeness = clamp(fr.closeness - Math.floor(Math.random() * 4));
+  });
+
+  // Age pets
+  player.relationships.pets.forEach(p => {
+    p.age++;
+  });
+
+  checkDeaths();
+  runEvent();
   updateUI();
 }
 
+// ------------------------------
+// CLOSE POPUP
+// ------------------------------
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
