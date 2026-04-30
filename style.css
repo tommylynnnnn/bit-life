@@ -279,3 +279,18 @@ html {
     transform: scale(1.15);
   }
 }
+
+.clickableFamily,
+.clickableSibling,
+.clickablePet,
+.clickableFriend {
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.clickableFamily:hover,
+.clickableSibling:hover,
+.clickablePet:hover,
+.clickableFriend:hover {
+  text-decoration: underline;
+}
