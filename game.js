@@ -18,7 +18,18 @@ let player = {
     pets: [],
     deceased: [],
     classmates: []
-  }
+  },
+
+  education: {
+  grades: {
+    math: 0,
+    reading: 0,
+    science: 0,
+    art: 0
+  },
+  clubs: [],
+  teachers: []
+}
 };
 
 // Random NPC name generator
@@ -782,6 +793,11 @@ function ageUp() {
   if (player.age === 6) {
   player.relationships.classmates = [];
 }
+  if (player.age === 6) {
+  generateElementaryClassmates();
+  generateTeachers();
+  generateClubs();
+}
 
   checkDeaths();
   runEvent();
@@ -849,6 +865,52 @@ function classmateInteract(index) {
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
+
+  function generateElementaryClassmates() {
+  const count = Math.floor(Math.random() * 6) + 10; // 10–15 classmates
+
+  player.relationships.classmates = [];
+
+  for (let i = 0; i < count; i++) {
+    const gender = randomGender();
+    const age = Math.floor(Math.random() * 3) + 6; // ages 6–8
+
+    player.relationships.classmates.push({
+      name: randomName(),
+      gender: gender,
+      age: age,
+      emoji: genderEmoji(gender, age),
+      closeness: Math.floor(Math.random() * 40) + 20,
+      type: "classmate"
+    });
+  }
+}
+
+  function generateTeachers() {
+  const teacherNames = ["Ms. Carter", "Mr. Lopez", "Mrs. Singh", "Mr. Brown", "Ms. Nguyen"];
+
+  player.education.teachers = [
+    { subject: "Math", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
+    { subject: "Reading", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
+    { subject: "Science", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
+    { subject: "Art", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] }
+  ];
+}
+
+  function generateClubs() {
+  const possibleClubs = ["Chess Club", "Art Club", "Robotics", "Drama", "Sports", "Choir"];
+  const count = Math.floor(Math.random() * 3) + 2; // 2–4 clubs
+
+  player.education.clubs = [];
+
+  for (let i = 0; i < count; i++) {
+    const club = possibleClubs[Math.floor(Math.random() * possibleClubs.length)];
+    if (!player.education.clubs.includes(club)) {
+      player.education.clubs.push(club);
+    }
+  }
+}
+
 
   updateUI();
 }
