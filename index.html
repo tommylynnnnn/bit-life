@@ -127,7 +127,7 @@
       <p>Available activities will appear here.</p>
     </div>
 
-    <div id="education" class="tab">
+<div id="education" class="tab">
 
   <h3>School Level</h3>
   <p id="schoolLevel"></p>
@@ -137,27 +137,27 @@
 
   <hr>
 
-  <!-- SUBTABS -->
+  <!-- SUBTABS (hidden in preschool) -->
   <div class="subtabs">
     <button class="subtabBtn" data-subtab="grades">Grades</button>
     <button class="subtabBtn" data-subtab="clubs">Clubs</button>
     <button class="subtabBtn" data-subtab="teachers">Teachers</button>
   </div>
 
-  <!-- SUBTAB CONTENT -->
+  <!-- GRADES -->
   <div id="edu-grades" class="subtab"></div>
 
-  <div id="edu-clubs" class="subtab"></div>
-
-  <div id="edu-teachers" class="subtab"></div>
-
-  <div id="edu-classmates" class="subtab"></div>
-
-  <!-- CLUB SELECTOR (appears inside Clubs tab) -->
-  <div id="clubSelector" class="subtab">
+  <!-- CLUBS -->
+  <div id="edu-clubs" class="subtab">
     <h4>Select a Club</h4>
     <div id="clubOptions"></div>
+
+    <h4>Your Clubs</h4>
+    <div id="joinedClubs"></div>
   </div>
+
+  <!-- TEACHERS -->
+  <div id="edu-teachers" class="subtab"></div>
 
 </div>
 
