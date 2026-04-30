@@ -9,7 +9,8 @@ let player = {
   relationships: {
     family: [],
     friends: [],
-    romantic: []
+    romantic: [],
+    pets: []
   }
 };
 
@@ -76,6 +77,7 @@ function updateUI() {
   const familyList = document.getElementById("familyList");
   const friendsList = document.getElementById("friendsList");
   const romanticList = document.getElementById("romanticList");
+  const petsList = document.getElementById("petsList");
 
   if (familyList) {
     familyList.innerHTML =
@@ -98,6 +100,13 @@ function updateUI() {
       player.relationships.romantic.length === 0
         ? "<p>No romantic relationships yet.</p>"
         : player.relationships.romantic.map(r => `<p>${r.name}</p>`).join("");
+  }
+
+  if (petsList) {
+    petsList.innerHTML =
+      player.relationships.pets.length === 0
+        ? "<p>No pets yet.</p>"
+        : player.relationships.pets.map(p => `<p>${p.name}</p>`).join("");
   }
 }
 
