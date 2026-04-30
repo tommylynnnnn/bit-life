@@ -266,3 +266,10 @@ html {
 .popupClose {
   background: #ddd;
 }
+#playerNameInput, #playerGenderInput {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
