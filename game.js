@@ -6,6 +6,10 @@ let player = {
   looks: 50,
   money: 0,
 
+  name: "",
+  gender: "",
+  emoji: "",
+
   relationships: {
     family: [],
     friends: [],
@@ -49,8 +53,39 @@ function clamp(val) {
   return Math.max(0, Math.min(100, val));
 }
 
+// Start game: pick name + gender
+function startGame() {
+  const nameInput = document.getElementById("playerNameInput");
+  const genderInput = document.getElementById("playerGenderInput");
+
+  const name = nameInput ? nameInput.value.trim() : "";
+  const gender = genderInput ? genderInput.value : "male";
+
+  if (!name) {
+    alert("Please enter a name.");
+    return;
+  }
+
+  player.name = name;
+  player.gender = gender;
+  player.emoji = genderEmoji(gender, player.age);
+
+  const startScreen = document.getElementById("startScreen");
+  if (startScreen) startScreen.style.display = "none";
+
+  updateUI();
+}
+
 // Update UI for BitLife-style layout
 function updateUI() {
+  // Player header (emoji + name)
+  const header = document.getElementById("playerHeader");
+  if (header) {
+    header.textContent = player.name
+      ? `${player.emoji} ${player.name}`
+      : "";
+  }
+
   // Age label in header
   const ageLabel = document.getElementById("ageLabel");
   if (ageLabel) {
@@ -133,11 +168,17 @@ function updateUI() {
 // Age up logic
 function ageUp() {
   player.age++;
+  if (player.gender) {
+    player.emoji = genderEmoji(player.gender, player.age);
+  }
 
-  // NPCs age with you + update their emoji based on THEIR age
+  // NPCs age with you + update their emoji based on THEIR age + decay
   player.relationships.friends.forEach(fr => {
     fr.age++;
     fr.emoji = genderEmoji(fr.gender, fr.age);
+
+    const decay = Math.floor(Math.random() * 4); // 0–3 decay
+    fr.closeness = clamp(fr.closeness - decay);
   });
 
   runEvent();
@@ -213,16 +254,32 @@ function applyChoice(effects, npcName = null) {
 function openFriendPopup(index) {
   const fr = player.relationships.friends[index];
 
+  let buttons = `
+    <button class="popupBtn" onclick="interact(${index}, 'hangout')">Hang Out</button>
+    <button class="popupBtn" onclick="interact(${index}, 'talk')">Talk To</button>
+  `;
+
+  if (player.age <= 12) {
+    buttons += `<button class="popupBtn" onclick="interact(${index}, 'play')">Play</button>`;
+  }
+
+  if (player.age >= 10) {
+    buttons += `<button class="popupBtn" onclick="interact(${index}, 'study')">Study</button>`;
+  }
+
+  if (player.age >= 16) {
+    buttons += `<button class="popupBtn" onclick="interact(${index}, 'party')">Party</button>`;
+  }
+
+  buttons += `<button class="popupBtn popupClose" onclick="closePopup()">Close</button>`;
+
   const popup = document.getElementById("popup");
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${fr.emoji} ${fr.name}</h2>
       <p>Age: ${fr.age}</p>
       <p>Closeness: ${fr.closeness}%</p>
-
-      <button class="popupBtn" onclick="interact(${index}, 'hangout')">Hang Out</button>
-      <button class="popupBtn" onclick="interact(${index}, 'talk')">Talk To</button>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      ${buttons}
     </div>
   `;
 
@@ -243,6 +300,21 @@ function interact(index, type) {
   if (type === "talk") {
     change = Math.floor(Math.random() * 6) + 1;
     result = `You had a nice conversation with ${fr.name}.`;
+  }
+
+  if (type === "play" && player.age <= 12) {
+    change = Math.floor(Math.random() * 12) + 3;
+    result = `You played games with ${fr.name}.`;
+  }
+
+  if (type === "study" && player.age >= 10) {
+    change = Math.floor(Math.random() * 8) + 2;
+    result = `You studied together with ${fr.name}.`;
+  }
+
+  if (type === "party" && player.age >= 16) {
+    change = Math.floor(Math.random() * 15) + 5;
+    result = `You partied with ${fr.name}.`;
   }
 
   fr.closeness = clamp(fr.closeness + change);
