@@ -236,9 +236,21 @@ if (schoolLevel && classmatesList) {
       </p>
     `).join("");
   } 
-  else if (player.age <= 13) {
-    schoolLevel.textContent = "Elementary School";
-    classmatesList.innerHTML = "<p>Elementary classmates coming soon.</p>";
+ else if (player.age <= 13) {
+  schoolLevel.textContent = "Elementary School";
+
+  classmatesList.innerHTML = player.relationships.classmates.length === 0
+    ? "<p>No classmates yet.</p>"
+    : player.relationships.classmates.map((c, index) => `
+        <p class="clickableElementaryClassmate" data-index="${index}">
+          ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+        </p>
+      `).join("");
+
+  document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
+    el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
+  });
+}
   } 
   else if (player.age <= 18) {
     schoolLevel.textContent = "High School";
