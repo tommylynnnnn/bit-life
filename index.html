@@ -7,30 +7,79 @@
 </head>
 <body>
 
-  <header>
-    <button id="ageBtn">Age Up</button>
-    <div id="statsBar">
-      <span id="ageStat">Age: 0</span>
-      <span id="moneyStat">$0</span>
+  <div class="game-shell">
+    <div class="game-header">
+      <div class="game-title">
+        <span class="game-name">LifeSim</span>
+        <span id="ageLabel" class="age-label">Age: 0 years</span>
+      </div>
+      <button id="ageBtn" class="age-button">AGE</button>
     </div>
-  </header>
 
-  <main>
-    <div id="eventText">Welcome to your new life.</div>
-    <div id="choices"></div>
-  </main>
+    <div class="game-card">
+      <div id="eventText" class="event-log">
+        I was born. A new life begins.
+      </div>
 
-  <nav>
-    <button class="tabBtn" data-tab="personal">Personal</button>
-    <button class="tabBtn" data-tab="school">School</button>
-    <button class="tabBtn" data-tab="job">Job</button>
-  </nav>
+      <div id="choices" class="choices"></div>
 
-  <section id="tabContent">
-    <div id="personal" class="tab">Loading stats...</div>
-    <div id="school" class="tab">School info will go here.</div>
-    <div id="job" class="tab">Job info will go here.</div>
-  </section>
+      <div class="stats-panel">
+        <div class="stat-row">
+          <span class="stat-label">Happiness</span>
+          <div class="stat-bar">
+            <div class="stat-fill" id="stat-happiness"></div>
+          </div>
+          <span class="stat-value" id="stat-happiness-text">50%</span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label">Health</span>
+          <div class="stat-bar">
+            <div class="stat-fill" id="stat-health"></div>
+          </div>
+          <span class="stat-value" id="stat-health-text">50%</span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label">Smarts</span>
+          <div class="stat-bar">
+            <div class="stat-fill" id="stat-smarts"></div>
+          </div>
+          <span class="stat-value" id="stat-smarts-text">50%</span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label">Looks</span>
+          <div class="stat-bar">
+            <div class="stat-fill" id="stat-looks"></div>
+          </div>
+          <span class="stat-value" id="stat-looks-text">50%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <button class="nav-btn tabBtn" data-tab="personal">Infant</button>
+      <button class="nav-btn tabBtn" data-tab="assets">Assets</button>
+      <button class="nav-btn tabBtn" data-tab="relationships">Relationships</button>
+      <button class="nav-btn tabBtn" data-tab="activities">Activities</button>
+    </div>
+
+    <div id="tabContent" class="tab-content">
+      <div id="personal" class="tab active">
+        <p>Basic info and stats will appear here.</p>
+      </div>
+      <div id="assets" class="tab">
+        <p>Your assets will appear here.</p>
+      </div>
+      <div id="relationships" class="tab">
+        <p>Family, friends, and more will appear here.</p>
+      </div>
+      <div id="activities" class="tab">
+        <p>Available activities will appear here.</p>
+      </div>
+    </div>
+  </div>
 
   <script src="game.js"></script>
 </body>
