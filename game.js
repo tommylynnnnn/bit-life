@@ -4,8 +4,21 @@ let player = {
   smarts: 50,
   health: 50,
   looks: 50,
-  money: 0
+  money: 0,
+
+  relationships: {
+    family: [],
+    friends: [],
+    romantic: []
+  }
 };
+
+function randomName() {
+  const first = ["Liam", "Noah", "Emma", "Olivia", "Ava", "Sophia", "Mason", "Lucas", "Mia", "Harper"];
+  const last = ["Smith", "Johnson", "Brown", "Taylor", "Wilson", "Clark", "Hall", "Young", "King", "Wright"];
+  return first[Math.floor(Math.random() * first.length)] + " " +
+         last[Math.floor(Math.random() * last.length)];
+}
 
 let events = [];
 
