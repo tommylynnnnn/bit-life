@@ -254,6 +254,34 @@ if (schoolLevel && classmatesList) {
     el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
   });
 }
+
+  document.getElementById("edu-grades").innerHTML = `
+  <p>Math: ${player.education.grades.math}%</p>
+  <p>Reading: ${player.education.grades.reading}%</p>
+  <p>Science: ${player.education.grades.science}%</p>
+  <p>Art: ${player.education.grades.art}%</p>
+`;
+
+  document.getElementById("edu-clubs").innerHTML =
+  player.education.clubs.length === 0
+    ? "<p>No clubs available.</p>"
+    : player.education.clubs.map(c => `<p>${c}</p>`).join("");
+
+  document.getElementById("edu-teachers").innerHTML =
+  player.education.teachers.map(t => `
+    <p>${t.subject}: ${t.name}</p>
+  `).join("");
+
+  document.getElementById("edu-classmates").innerHTML =
+  player.relationships.classmates.map((c, index) => `
+    <p class="clickableElementaryClassmate" data-index="${index}">
+      ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+    </p>
+  `).join("");
+
+  document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
+  el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
+});
   // Parents
   if (familyList) {
     familyList.innerHTML =
@@ -338,6 +366,13 @@ if (schoolLevel && classmatesList) {
   document.querySelectorAll(".clickablePet").forEach(el => {
     el.addEventListener("click", () => openPetPopup(el.dataset.index));
   });
+
+  document.querySelectorAll(".subtabBtn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".subtab").forEach(s => s.classList.remove("active"));
+    document.getElementById("edu-" + btn.dataset.subtab).classList.add("active");
+  });
+});
 }
 
 // ------------------------------
@@ -848,6 +883,74 @@ function openClassmatePopup(index) {
   `;
 
   popup.style.display = "flex";
+}
+
+function openElementaryClassmatePopup(index) {
+  const c = player.relationships.classmates[index];
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>Age: ${c.age}</p>
+      <p>Closeness: ${c.closeness}%</p>
+
+      <button class="popupBtn" onclick="elementaryInteract(${index}, 'hangout')">Hang Out</button>
+      <button class="popupBtn" onclick="elementaryInteract(${index}, 'recess')">Play at Recess</button>
+      <button class="popupBtn" onclick="elementaryInteract(${index}, 'study')">Study Together</button>
+      <button class="popupBtn" onclick="elementaryInteract(${index}, 'project')">Work on a Project</button>
+      <button class="popupBtn" onclick="elementaryInteract(${index}, 'lunch')">Sit Together at Lunch</button>
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function elementaryInteract(index, type) {
+  const c = player.relationships.classmates[index];
+  let result = "";
+  let change = 0;
+
+  if (type === "hangout") {
+    change = Math.floor(Math.random() * 10) + 5;
+    result = `You hung out with ${c.name}.`;
+  }
+
+  if (type === "recess") {
+    change = Math.floor(Math.random() * 12) + 4;
+    result = `You played at recess with ${c.name}.`;
+  }
+
+  if (type === "study") {
+    change = Math.floor(Math.random() * 8) + 3;
+    result = `You studied together with ${c.name}.`;
+  }
+
+  if (type === "project") {
+    change = Math.floor(Math.random() * 10) + 6;
+    result = `You worked on a project with ${c.name}.`;
+  }
+
+  if (type === "lunch") {
+    change = Math.floor(Math.random() * 7) + 2;
+    result = `You sat together at lunch with ${c.name}.`;
+  }
+
+  c.closeness = clamp(c.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>${result}</p>
+      <p>Closeness is now ${c.closeness}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
 }
 
 function classmateInteract(index) {
