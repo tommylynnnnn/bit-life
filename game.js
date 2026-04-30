@@ -16,7 +16,7 @@ let player = {
     friends: [],
     romantic: [],
     pets: [],
-    deceased: [].
+    deceased: [],
     classmates: []
   }
 };
