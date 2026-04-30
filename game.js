@@ -174,7 +174,6 @@ function startGame() {
 // UPDATE UI
 // ------------------------------
 function updateUI() {
-
   // ------------------------------
   // HEADER + STATS
   // ------------------------------
@@ -214,18 +213,16 @@ function updateUI() {
   }
 
   // ------------------------------
-  // EDUCATION TAB — SCHOOL LEVEL + CLASSMATES
+  // EDUCATION: SCHOOL LEVEL + CLASSMATES
   // ------------------------------
   const schoolLevel = document.getElementById("schoolLevel");
   const classmatesList = document.getElementById("classmatesList");
 
   if (schoolLevel && classmatesList) {
-
     if (player.age < 3) {
       schoolLevel.textContent = "Too young for school.";
       classmatesList.innerHTML = "<p>No classmates yet.</p>";
     }
-
     else if (player.age <= 5) {
       // PRESCHOOL
       schoolLevel.textContent = "Preschool";
@@ -240,7 +237,6 @@ function updateUI() {
         el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
       });
     }
-
     else if (player.age <= 13) {
       // ELEMENTARY
       schoolLevel.textContent = "Elementary School";
@@ -257,12 +253,10 @@ function updateUI() {
         el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
       });
     }
-
     else if (player.age <= 18) {
       schoolLevel.textContent = "High School";
       classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
     }
-
     else {
       schoolLevel.textContent = "College / University";
       classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
@@ -270,7 +264,7 @@ function updateUI() {
   }
 
   // ------------------------------
-  // SUBTABS — SHOW/HIDE
+  // SUBTABS: SHOW/HIDE (no subtabs in preschool)
   // ------------------------------
   const subtabs = document.querySelector(".subtabs");
   const subtabContent = document.querySelectorAll(".subtab");
@@ -299,7 +293,7 @@ function updateUI() {
   }
 
   // ------------------------------
-  // CLUB SELECTOR + CLUBS SUBTAB
+  // CLUBS SUBTAB (selector + joined clubs)
   // ------------------------------
   const clubOptions = document.getElementById("clubOptions");
   if (clubOptions) {
@@ -336,9 +330,15 @@ function updateUI() {
   }
 
   // ------------------------------
-  // RELATIONSHIPS TABS
+  // RELATIONSHIPS LISTS
   // ------------------------------
   const familyList = document.getElementById("familyList");
+  const siblingsList = document.getElementById("siblingsList");
+  const friendsList = document.getElementById("friendsList");
+  const romanticList = document.getElementById("romanticList");
+  const petsList = document.getElementById("petsList");
+  const deceasedList = document.getElementById("deceasedList");
+
   if (familyList) {
     familyList.innerHTML =
       player.relationships.family.length === 0
@@ -354,7 +354,6 @@ function updateUI() {
     });
   }
 
-  const siblingsList = document.getElementById("siblingsList");
   if (siblingsList) {
     siblingsList.innerHTML =
       player.relationships.siblings.length === 0
@@ -370,7 +369,6 @@ function updateUI() {
     });
   }
 
-  const friendsList = document.getElementById("friendsList");
   if (friendsList) {
     friendsList.innerHTML =
       player.relationships.friends.length === 0
@@ -386,7 +384,15 @@ function updateUI() {
     });
   }
 
-  const petsList = document.getElementById("petsList");
+  if (romanticList) {
+    romanticList.innerHTML =
+      player.relationships.romantic.length === 0
+        ? "<p>No romantic relationships yet.</p>"
+        : player.relationships.romantic.map((r, index) => `
+            <p>${r.emoji} ${r.name}</p>
+          `).join("");
+  }
+
   if (petsList) {
     petsList.innerHTML =
       player.relationships.pets.length === 0
@@ -402,7 +408,6 @@ function updateUI() {
     });
   }
 
-  const deceasedList = document.getElementById("deceasedList");
   if (deceasedList) {
     deceasedList.innerHTML =
       player.relationships.deceased.length === 0
