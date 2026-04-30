@@ -211,3 +211,58 @@ html {
   }
 }
 
+.clickableFriend {
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.clickableFriend:hover {
+  text-decoration: underline;
+}
+
+/* Popup overlay */
+.popupOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Popup card */
+.popupCard {
+  background: #f5f5f5;
+  border-radius: 16px;
+  padding: 16px 20px;
+  width: 80%;
+  max-width: 360px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+.popupCard h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.popupBtn {
+  display: block;
+  width: 100%;
+  margin: 6px 0;
+  padding: 8px 0;
+  border: none;
+  border-radius: 10px;
+  background: #ffcc00;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.popupBtn:hover {
+  filter: brightness(0.95);
+}
+
+.popupClose {
+  background: #ddd;
+}
