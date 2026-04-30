@@ -1,1 +1,20 @@
-
+[
+  {
+    "id": "friend_request",
+    "ageRange": [5, 18],
+    "text": "A kid in your class wants to be your friend.",
+    "choices": [
+      { "text": "Befriend them", "effects": { "happiness": 5 } },
+      { "text": "Ignore them", "effects": { "happiness": -2 } }
+    ]
+  },
+  {
+    "id": "found_money",
+    "ageRange": [10, 60],
+    "text": "You found $20 on the ground.",
+    "choices": [
+      { "text": "Take it", "effects": { "money": 20 } },
+      { "text": "Leave it", "effects": { "happiness": 1 } }
+    ]
+  }
+]
