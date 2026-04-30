@@ -27,7 +27,8 @@ let player = {
     science: 0,
     art: 0
   },
-  clubs: [],
+  clubs: [ { name: "Chess Club", name: "Art Club", name: "Band", name: "Study Club" }
+    ],
   teachers: []
 }
 };
@@ -221,6 +222,12 @@ function updateUI() {
 // ------------------------------
 const schoolLevel = document.getElementById("schoolLevel");
 const classmatesList = document.getElementById("classmatesList");
+  // CLUB SELECTOR
+const clubOptions = document.getElementById("clubOptions");
+
+clubOptions.innerHTML = player.education.clubs.map(club => `
+  <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
+`).join("");
 
 if (schoolLevel && classmatesList) {
 
@@ -272,13 +279,23 @@ if (schoolLevel && classmatesList) {
   <p>Reading: ${player.education.grades.reading}%</p>
   <p>Science: ${player.education.grades.science}%</p>
   <p>Art: ${player.education.grades.art}%</p>
+
+  <button class="popupBtn" onclick="study()">Study</button>
 `;
 
-  document.getElementById("edu-clubs").innerHTML =
-  player.education.clubs.length === 0
-    ? "<p>No clubs available.</p>"
-    : player.education.clubs.map(c => `<p>${c}</p>`).join("");
+document.getElementById("edu-clubs").innerHTML =
+  !player.education.joinedClubs || player.education.joinedClubs.length === 0
+    ? "<p>You have not joined any clubs yet.</p>"
+    : player.education.joinedClubs.map((c, index) => `
+        <p class="clickableClub" data-index="${index}">
+          ${c.name} — Loyalty: ${c.loyalty}%
+        </p>
+      `).join("");
 
+document.querySelectorAll(".clickableClub").forEach(el => {
+  el.addEventListener("click", () => openClubPopup(el.dataset.index));
+});
+  
   document.getElementById("edu-teachers").innerHTML =
   player.education.teachers.map(t => `
     <p>${t.subject}: ${t.name}</p>
@@ -925,10 +942,11 @@ function generateTeachers() {
 // CLUB GENERATOR
 // ------------------------------
 function generateClubs() {
-  const possibleClubs = ["Chess Club", "Art Club", "Robotics", "Drama", "Sports", "Choir"];
+  const possibleClubs = ["Chess Club", "Art Club", "Study Club", "Band"];
   const count = Math.floor(Math.random() * 3) + 2; // 2–4 clubs
 
-  player.education.clubs = [];
+  player.education.clubs = []; // reset available clubs
+  player.education.joinedClubs = []; // clubs the player actually joins
 
   for (let i = 0; i < count; i++) {
     const club = possibleClubs[Math.floor(Math.random() * possibleClubs.length)];
@@ -1025,16 +1043,6 @@ function elementaryInteract(index, type) {
     result = `You studied together with ${c.name}.`;
   }
 
-  if (type === "project") {
-    change = Math.floor(Math.random() * 10) + 6;
-    result = `You worked on a project with ${c.name}.`;
-  }
-
-  if (type === "lunch") {
-    change = Math.floor(Math.random() * 7) + 2;
-    result = `You sat together at lunch with ${c.name}.`;
-  }
-
   c.closeness = clamp(c.closeness + change);
 
   const popup = document.getElementById("popup");
@@ -1050,6 +1058,96 @@ function elementaryInteract(index, type) {
   updateUI();
 }
 
+function joinClub(clubName) {
+  // Prevent duplicates
+  if (player.education.joinedClubs?.some(c => c.name === clubName)) return;
+
+  if (!player.education.joinedClubs) player.education.joinedClubs = [];
+
+  player.education.joinedClubs.push({
+    name: clubName,
+    loyalty: 0
+  });
+
+  updateUI();
+}
+
+function openClubPopup(index) {
+  const c = player.education.joinedClubs[index];
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.name}</h2>
+      <p>Loyalty: ${c.loyalty}%</p>
+
+      <button class="popupBtn" onclick="clubInteract(${index}, 'attend')">Attend Meeting</button>
+      <button class="popupBtn" onclick="clubInteract(${index}, 'spirit')">Show Spirit</button>
+
+      ${c.loyalty >= 70 ? `<button class="popupBtn" onclick="clubInteract(${index}, 'lead')">Become Club Head</button>` : ""}
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function clubInteract(index, type) {
+  const c = player.education.joinedClubs[index];
+  let result = "";
+  let change = 0;
+
+  if (type === "attend") {
+    change = Math.floor(Math.random() * 8) + 3;
+    result = `You attended a meeting for ${c.name}.`;
+  }
+
+  if (type === "spirit") {
+    change = Math.floor(Math.random() * 6) + 2;
+    result = `You showed spirit for ${c.name}.`;
+  }
+
+  if (type === "lead") {
+    result = `You became the head of ${c.name}!`;
+    change = 20;
+  }
+
+  c.loyalty = clamp(c.loyalty + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.name}</h2>
+      <p>${result}</p>
+      <p>Loyalty is now ${c.loyalty}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
+function study() {
+  const subjects = ["math", "reading", "science", "art"];
+  const subject = subjects[Math.floor(Math.random() * subjects.length)];
+
+  const gain = Math.floor(Math.random() * 6) + 3;
+  player.education.grades[subject] = clamp(player.education.grades[subject] + gain);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>📚 Studied</h2>
+      <p>You studied ${subject}.</p>
+      <p>Your ${subject} grade increased by ${gain}%!</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+  popup.style.display = "flex";
+
+  updateUI();
+}
 // ------------------------------
 // TABS + AGE BUTTON
 // ------------------------------
