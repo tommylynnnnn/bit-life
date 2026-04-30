@@ -13,6 +13,7 @@ let player = {
   }
 };
 
+// Random NPC name generator
 function randomName() {
   const first = ["Liam", "Noah", "Emma", "Olivia", "Ava", "Sophia", "Mason", "Lucas", "Mia", "Harper"];
   const last = ["Smith", "Johnson", "Brown", "Taylor", "Wilson", "Clark", "Hall", "Young", "King", "Wright"];
@@ -69,6 +70,34 @@ function updateUI() {
       <p>Money: $${player.money}</p>
     `;
   }
+
+  // RELATIONSHIPS TAB
+  const familyList = document.getElementById("familyList");
+  const friendsList = document.getElementById("friendsList");
+  const romanticList = document.getElementById("romanticList");
+
+  if (familyList) {
+    familyList.innerHTML =
+      player.relationships.family.length === 0
+        ? "<p>No family relationships yet.</p>"
+        : player.relationships.family.map(f => `<p>${f.name}</p>`).join("");
+  }
+
+  if (friendsList) {
+    friendsList.innerHTML =
+      player.relationships.friends.length === 0
+        ? "<p>No friends yet.</p>"
+        : player.relationships.friends.map(fr => `
+            <p>${fr.name} — closeness ${fr.closeness}%</p>
+          `).join("");
+  }
+
+  if (romanticList) {
+    romanticList.innerHTML =
+      player.relationships.romantic.length === 0
+        ? "<p>No romantic relationships yet.</p>"
+        : player.relationships.romantic.map(r => `<p>${r.name}</p>`).join("");
+  }
 }
 
 // Age up logic
@@ -95,21 +124,36 @@ function runEvent() {
 
   const event = possible[Math.floor(Math.random() * possible.length)];
 
-  eventText.textContent = event.text;
+  // Generate NPC name if needed
+  let npcName = null;
+  if (event.text.includes("{name}")) {
+    npcName = randomName();
+  }
+
+  // Replace placeholder
+  const finalText = npcName ? event.text.replace("{name}", npcName) : event.text;
+  eventText.textContent = finalText;
+
   choiceBox.innerHTML = "";
 
   event.choices.forEach(choice => {
     const btn = document.createElement("button");
     btn.textContent = choice.text;
-    btn.onclick = () => applyChoice(choice.effects);
+    btn.onclick = () => applyChoice(choice.effects, npcName);
     choiceBox.appendChild(btn);
   });
 }
 
 // Apply choice effects
-function applyChoice(effects) {
+function applyChoice(effects, npcName = null) {
   for (let stat in effects) {
-    if (player.hasOwnProperty(stat)) {
+    if (stat === "addFriend" && npcName) {
+      player.relationships.friends.push({
+        name: npcName,
+        closeness: 50,
+        ageMet: player.age
+      });
+    } else if (player.hasOwnProperty(stat)) {
       player[stat] += effects[stat];
     }
   }
