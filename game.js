@@ -235,38 +235,49 @@ if (schoolLevel && classmatesList) {
     schoolLevel.textContent = "Too young for school.";
     classmatesList.innerHTML = "<p>No classmates yet.</p>";
   } 
+  
   else if (player.age <= 5) {
+    // PRESCHOOL
     schoolLevel.textContent = "Preschool";
+
     classmatesList.innerHTML = player.relationships.classmates.map((c, index) => `
-      <p class="clickableClassmate" data-index="${index}">
+      <p class="clickablePreschoolClassmate" data-index="${index}">
         ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
       </p>
     `).join("");
+
+    document.querySelectorAll(".clickablePreschoolClassmate").forEach(el => {
+      el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
+    });
   } 
- else if (player.age <= 13) {
-  schoolLevel.textContent = "Elementary School";
+  
+  else if (player.age <= 13) {
+    // ELEMENTARY
+    schoolLevel.textContent = "Elementary School";
 
-  classmatesList.innerHTML = player.relationships.classmates.length === 0
-    ? "<p>No classmates yet.</p>"
-    : player.relationships.classmates.map((c, index) => `
-        <p class="clickableElementaryClassmate" data-index="${index}">
-          ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
-        </p>
-      `).join("");
+    classmatesList.innerHTML = player.relationships.classmates.length === 0
+      ? "<p>No classmates yet.</p>"
+      : player.relationships.classmates.map((c, index) => `
+          <p class="clickableElementaryClassmate" data-index="${index}">
+            ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+          </p>
+        `).join("");
 
-  document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
-    el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
-  });
-}
+    document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
+      el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
+    });
+  } 
   
   else if (player.age <= 18) {
     schoolLevel.textContent = "High School";
     classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
   } 
+  
   else {
     schoolLevel.textContent = "College / University";
     classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
   }
+}
 
   // Make classmates clickable
   document.querySelectorAll(".clickableClassmate").forEach(el => {
@@ -313,16 +324,6 @@ document.querySelectorAll(".clickableClub").forEach(el => {
     <p>${t.subject}: ${t.name}</p>
   `).join("");
 
-  document.getElementById("edu-classmates").innerHTML =
-  player.relationships.classmates.map((c, index) => `
-    <p class="clickableElementaryClassmate" data-index="${index}">
-      ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
-    </p>
-  `).join("");
-
-  document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
-  el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
-});
   // Parents
   if (familyList) {
     familyList.innerHTML =
