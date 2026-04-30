@@ -27,6 +27,7 @@ let events = [];
 async function loadEvents() {
   const base = await fetch("data/events.json").then(r => r.json());
   events = [...base];
+  console.log("Loaded events:", events);
 }
 
 // Clamp stats between 0–100
