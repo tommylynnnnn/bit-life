@@ -251,7 +251,7 @@ if (schoolLevel && classmatesList) {
     el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
   });
 }
-  } 
+  
   else if (player.age <= 18) {
     schoolLevel.textContent = "High School";
     classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
@@ -385,7 +385,7 @@ if (schoolLevel && classmatesList) {
     document.getElementById("edu-" + btn.dataset.subtab).classList.add("active");
   });
 });
-
+}
 
 // ------------------------------
 // POPUP SYSTEM (PARENTS)
