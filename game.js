@@ -642,14 +642,28 @@ function closePopup() {
 // ------------------------------
 // TABS + AGE BUTTON
 // ------------------------------
-document.querySelectorAll(".tabBtn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.getElementById(btn.dataset.tab).classList.add("active");
+window.onload = () => {
+  document.querySelectorAll(".tabBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.getElementById(btn.dataset.tab).classList.add("active");
+    });
   });
-});
 
-document.getElementById("ageBtn").addEventListener("click", ageUp);
+  document.getElementById("ageBtn").addEventListener("click", ageUp);
 
-// Start game
-loadEvents().then(updateUI);
+  loadEvents().then(updateUI);
+};
+
+window.onload = () => {
+  document.querySelectorAll(".tabBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.getElementById(btn.dataset.tab).classList.add("active");
+    });
+  });
+
+  document.getElementById("ageBtn").addEventListener("click", ageUp);
+
+  loadEvents().then(updateUI);
+};
