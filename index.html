@@ -7,6 +7,21 @@
 </head>
 <body>
 
+<div id="startScreen" class="popupOverlay" style="display:flex;">
+  <div class="popupCard">
+    <h2>Start Your Life</h2>
+
+    <input id="playerNameInput" placeholder="Enter your name" />
+
+    <select id="playerGenderInput">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <button class="popupBtn" onclick="startGame()">Begin Life</button>
+  </div>
+</div>
+
   <div class="game-shell">
     <div class="game-header">
       <div class="game-title">
