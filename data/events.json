@@ -1,13 +1,13 @@
 [
-{
-  "id": "friend_request",
-  "ageRange": [5, 18],
-  "text": "A kid named {name} wants to be your friend.",
-  "choices": [
-    { "text": "Befriend them", "effects": { "addFriend": true } },
-    { "text": "Ignore them", "effects": { "happiness": -2 } }
-  ]
-}
+  {
+    "id": "friend_request",
+    "ageRange": [5, 18],
+    "text": "A kid named {name} wants to be your friend.",
+    "choices": [
+      { "text": "Befriend them", "effects": { "addFriend": true, "happiness": 5 } },
+      { "text": "Ignore them", "effects": { "happiness": -2 } }
+    ]
+  },
   {
     "id": "found_money",
     "ageRange": [10, 60],
