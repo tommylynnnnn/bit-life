@@ -309,3 +309,23 @@ html {
 .clickableClassmate:hover {
   text-decoration: underline;
 }
+
+.subtabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.subtabBtn {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.subtab {
+  display: none;
+}
+
+.subtab.active {
+  display: block;
+}
+
