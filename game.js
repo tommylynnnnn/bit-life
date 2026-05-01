@@ -1,5 +1,11 @@
 let player = {
   age: 0,
+  function generateStartingStats() {
+  player.happiness = Math.floor(Math.random() * 31) + 35; // 35–65
+  player.smarts = Math.floor(Math.random() * 31) + 35;
+  player.health = Math.floor(Math.random() * 31) + 35;
+  player.looks = Math.floor(Math.random() * 31) + 35;
+},
 
   name: "",
   gender: "",
@@ -304,13 +310,6 @@ function startGame() {
 
   document.getElementById("startScreen").style.display = "none";
   updateUI();
-}
-
-function generateStartingStats() {
-  player.happiness = Math.floor(Math.random() * 31) + 35; // 35–65
-  player.smarts = Math.floor(Math.random() * 31) + 35;
-  player.health = Math.floor(Math.random() * 31) + 35;
-  player.looks = Math.floor(Math.random() * 31) + 35;
 }
 // ------------------------------
 // UPDATE UI
