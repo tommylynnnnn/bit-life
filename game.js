@@ -35,6 +35,16 @@ let player = {
 };
 
 // ------------------------------
+// RANDOM STARTING STATS
+// ------------------------------
+function generateStartingStats() {
+  player.happiness = Math.floor(Math.random() * 31) + 35;
+  player.smarts = Math.floor(Math.random() * 31) + 35;
+  player.health = Math.floor(Math.random() * 31) + 35;
+  player.looks = Math.floor(Math.random() * 31) + 35;
+}
+
+// ------------------------------
 // NAME POOLS (gender-correct)
 // ------------------------------
 const maleFirst = [
@@ -201,6 +211,7 @@ function clamp(val) {
 // START GAME + FAMILY GENERATOR
 // ------------------------------
 function startGame() {
+  generateStartingStats();
 
   function generateFamily() {
 
