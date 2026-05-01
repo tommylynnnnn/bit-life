@@ -122,7 +122,7 @@ const clubEvents = {
       ]
     }
   ]
-};
+},
 
 "Chess Club": [
   {
@@ -281,8 +281,6 @@ const clubEvents = {
     ]
   }
 ],
-
-  
 
 // Load base events + DLC later
 async function loadEvents() {
