@@ -10,20 +10,19 @@ body {
 
   display: flex;
   justify-content: center;
-  align-items: flex-start;   /* allow page to scroll */
+  align-items: center;
   min-height: 100vh;
-  overflow-y: auto;          /* allow full scrolling */
 }
 
 /* GAME SHELL */
 .game-shell {
   width: 100%;
   max-width: 480px;
-  margin: 20px auto;         /* add breathing room */
+  margin: 0 auto;
   background: #f5f5f5;
   border-radius: 18px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  overflow: visible;         /* allow content to expand */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -80,12 +79,6 @@ body {
   border-radius: 12px;
   padding: 14px 16px 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-
-  /* FIXED SCROLLING */
-  max-height: none;        /* remove height limit */
-  height: auto;            /* allow natural height */
-  overflow-y: visible;     /* let page scroll */
-  overflow-x: hidden;
 }
 
 .event-log {
@@ -302,6 +295,12 @@ html {
   text-decoration: underline;
 }
 
+.game-card {
+  max-height: 60vh;   /* or 65vh if you want more space */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .clickableClassmate {
   cursor: pointer;
   padding: 4px 0;
@@ -311,7 +310,6 @@ html {
   text-decoration: underline;
 }
 
-/* SUBTABS */
 .subtabs {
   display: flex;
   gap: 10px;
