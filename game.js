@@ -1179,7 +1179,7 @@ function generatePreschoolClassmates() {
       gender: gender,
       age: age,
       emoji: genderEmoji(gender, age),
-      closeness: Math.floor(Math.random() * 40) + 20,
+      closeness: Math.floor(Math.random() * 16) + 15, // 15–30
       type: "classmate"
     });
   }
@@ -1202,7 +1202,7 @@ function generateElementaryClassmates() {
       gender: gender,
       age: age,
       emoji: genderEmoji(gender, age),
-      closeness: Math.floor(Math.random() * 40) + 20,
+      closeness: Math.floor(Math.random() * 16) + 15, // 15–30
       type: "classmate"
     });
   }
@@ -1248,9 +1248,14 @@ function openClassmatePopup(index) {
       <p>Age: ${c.age}</p>
       <p>Closeness: ${c.closeness}%</p>
 
-      <button class="popupBtn" onclick="classmateInteract(${index})">Arrange Playdate</button>
+<button class="popupBtn" onclick="classmateInteract(${index})">Arrange Playdate</button>
 
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+${player.relationships.classmates[index].closeness >= 50
+  ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
+  : ""
+}
+
+<button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
 
@@ -1276,6 +1281,24 @@ function classmateInteract(index) {
   updateUI();
 }
 
+function tryBecomeFriend(index) {
+  const c = player.relationships.classmates[index];
+
+  if (c.closeness < 50) return; // not enough bond
+
+  // prevent duplicates
+  const alreadyFriend = player.relationships.friends.some(f => f.name === c.name);
+  if (alreadyFriend) return;
+
+  player.relationships.friends.push({
+    name: c.name,
+    gender: c.gender,
+    age: c.age,
+    emoji: c.emoji,
+    closeness: c.closeness
+  });
+}
+
 // ------------------------------
 // ELEMENTARY POPUP
 // ------------------------------
@@ -1296,6 +1319,10 @@ function openElementaryClassmatePopup(index) {
       <button class="popupBtn" onclick="elementaryInteract(${index}, 'lunch')">Sit Together at Lunch</button>
 
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      ${player.relationships.classmates[index].closeness >= 50
+  ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
+  : ""
+}
     </div>
   `;
 
@@ -1319,10 +1346,41 @@ function openHighSchoolClassmatePopup(index) {
       <button class="popupBtn" onclick="highSchoolInteract(${index}, 'ignore')">Ignore</button>
 
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      ${player.relationships.classmates[index].closeness >= 50
+  ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
+  : ""
+}
     </div>
   `;
 
   popup.style.display = "flex";
+}
+
+function becomeFriendFromClassmate(index) {
+  const c = player.relationships.classmates[index];
+
+  const alreadyFriend = player.relationships.friends.some(f => f.name === c.name);
+  if (!alreadyFriend) {
+    player.relationships.friends.push({
+      name: c.name,
+      gender: c.gender,
+      age: c.age,
+      emoji: c.emoji,
+      closeness: c.closeness
+    });
+  }
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>You are now friends!</p>
+      <p>They have been added to your Friends list.</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
 }
 
 function elementaryInteract(index, type) {
