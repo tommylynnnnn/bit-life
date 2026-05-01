@@ -31,12 +31,7 @@ let player = {
     clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
     joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
     teachers: []
-  },
-    
-  country: {
-  name: "",
-  emoji: ""
-}
+  }
 };
 
 // ------------------------------
@@ -52,47 +47,33 @@ function generateStartingStats() {
 // ------------------------------
 // NAME POOLS (gender-correct)
 // ------------------------------
-const countryNames = {
-  Canada: {
-    male: ["Liam","Noah","Ethan","Logan","Jackson"],
-    female: ["Emma","Olivia","Ava","Sophia","Chloe"],
-    last: ["Smith","Brown","Martin","Wilson","Taylor"]
-  },
+const maleFirst = [
+  "Liam","Noah","Oliver","Elijah","James","William","Benjamin","Lucas","Henry","Alexander",
+  "Mason","Michael","Ethan","Daniel","Jacob","Logan","Jackson","Levi","Sebastian","Mateo",
+  "Jayden","Grayson","Wyatt","Carter","Julian","Isaac","Luke","Anthony","Dylan","Lincoln"
+];
 
-  USA: {
-    male: ["James","William","Benjamin","Lucas","Henry"],
-    female: ["Isabella","Mia","Harper","Evelyn","Abigail"],
-    last: ["Johnson","Davis","Miller","Garcia","Rodriguez"]
-  },
+const femaleFirst = [
+  "Emma","Olivia","Ava","Sophia","Isabella","Mia","Charlotte","Amelia","Harper","Evelyn",
+  "Abigail","Ella","Elizabeth","Sofia","Avery","Scarlett","Grace","Chloe","Nora","Hazel",
+  "Lily","Aria","Ellie","Zoey","Hannah","Lillian","Addison","Aubrey","Stella","Natalie"
+];
 
-  UK: {
-    male: ["Oliver","George","Harry","Jack","Thomas"],
-    female: ["Amelia","Isla","Ava","Emily","Ella"],
-    last: ["Smith","Jones","Williams","Brown","Taylor"]
-  },
-
-  Japan: {
-    male: ["Haruto","Ren","Yuto","Sora","Daiki"],
-    female: ["Yui","Hana","Sakura","Mio","Aoi"],
-    last: ["Sato","Suzuki","Takahashi","Tanaka","Watanabe"]
-  }
-};
+const lastNames = [
+  "Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez",
+  "Hernandez","Lopez","Gonzalez","Wilson","Anderson","Thomas","Taylor","Moore","Jackson","Martin",
+  "Lee","Perez","Thompson","White","Harris","Sanchez","Clark","Ramirez","Lewis","Robinson",
+  "Walker","Young","Allen","King","Wright","Scott","Torres","Nguyen","Hill","Flores"
+];
 
 // ------------------------------
 // RANDOM NAME (gender-aware)
 // ------------------------------
 function randomName(gender) {
-  const country = player.country.name;
-
-  const data = countryNames[country] || countryNames["USA"];
-
-  const firstPool = data[gender];
-  const lastPool = data.last;
-
-  const first = firstPool[Math.floor(Math.random() * firstPool.length)];
-  const last = lastPool[Math.floor(Math.random() * lastPool.length)];
-
-  return `${first} ${last}`;
+  const first = gender === "male" ? maleFirst : femaleFirst;
+  const f = first[Math.floor(Math.random() * first.length)];
+  const l = lastNames[Math.floor(Math.random() * lastNames.length)];
+  return `${f} ${l}`;
 }
 
 // ------------------------------
@@ -226,24 +207,12 @@ function clamp(val) {
   return Math.max(0, Math.min(100, val));
 }
 
-function setCountry(index) {
-  player.country.name = countries[index].name;
-  player.country.emoji = countries[index].emoji;
-}
-
 // ------------------------------
 // START GAME + FAMILY GENERATOR
 // ------------------------------
 function startGame() {
   generateStartingStats();
 
-  const countries = [
-  { name: "Canada", emoji: "🇨🇦" },
-  { name: "USA", emoji: "🇺🇸" },
-  { name: "UK", emoji: "🇬🇧" },
-  { name: "Japan", emoji: "🇯🇵" }
-];
-  
   function generateFamily() {
 
     // ------------------------------
@@ -343,7 +312,7 @@ function startGame() {
   if (!name) return alert("Please enter a name.");
 
   // Player DOES NOT get a last name
-  player.name + " " + player.country.emoji
+  player.name = name;
   player.gender = gender;
   player.emoji = genderEmoji(gender, player.age);
 
