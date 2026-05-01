@@ -450,7 +450,6 @@ function updateUI() {
             <p>${d.emoji} ${d.relation}: ${d.name} — died at ${d.age}</p>
           `).join("");
   }
-}
 
   // ------------------------------
   // SUBTAB BUTTONS
