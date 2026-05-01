@@ -250,89 +250,125 @@ function updateUI() {
     `;
   }
 
- // ------------------------------
-// EDUCATION: SCHOOL LEVEL + CLASSMATES
-// ------------------------------
-const schoolLevel = document.getElementById("schoolLevel");
-const classmatesList = document.getElementById("classmatesList");
-const gradesList = document.getElementById("gradesList");
-const clubSelector = document.getElementById("clubSelector");
-const joinedClubs = document.getElementById("joinedClubs");
-const teachersList = document.getElementById("teachersList");
+  // ------------------------------
+  // EDUCATION: SCHOOL LEVEL + CLASSMATES
+  // ------------------------------
+  const schoolLevel = document.getElementById("schoolLevel");
+  const classmatesList = document.getElementById("classmatesList");
+  const gradesList = document.getElementById("gradesList");
+  const clubSelector = document.getElementById("clubSelector");
+  const joinedClubs = document.getElementById("joinedClubs");
+  const teachersList = document.getElementById("teachersList");
 
-// SCHOOL LEVEL + CLASSMATES
-if (player.age < 3) {
-  schoolLevel.textContent = "Too young for school.";
-  classmatesList.innerHTML = "<p>No classmates yet.</p>";
-}
-if (player.age <= 5) {
-    // Preschool: hide all school extras
-    document.getElementById("gradesList").style.display = "none";
-    document.getElementById("clubSelector").style.display = "none";
-    document.getElementById("joinedClubs").style.display = "none";
-    document.getElementById("teachersList").style.display = "none";
-} else {
-    // Elementary and up: show everything
-    document.getElementById("gradesList").style.display = "block";
-    document.getElementById("clubSelector").style.display = "block";
-    document.getElementById("joinedClubs").style.display = "block";
-    document.getElementById("teachersList").style.display = "block";
-}
-else if (player.age <= 13) {
-  schoolLevel.textContent = "Elementary School";
+  if (schoolLevel && classmatesList && gradesList && clubSelector && joinedClubs && teachersList) {
 
-  classmatesList.innerHTML = player.relationships.classmates.map((c, index) => `
-    <p class="clickableElementaryClassmate" data-index="${index}">
-      ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
-    </p>
-  `).join("");
+    // SCHOOL LEVEL + CLASSMATES + VISIBILITY
+    if (player.age < 3) {
+      schoolLevel.textContent = "Too young for school.";
+      classmatesList.innerHTML = "<p>No classmates yet.</p>";
 
-  document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
-    el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
-  });
-}
-else if (player.age <= 18) {
-  schoolLevel.textContent = "High School";
-  classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
-}
-else {
-  schoolLevel.textContent = "College / University";
-  classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
-}
+      gradesList.style.display = "none";
+      clubSelector.style.display = "none";
+      joinedClubs.style.display = "none";
+      teachersList.style.display = "none";
+    }
+    else if (player.age <= 5) {
+      // PRESCHOOL
+      schoolLevel.textContent = "Preschool";
 
-// GRADES
-gradesList.innerHTML = `
-  <p>Math: ${player.education.grades.math}%</p>
-  <p>Reading: ${player.education.grades.reading}%</p>
-  <p>Science: ${player.education.grades.science}%</p>
-  <p>Art: ${player.education.grades.art}%</p>
-  <button class="popupBtn" onclick="study()">Study</button>
-`;
+      classmatesList.innerHTML = player.relationships.classmates.length === 0
+        ? "<p>No classmates yet.</p>"
+        : player.relationships.classmates.map((c, index) => `
+            <p class="clickablePreschoolClassmate" data-index="${index}">
+              ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+            </p>
+          `).join("");
 
-// CLUB SELECTOR
-clubSelector.innerHTML = player.education.clubs.map(club => `
-  <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
-`).join("");
+      document.querySelectorAll(".clickablePreschoolClassmate").forEach(el => {
+        el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
+      });
 
-// JOINED CLUBS
-joinedClubs.innerHTML =
-  !player.education.joinedClubs || player.education.joinedClubs.length === 0
-    ? "<p>You have not joined any clubs yet.</p>"
-    : player.education.joinedClubs.map((c, index) => `
-        <p class="clickableClub" data-index="${index}">
-          ${c.name} — Loyalty: ${c.loyalty}%
-        </p>
+      // Hide school extras in preschool
+      gradesList.style.display = "none";
+      clubSelector.style.display = "none";
+      joinedClubs.style.display = "none";
+      teachersList.style.display = "none";
+    }
+    else if (player.age <= 13) {
+      // ELEMENTARY
+      schoolLevel.textContent = "Elementary School";
+
+      classmatesList.innerHTML = player.relationships.classmates.length === 0
+        ? "<p>No classmates yet.</p>"
+        : player.relationships.classmates.map((c, index) => `
+            <p class="clickableElementaryClassmate" data-index="${index}">
+              ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+            </p>
+          `).join("");
+
+      document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
+        el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
+      });
+
+      // Show school extras
+      gradesList.style.display = "block";
+      clubSelector.style.display = "block";
+      joinedClubs.style.display = "block";
+      teachersList.style.display = "block";
+    }
+    else if (player.age <= 18) {
+      schoolLevel.textContent = "High School";
+      classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
+
+      gradesList.style.display = "block";
+      clubSelector.style.display = "block";
+      joinedClubs.style.display = "block";
+      teachersList.style.display = "block";
+    }
+    else {
+      schoolLevel.textContent = "College / University";
+      classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
+
+      gradesList.style.display = "block";
+      clubSelector.style.display = "block";
+      joinedClubs.style.display = "block";
+      teachersList.style.display = "block";
+    }
+
+    // GRADES
+    gradesList.innerHTML = `
+      <p>Math: ${player.education.grades.math}%</p>
+      <p>Reading: ${player.education.grades.reading}%</p>
+      <p>Science: ${player.education.grades.science}%</p>
+      <p>Art: ${player.education.grades.art}%</p>
+      <button class="popupBtn" onclick="study()">Study</button>
+    `;
+
+    // CLUB SELECTOR
+    clubSelector.innerHTML = player.education.clubs.map(club => `
+      <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
+    `).join("");
+
+    // JOINED CLUBS
+    joinedClubs.innerHTML =
+      !player.education.joinedClubs || player.education.joinedClubs.length === 0
+        ? "<p>You have not joined any clubs yet.</p>"
+        : player.education.joinedClubs.map((c, index) => `
+            <p class="clickableClub" data-index="${index}">
+              ${c.name} — Loyalty: ${c.loyalty}%
+            </p>
+          `).join("");
+
+    document.querySelectorAll(".clickableClub").forEach(el => {
+      el.addEventListener("click", () => openClubPopup(el.dataset.index));
+    });
+
+    // TEACHERS
+    teachersList.innerHTML =
+      player.education.teachers.map(t => `
+        <p>${t.subject}: ${t.name}</p>
       `).join("");
-
-document.querySelectorAll(".clickableClub").forEach(el => {
-  el.addEventListener("click", () => openClubPopup(el.dataset.index));
-});
-
-// TEACHERS
-teachersList.innerHTML =
-  player.education.teachers.map(t => `
-    <p>${t.subject}: ${t.name}</p>
-  `).join("");
+  }
 
   // ------------------------------
   // RELATIONSHIPS LISTS
@@ -421,6 +457,7 @@ teachersList.innerHTML =
             <p>${d.emoji} ${d.relation}: ${d.name} — died at ${d.age}</p>
           `).join("");
   }
+}
 
   // ------------------------------
   // SUBTAB BUTTONS
