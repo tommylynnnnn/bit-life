@@ -355,8 +355,8 @@ joinedClubs.innerHTML =
         </p>
       `).join("");
 
-document.querySelectorAll(".clickableClub").forEach(el => {
-  el.addEventListener("click", () => openClubPopup(el.dataset.index));
+document.querySelectorAll(".clickableClub").forEach((el, i) => {
+  el.addEventListener("click", () => openClubPopup(i));
 });
 
   // TEACHERS
