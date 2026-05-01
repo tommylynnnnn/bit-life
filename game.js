@@ -71,8 +71,10 @@ const lastNames = [
 // ------------------------------
 function randomName(gender) {
   const first = gender === "male" ? maleFirst : femaleFirst;
+
   const f = first[Math.floor(Math.random() * first.length)];
   const l = lastNames[Math.floor(Math.random() * lastNames.length)];
+
   return `${f} ${l}`;
 }
 
@@ -237,7 +239,8 @@ function startGame() {
     if (hasMom) {
       const momAge = Math.floor(Math.random() * 15) + 25;
       player.relationships.family.push({
-        name: randomName("female").split(" ")[0] + " " + player.lastName,
+        const first = femaleFirst[Math.floor(Math.random() * femaleFirst.length)];
+first + " " + player.lastName;
         gender: "female",
         age: momAge,
         emoji: genderEmoji("female", momAge),
@@ -1040,7 +1043,7 @@ function runEvent() {
 
   let npcName = null;
   if (event.text.includes("{name}")) {
-    npcName = randomName();
+    npcName = randomName(gender);
   }
 
   const finalText = npcName ? event.text.replace("{name}", npcName) : event.text;
@@ -1186,7 +1189,7 @@ function generatePreschoolClassmates() {
     const age = Math.floor(Math.random() * 3) + 3; // ages 3–5
 
     player.relationships.classmates.push({
-      name: randomName(),
+      name: randomName(gender),
       gender: gender,
       age: age,
       emoji: genderEmoji(gender, age),
@@ -1209,7 +1212,7 @@ function generateElementaryClassmates() {
     const age = Math.floor(Math.random() * 3) + 6; // ages 6–8
 
     player.relationships.classmates.push({
-      name: randomName(),
+      name: randomName(gender),
       gender: gender,
       age: age,
       emoji: genderEmoji(gender, age),
