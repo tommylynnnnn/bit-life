@@ -460,12 +460,16 @@ document.querySelectorAll(".clickableClub").forEach((el, i) => {
   el.addEventListener("click", () => openClubPopup(i));
 });
 
-  // TEACHERS
-  teachersList.innerHTML =
-    player.education.teachers.map(t => `
-      <p>${t.subject}: ${t.name}</p>
-    `).join("");
+ teachersList.innerHTML =
+  player.education.teachers.map((t, index) => `
+    <p class="clickableTeacher" data-index="${index}">
+      📘 ${t.subject}: ${t.name} — Respect: ${t.respect}%
+    </p>
+  `).join("");
 
+document.querySelectorAll(".clickableTeacher").forEach(el => {
+  el.addEventListener("click", () => openTeacherPopup(el.dataset.index));
+});
   // ------------------------------
   // RELATIONSHIPS LISTS
   // ------------------------------
@@ -862,6 +866,29 @@ function openClubPopup(index) {
   popup.style.display = "flex";
 }
 
+function openTeacherPopup(index) {
+  const t = player.education.teachers[index];
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>📘 ${t.subject}: ${t.name}</h2>
+      <p>Respect: ${t.respect}%</p>
+      <p>Mood: ${t.mood}%</p>
+
+      <button class="popupBtn" onclick="teacherInteract(${index}, 'talk')">Talk After Class</button>
+      <button class="popupBtn" onclick="teacherInteract(${index}, 'ask')">Ask About Homework</button>
+      <button class="popupBtn" onclick="teacherInteract(${index}, 'help')">Ask for Extra Help</button>
+      <button class="popupBtn" onclick="teacherInteract(${index}, 'compliment')">Compliment Teacher</button>
+      <button class="popupBtn" onclick="teacherInteract(${index}, 'ignore')">Do Nothing</button>
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
 // ------------------------------
 // DEATH SYSTEM
 // ------------------------------
@@ -1175,12 +1202,16 @@ function generateElementaryClassmates() {
 function generateTeachers() {
   const teacherNames = ["Ms. Carter", "Mr. Lopez", "Mrs. Singh", "Mr. Brown", "Ms. Nguyen"];
 
-  player.education.teachers = [
-    { subject: "Math", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
-    { subject: "Reading", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
-    { subject: "Science", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] },
-    { subject: "Art", name: teacherNames[Math.floor(Math.random() * teacherNames.length)] }
-  ];
+  const subjects = ["Math", "Reading", "Science", "Art"];
+
+  player.education.teachers = subjects.map(subject => {
+    return {
+      subject: subject,
+      name: teacherNames[Math.floor(Math.random() * teacherNames.length)],
+      respect: 50,
+      mood: 50
+    };
+  });
 }
 
 // ------------------------------
@@ -1373,6 +1404,55 @@ function clubInteract(index, type) {
       <h2>${c.name}</h2>
       <p>${result}</p>
       <p>Loyalty is now ${c.loyalty}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
+function teacherInteract(index, type) {
+  const t = player.education.teachers[index];
+
+  let change = 0;
+  let result = "";
+
+  if (type === "talk") {
+    change = Math.floor(Math.random() * 6) + 2;
+    result = `You had a casual conversation with ${t.name}.`;
+  }
+
+  if (type === "ask") {
+    change = Math.floor(Math.random() * 8) + 3;
+    player.smarts = clamp(player.smarts + 2);
+    result = `You asked ${t.name} about homework. You feel slightly smarter.`;
+  }
+
+  if (type === "help") {
+    change = Math.floor(Math.random() * 10) + 5;
+    player.smarts = clamp(player.smarts + 3);
+    result = `${t.name} helped you understand the topic better.`;
+  }
+
+  if (type === "compliment") {
+    change = Math.floor(Math.random() * 12) + 4;
+    result = `You complimented ${t.name}. They seem happier.`;
+  }
+
+  if (type === "ignore") {
+    change = -Math.floor(Math.random() * 6) - 2;
+    result = `You ignored ${t.name}.`;
+  }
+
+  t.respect = clamp(t.respect + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>📘 ${t.subject}: ${t.name}</h2>
+      <p>${result}</p>
+      <p>Respect is now ${t.respect}%</p>
+
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
