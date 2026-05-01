@@ -85,6 +85,45 @@ function genderEmoji(gender, age) {
 
 let events = [];
 
+const clubEvents = {
+  "Art Club": [
+    {
+      text: "Your art club is hosting an Art Fair. Do you participate?",
+      choices: [
+        {
+          text: "Showcase your best artwork",
+          effects: { loyalty: 10, happiness: 5, looks: 3 }
+        },
+        {
+          text: "Help organize the event",
+          effects: { loyalty: 8, smarts: 3 }
+        },
+        {
+          text: "Skip it",
+          effects: { loyalty: -5 }
+        }
+      ]
+    },
+    {
+      text: "The club is doing a group painting session.",
+      choices: [
+        {
+          text: "Lead the session",
+          effects: { loyalty: 12, smarts: 2 }
+        },
+        {
+          text: "Paint quietly",
+          effects: { loyalty: 6, happiness: 4 }
+        },
+        {
+          text: "Mess around",
+          effects: { loyalty: -6, happiness: 3 }
+        }
+      ]
+    }
+  ]
+};
+
 // Load base events + DLC later
 async function loadEvents() {
   const base = await fetch("data/events.json").then(r => r.json());
@@ -905,6 +944,63 @@ function runEvent() {
   });
 }
 
+function runClubEvent(index) {
+  const club = player.education.joinedClubs[index];
+  const events = clubEvents[club.name];
+
+  if (!events || events.length === 0) return;
+
+  const event = events[Math.floor(Math.random() * events.length)];
+
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${club.name}</h2>
+      <p>${event.text}</p>
+      <div id="clubChoices"></div>
+    </div>
+  `;
+
+  const choiceBox = document.getElementById("clubChoices");
+
+  event.choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.className = "popupBtn";
+    btn.textContent = choice.text;
+
+    btn.onclick = () => applyClubEffects(index, choice.effects, club.name);
+
+    choiceBox.appendChild(btn);
+  });
+
+  popup.style.display = "flex";
+}
+
+function applyClubEffects(index, effects, clubName) {
+  const club = player.education.joinedClubs[index];
+
+  for (let key in effects) {
+    if (key === "loyalty") {
+      club.loyalty = clamp(club.loyalty + effects[key]);
+    } else if (player.hasOwnProperty(key)) {
+      player[key] = clamp(player[key] + effects[key]);
+    }
+  }
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${clubName}</h2>
+      <p>You made your choice.</p>
+      <p>Loyalty is now ${club.loyalty}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
 function ageUp() {
   player.age++;
   player.emoji = genderEmoji(player.gender, player.age);
@@ -1166,7 +1262,7 @@ function openClubPopup(index) {
       <h2>${c.name}</h2>
       <p>Loyalty: ${c.loyalty}%</p>
 
-      <button class="popupBtn" onclick="clubInteract(${index}, 'attend')">Attend Meeting</button>
+      <button class="popupBtn" onclick="runClubEvent(${index})">Attend Meeting</button>
       <button class="popupBtn" onclick="clubInteract(${index}, 'spirit')">Show Spirit</button>
 
       ${c.rank === "Member" && c.loyalty >= 70 
