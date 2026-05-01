@@ -211,122 +211,89 @@ function updateUI() {
     `;
   }
 
-  // ------------------------------
-  // EDUCATION: SCHOOL LEVEL + CLASSMATES
-  // ------------------------------
-  const schoolLevel = document.getElementById("schoolLevel");
-  const classmatesList = document.getElementById("classmatesList");
+ // ------------------------------
+// EDUCATION: SCHOOL LEVEL + CLASSMATES
+// ------------------------------
+const schoolLevel = document.getElementById("schoolLevel");
+const classmatesList = document.getElementById("classmatesList");
+const gradesList = document.getElementById("gradesList");
+const clubSelector = document.getElementById("clubSelector");
+const joinedClubs = document.getElementById("joinedClubs");
+const teachersList = document.getElementById("teachersList");
 
-  if (schoolLevel && classmatesList) {
-    if (player.age < 3) {
-      schoolLevel.textContent = "Too young for school.";
-      classmatesList.innerHTML = "<p>No classmates yet.</p>";
-    }
-    else if (player.age <= 5) {
-      // PRESCHOOL
-      schoolLevel.textContent = "Preschool";
+// SCHOOL LEVEL + CLASSMATES
+if (player.age < 3) {
+  schoolLevel.textContent = "Too young for school.";
+  classmatesList.innerHTML = "<p>No classmates yet.</p>";
+}
+else if (player.age <= 5) {
+  schoolLevel.textContent = "Preschool";
 
-      classmatesList.innerHTML = player.relationships.classmates.map((c, index) => `
-        <p class="clickablePreschoolClassmate" data-index="${index}">
-          ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+  classmatesList.innerHTML = player.relationships.classmates.map((c, index) => `
+    <p class="clickablePreschoolClassmate" data-index="${index}">
+      ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+    </p>
+  `).join("");
+
+  document.querySelectorAll(".clickablePreschoolClassmate").forEach(el => {
+    el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
+  });
+}
+else if (player.age <= 13) {
+  schoolLevel.textContent = "Elementary School";
+
+  classmatesList.innerHTML = player.relationships.classmates.map((c, index) => `
+    <p class="clickableElementaryClassmate" data-index="${index}">
+      ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+    </p>
+  `).join("");
+
+  document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
+    el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
+  });
+}
+else if (player.age <= 18) {
+  schoolLevel.textContent = "High School";
+  classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
+}
+else {
+  schoolLevel.textContent = "College / University";
+  classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
+}
+
+// GRADES
+gradesList.innerHTML = `
+  <p>Math: ${player.education.grades.math}%</p>
+  <p>Reading: ${player.education.grades.reading}%</p>
+  <p>Science: ${player.education.grades.science}%</p>
+  <p>Art: ${player.education.grades.art}%</p>
+  <button class="popupBtn" onclick="study()">Study</button>
+`;
+
+// CLUB SELECTOR
+clubSelector.innerHTML = player.education.clubs.map(club => `
+  <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
+`).join("");
+
+// JOINED CLUBS
+joinedClubs.innerHTML =
+  !player.education.joinedClubs || player.education.joinedClubs.length === 0
+    ? "<p>You have not joined any clubs yet.</p>"
+    : player.education.joinedClubs.map((c, index) => `
+        <p class="clickableClub" data-index="${index}">
+          ${c.name} — Loyalty: ${c.loyalty}%
         </p>
       `).join("");
 
-      document.querySelectorAll(".clickablePreschoolClassmate").forEach(el => {
-        el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
-      });
-    }
-    else if (player.age <= 13) {
-      // ELEMENTARY
-      schoolLevel.textContent = "Elementary School";
+document.querySelectorAll(".clickableClub").forEach(el => {
+  el.addEventListener("click", () => openClubPopup(el.dataset.index));
+});
 
-      classmatesList.innerHTML = player.relationships.classmates.length === 0
-        ? "<p>No classmates yet.</p>"
-        : player.relationships.classmates.map((c, index) => `
-            <p class="clickableElementaryClassmate" data-index="${index}">
-              ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
-            </p>
-          `).join("");
-
-      document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
-        el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
-      });
-    }
-    else if (player.age <= 18) {
-      schoolLevel.textContent = "High School";
-      classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
-    }
-    else {
-      schoolLevel.textContent = "College / University";
-      classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
-    }
-  }
-
-  // ------------------------------
-  // SUBTABS: SHOW/HIDE (no subtabs in preschool)
-  // ------------------------------
-  const subtabs = document.querySelector(".subtabs");
-  const subtabContent = document.querySelectorAll(".subtab");
-
-  if (subtabs) {
-    if (player.age <= 5) {
-      subtabs.style.display = "none";
-      subtabContent.forEach(s => s.style.display = "none");
-    } else {
-      subtabs.style.display = "flex";
-    }
-  }
-
-  // ------------------------------
-  // GRADES SUBTAB
-  // ------------------------------
-  const eduGrades = document.getElementById("edu-grades");
-  if (eduGrades) {
-    eduGrades.innerHTML = `
-      <p>Math: ${player.education.grades.math}%</p>
-      <p>Reading: ${player.education.grades.reading}%</p>
-      <p>Science: ${player.education.grades.science}%</p>
-      <p>Art: ${player.education.grades.art}%</p>
-      <button class="popupBtn" onclick="study()">Study</button>
-    `;
-  }
-
-  // ------------------------------
-  // CLUBS SUBTAB (selector + joined clubs)
-  // ------------------------------
-  const clubOptions = document.getElementById("clubOptions");
-  if (clubOptions) {
-    clubOptions.innerHTML = player.education.clubs.map(club => `
-      <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
-    `).join("");
-  }
-
-  const joinedClubsDiv = document.getElementById("joinedClubs");
-  if (joinedClubsDiv) {
-    joinedClubsDiv.innerHTML =
-      !player.education.joinedClubs || player.education.joinedClubs.length === 0
-        ? "<p>You have not joined any clubs yet.</p>"
-        : player.education.joinedClubs.map((c, index) => `
-            <p class="clickableClub" data-index="${index}">
-              ${c.name} — Loyalty: ${c.loyalty}%
-            </p>
-          `).join("");
-
-    document.querySelectorAll(".clickableClub").forEach(el => {
-      el.addEventListener("click", () => openClubPopup(el.dataset.index));
-    });
-  }
-
-  // ------------------------------
-  // TEACHERS SUBTAB
-  // ------------------------------
-  const eduTeachers = document.getElementById("edu-teachers");
-  if (eduTeachers) {
-    eduTeachers.innerHTML =
-      player.education.teachers.map(t => `
-        <p>${t.subject}: ${t.name}</p>
-      `).join("");
-  }
+// TEACHERS
+teachersList.innerHTML =
+  player.education.teachers.map(t => `
+    <p>${t.subject}: ${t.name}</p>
+  `).join("");
 
   // ------------------------------
   // RELATIONSHIPS LISTS
