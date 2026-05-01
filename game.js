@@ -550,12 +550,17 @@ document.querySelectorAll(".clickableTeacher").forEach(el => {
 
   if (romanticList) {
     romanticList.innerHTML =
-      player.relationships.romantic.length === 0
-        ? "<p>No romantic relationships yet.</p>"
-        : player.relationships.romantic.map((r, index) => `
-            <p>${r.emoji} ${r.name}</p>
-          `).join("");
-  }
+  player.relationships.romantic.length === 0
+    ? "<p>No romantic relationships yet.</p>"
+    : player.relationships.romantic.map((r, index) => `
+        <p class="clickableRomantic" data-index="${index}">
+          ${r.emoji} ${r.name} — status: ${r.status}
+        </p>
+      `).join("");
+
+document.querySelectorAll(".clickableRomantic").forEach(el => {
+  el.addEventListener("click", () => openRomanticPopup(el.dataset.index));
+});
 
   if (petsList) {
     petsList.innerHTML =
@@ -857,6 +862,28 @@ function openFriendPopup(index) {
       <p>Age: ${fr.age}</p>
       <p>Closeness: ${fr.closeness}%</p>
       ${buttons}
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+  function openRomanticPopup(index) {
+  const r = player.relationships.romantic[index];
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${r.emoji} ${r.name}</h2>
+      <p>Status: ${r.status}</p>
+      <p>Closeness: ${r.closeness}%</p>
+
+      <button class="popupBtn" onclick="romanceInteract(${index}, 'talk')">Talk</button>
+      <button class="popupBtn" onclick="romanceInteract(${index}, 'date')">Go on a Date</button>
+      <button class="popupBtn" onclick="romanceInteract(${index}, 'compliment')">Compliment</button>
+      <button class="popupBtn" onclick="romanceInteract(${index}, 'argue')">Argue</button>
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
 
@@ -1325,6 +1352,48 @@ function tryBecomeFriend(index) {
   });
 }
 
+  function romanceInteract(index, type) {
+  const r = player.relationships.romantic[index];
+
+  let change = 0;
+  let result = "";
+
+  if (type === "talk") {
+    change = Math.floor(Math.random() * 6) + 2;
+    result = `You had a nice talk with ${r.name}.`;
+  }
+
+  if (type === "date") {
+    change = Math.floor(Math.random() * 12) + 5;
+    player.happiness += 3;
+    result = `You went on a date with ${r.name}.`;
+  }
+
+  if (type === "compliment") {
+    change = Math.floor(Math.random() * 8) + 3;
+    result = `You complimented ${r.name}. They liked it.`;
+  }
+
+  if (type === "argue") {
+    change = -(Math.floor(Math.random() * 10) + 5);
+    result = `You argued with ${r.name}.`;
+  }
+
+  r.closeness = clamp(r.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${r.emoji} ${r.name}</h2>
+      <p>${result}</p>
+      <p>Closeness is now ${r.closeness}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
 // ------------------------------
 // ELEMENTARY POPUP
 // ------------------------------
@@ -1372,8 +1441,14 @@ function openHighSchoolClassmatePopup(index) {
       <button class="popupBtn" onclick="highSchoolInteract(${index}, 'ignore')">Ignore</button>
 
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-      ${player.relationships.classmates[index].closeness >= 50
+
+${c.closeness >= 50
   ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
+  : ""
+}
+
+${c.closeness >= 85
+  ? `<button class="popupBtn" onclick="askOutClassmate(${index})">Ask Them Out 💕</button>`
   : ""
 }
     </div>
@@ -1402,6 +1477,35 @@ function becomeFriendFromClassmate(index) {
       <h2>${c.emoji} ${c.name}</h2>
       <p>You are now friends!</p>
       <p>They have been added to your Friends list.</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
+function askOutClassmate(index) {
+  const c = player.relationships.classmates[index];
+
+  // prevent duplicates
+  const alreadyRomantic = player.relationships.romantic.some(r => r.name === c.name);
+  if (alreadyRomantic) return;
+
+  player.relationships.romantic.push({
+    name: c.name,
+    gender: c.gender,
+    age: c.age,
+    emoji: c.emoji,
+    closeness: c.closeness,
+    status: "dating"
+  });
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>They said YES! 💕</p>
+      <p>You are now dating.</p>
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
