@@ -1,10 +1,5 @@
 let player = {
   age: 0,
-  happiness: 50,
-  smarts: 50,
-  health: 50,
-  looks: 50,
-  money: 0,
 
   name: "",
   gender: "",
@@ -309,6 +304,13 @@ function startGame() {
 
   document.getElementById("startScreen").style.display = "none";
   updateUI();
+}
+
+function generateStartingStats() {
+  player.happiness = Math.floor(Math.random() * 31) + 35; // 35–65
+  player.smarts = Math.floor(Math.random() * 31) + 35;
+  player.health = Math.floor(Math.random() * 31) + 35;
+  player.looks = Math.floor(Math.random() * 31) + 35;
 }
 // ------------------------------
 // UPDATE UI
@@ -1149,7 +1151,18 @@ function ageUp() {
 
   checkDeaths();
   runEvent();
+  applyYearlyStatDrift();
   updateUI();
+}
+
+function applyYearlyStatDrift() {
+  const drift = () => Math.floor(Math.random() * 5) - 2; 
+  // -2 to +2 change per stat per year
+
+  player.happiness = clamp(player.happiness + drift());
+  player.smarts = clamp(player.smarts + drift());
+  player.health = clamp(player.health + drift());
+  player.looks = clamp(player.looks + drift());
 }
 
 // ------------------------------
