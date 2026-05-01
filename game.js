@@ -9,6 +9,7 @@ let player = {
   name: "",
   gender: "",
   emoji: "",
+  lastName: "",   // <-- NEW
 
   relationships: {
     family: [],
@@ -21,35 +22,63 @@ let player = {
   },
 
   education: {
-  grades: {
-    math: 0,
-    reading: 0,
-    science: 0,
-    art: 0
-  },
-  clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
-  teachers: []
-}
+    grades: {
+      math: 0,
+      reading: 0,
+      science: 0,
+      art: 0
+    },
+    clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
+    teachers: []
+  }
 };
 
-// Random NPC name generator
-function randomName() {
-  const first = ["Liam", "Noah", "Emma", "Olivia", "Ava", "Sophia", "Mason", "Lucas", "Mia", "Harper"];
-  const last = ["Smith", "Johnson", "Brown", "Taylor", "Wilson", "Clark", "Hall", "Young", "King", "Wright"];
-  return first[Math.floor(Math.random() * first.length)] + " " +
-         last[Math.floor(Math.random() * last.length)];
+// ------------------------------
+// NAME POOLS (gender-correct)
+// ------------------------------
+const maleFirst = [
+  "Liam","Noah","Oliver","Elijah","James","William","Benjamin","Lucas","Henry","Alexander",
+  "Mason","Michael","Ethan","Daniel","Jacob","Logan","Jackson","Levi","Sebastian","Mateo",
+  "Jayden","Grayson","Wyatt","Carter","Julian","Isaac","Luke","Anthony","Dylan","Lincoln"
+];
+
+const femaleFirst = [
+  "Emma","Olivia","Ava","Sophia","Isabella","Mia","Charlotte","Amelia","Harper","Evelyn",
+  "Abigail","Ella","Elizabeth","Sofia","Avery","Scarlett","Grace","Chloe","Nora","Hazel",
+  "Lily","Aria","Ellie","Zoey","Hannah","Lillian","Addison","Aubrey","Stella","Natalie"
+];
+
+const lastNames = [
+  "Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez",
+  "Hernandez","Lopez","Gonzalez","Wilson","Anderson","Thomas","Taylor","Moore","Jackson","Martin",
+  "Lee","Perez","Thompson","White","Harris","Sanchez","Clark","Ramirez","Lewis","Robinson",
+  "Walker","Young","Allen","King","Wright","Scott","Torres","Nguyen","Hill","Flores"
+];
+
+// ------------------------------
+// RANDOM NAME (gender-aware)
+// ------------------------------
+function randomName(gender) {
+  const first = gender === "male" ? maleFirst : femaleFirst;
+  const f = first[Math.floor(Math.random() * first.length)];
+  const l = lastNames[Math.floor(Math.random() * lastNames.length)];
+  return `${f} ${l}`;
 }
 
-// Random gender generator
+// ------------------------------
+// RANDOM GENDER
+// ------------------------------
 function randomGender() {
   return Math.random() < 0.5 ? "male" : "female";
 }
 
-// Avatar emoji based on gender + age
+// ------------------------------
+// EMOJI BASED ON GENDER + AGE
+// ------------------------------
 function genderEmoji(gender, age) {
   if (age <= 5) return "👶";
   if (age <= 12) return gender === "male" ? "👦" : "👧";
-  if (age <= 19) return "🧑";
+  if (age <= 19) return gender === "male" ? "👨‍🦱" : "👩‍🦱";
   return gender === "male" ? "👨" : "👩";
 }
 
@@ -72,6 +101,12 @@ function clamp(val) {
 function startGame() {
 
   function generateFamily() {
+
+    // ------------------------------
+    // ASSIGN FAMILY LAST NAME
+    // ------------------------------
+    player.lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+
     // Parents
     const roll = Math.random();
     let hasMom = false;
@@ -89,7 +124,7 @@ function startGame() {
     if (hasMom) {
       const momAge = Math.floor(Math.random() * 15) + 25;
       player.relationships.family.push({
-        name: randomName(),
+        name: randomName("female").split(" ")[0] + " " + player.lastName,
         gender: "female",
         age: momAge,
         emoji: genderEmoji("female", momAge),
@@ -102,7 +137,7 @@ function startGame() {
     if (hasDad) {
       const dadAge = Math.floor(Math.random() * 15) + 25;
       player.relationships.family.push({
-        name: randomName(),
+        name: randomName("male").split(" ")[0] + " " + player.lastName,
         gender: "male",
         age: dadAge,
         emoji: genderEmoji("male", dadAge),
@@ -112,12 +147,16 @@ function startGame() {
       });
     }
 
-    // Siblings (0–3)
+    // ------------------------------
+    // SIBLINGS (0–3) — FIXED + IMPROVED
+    // ------------------------------
     const siblingCount = Math.floor(Math.random() * 4);
 
     for (let i = 0; i < siblingCount; i++) {
       const gender = randomGender();
-      const ageDifference = Math.floor(Math.random() * 6) - 3; // -3 to +2
+
+      // Age difference between -10 and +10 years
+      const ageDifference = Math.floor(Math.random() * 21) - 10;
       const siblingAge = Math.max(0, player.age + ageDifference);
 
       let relation = "";
@@ -126,7 +165,7 @@ function startGame() {
       else relation = gender === "male" ? "Brother" : "Sister";
 
       player.relationships.siblings.push({
-        name: randomName(),
+        name: randomName(gender).split(" ")[0] + " " + player.lastName,
         gender: gender,
         age: siblingAge,
         emoji: genderEmoji(gender, siblingAge),
@@ -159,7 +198,9 @@ function startGame() {
 
   if (!name) return alert("Please enter a name.");
 
-  player.name = name;
+  // Player full name with family last name
+  player.lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+  player.name = `${name} ${player.lastName}`;
   player.gender = gender;
   player.emoji = genderEmoji(gender, player.age);
 
@@ -168,7 +209,6 @@ function startGame() {
   document.getElementById("startScreen").style.display = "none";
   updateUI();
 }
-
 // ------------------------------
 // UPDATE UI
 // ------------------------------
