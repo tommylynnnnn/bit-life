@@ -236,19 +236,20 @@ function startGame() {
       hasDad = true;
     }
 
-    if (hasMom) {
-      const momAge = Math.floor(Math.random() * 15) + 25;
-      player.relationships.family.push({
-        const first = femaleFirst[Math.floor(Math.random() * femaleFirst.length)];
-first + " " + player.lastName;
-        gender: "female",
-        age: momAge,
-        emoji: genderEmoji("female", momAge),
-        closeness: 80,
-        relation: "Mother",
-        type: "parent"
-      });
-    }
+ if (hasMom) {
+  const momAge = Math.floor(Math.random() * 15) + 25;
+  const first = femaleFirst[Math.floor(Math.random() * femaleFirst.length)];
+
+  player.relationships.family.push({
+    name: first + " " + player.lastName,
+    gender: "female",
+    age: momAge,
+    emoji: genderEmoji("female", momAge),
+    closeness: 80,
+    relation: "Mother",
+    type: "parent"
+  });
+}
 
     if (hasDad) {
       const dadAge = Math.floor(Math.random() * 15) + 25;
