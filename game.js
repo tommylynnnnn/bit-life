@@ -345,19 +345,19 @@ function updateUI() {
 `).join("");
 
   // JOINED CLUBS
- joinedClubs.innerHTML =
+joinedClubs.innerHTML =
   player.education.joinedClubs.length === 0
     ? "<p>You have not joined any clubs yet.</p>"
     : player.education.joinedClubs.map((c, index) => `
         <p class="clickableClub" data-index="${index}">
-          ${c.name} — Loyalty: ${c.loyalty}% 
+          ${c.name} — Loyalty: ${c.loyalty}% — Rank: ${c.rank}
           <button class="popupBtn smallQuitBtn" onclick="quitClub(${index})">Quit</button>
         </p>
       `).join("");
 
-  document.querySelectorAll(".clickableClub").forEach(el => {
-    el.addEventListener("click", () => openClubPopup(el.dataset.index));
-  });
+document.querySelectorAll(".clickableClub").forEach(el => {
+  el.addEventListener("click", () => openClubPopup(el.dataset.index));
+});
 
   // TEACHERS
   teachersList.innerHTML =
@@ -730,6 +730,32 @@ function openFriendPopup(index) {
       <p>Closeness: ${fr.closeness}%</p>
       ${buttons}
     </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function openClubPopup(index) {
+  const club = player.education.joinedClubs[index];
+
+  const popup = document.getElementById("popupOverlay");
+  const card = document.getElementById("popupCard");
+
+  card.innerHTML = `
+    <h2>${club.name}</h2>
+    <p>Your Rank: <strong>${club.rank}</strong></p>
+    <p>Loyalty: ${club.loyalty}%</p>
+
+    <button class="popupBtn" onclick="attendMeeting(${index})">Attend Meeting</button>
+    <button class="popupBtn" onclick="showSpirit(${index})">Show Spirit</button>
+
+    ${
+      club.rank === "Member"
+        ? `<button class="popupBtn" onclick="becomeClubLeader(${index})">Become Club Leader</button>`
+        : ``
+    }
+
+    <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
   `;
 
   popup.style.display = "flex";
@@ -1113,11 +1139,17 @@ function elementaryInteract(index, type) {
 function joinClub(clubName) {
   player.education.joinedClubs.push({
     name: clubName,
-    loyalty: 50
+    loyalty: 50,
+    rank: "Member"   // ⭐ default rank
   });
 
   player.education.clubs = player.education.clubs.filter(c => c !== clubName);
 
+  updateUI();
+}
+
+function becomeClubLeader(index) {
+  player.education.joinedClubs[index].rank = "Leader";
   updateUI();
 }
 
@@ -1145,7 +1177,10 @@ function openClubPopup(index) {
 function quitClub(index) {
   const club = player.education.joinedClubs[index];
 
+  // Return club to available list
   player.education.clubs.push(club.name);
+
+  // Remove from joined list
   player.education.joinedClubs.splice(index, 1);
 
   updateUI();
