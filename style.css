@@ -328,3 +328,10 @@ html {
 .subtab.active {
   display: block;
 }
+
+.clickablePreschoolClassmate:hover,
+.clickableElementaryClassmate:hover,
+.clickableHighSchoolClassmate:hover,
+.clickableTeacher:hover {
+  text-decoration: underline;
+}
