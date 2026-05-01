@@ -1238,9 +1238,9 @@ function generateElementaryClassmates() {
 // TEACHER GENERATOR
 // ------------------------------
 function generateTeachers() {
-  const teacherNames = ["Ms. Carter", "Mr. Lopez", "Mrs. Singh", "Mr. Brown", "Ms. Nguyen", "Ms. MacDonald", "Mr. Jones", "Mr. Wurst", "Ms. Lutes", "Ms. Honey", "Mr. Withers", "Mr. Croply"];
+  const teacherNames = ["Ms. Carter", "Mr. Lopez", "Mrs. Singh", "Mr. Brown", "Ms. Nguyen"];
 
-  const subjects = ["Math", "English", "Science", "Art"];
+  const subjects = ["Math", "Reading", "Science", "Art"];
 
   player.education.teachers = subjects.map(subject => {
     return {
