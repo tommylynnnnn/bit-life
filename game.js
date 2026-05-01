@@ -1117,6 +1117,21 @@ function ageUp() {
   player.age++;
   player.emoji = genderEmoji(player.gender, player.age);
 
+  // ------------------------------
+// YEARLY STAT CHANGES
+// ------------------------------
+
+// small natural changes (life simulation drift)
+player.happiness += Math.floor(Math.random() * 5) - 2; // -2 to +2
+player.health += Math.floor(Math.random() * 5) - 2;
+player.smarts += Math.floor(Math.random() * 3);         // +0 to +2
+player.looks += Math.floor(Math.random() * 3) - 1;      // -1 to +1
+
+player.happiness = clamp(player.happiness);
+player.health = clamp(player.health);
+player.smarts = clamp(player.smarts);
+player.looks = clamp(player.looks);
+
   // Age family
   player.relationships.family.forEach(p => {
     p.age++;
