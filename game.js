@@ -1377,24 +1377,12 @@ function openHighSchoolClassmatePopup(index) {
   popup.style.display = "flex";
 }
 
-function becomeFriendFromClassmate(index) {
+// ------------------------------
+// ROMANCE SYSTEM
+// ------------------------------
+function becomeRomantic(index) {
   const c = player.relationships.classmates[index];
 
-  const alreadyFriend = player.relationships.friends.some(f => f.name === c.name);
-  if (!alreadyFriend) {
-    player.relationships.friends.push({
-      name: c.name,
-      gender: c.gender,
-      age: c.age,
-      emoji: c.emoji,
-      closeness: c.closeness
-    });
-  }
-
-  function becomeRomantic(index) {
-  const c = player.relationships.classmates[index];
-
-  // prevent duplicates
   const alreadyRomantic = player.relationships.romantic.some(r => r.name === c.name);
   if (alreadyRomantic) return;
 
@@ -1421,6 +1409,21 @@ function becomeFriendFromClassmate(index) {
 
   updateUI();
 }
+
+function becomeFriendFromClassmate(index) {
+  const c = player.relationships.classmates[index];
+
+  const alreadyFriend = player.relationships.friends.some(f => f.name === c.name);
+  if (!alreadyFriend) {
+    player.relationships.friends.push({
+      name: c.name,
+      gender: c.gender,
+      age: c.age,
+      emoji: c.emoji,
+      closeness: c.closeness
+    });
+  }
+
 
   const popup = document.getElementById("popup");
   popup.innerHTML = `
