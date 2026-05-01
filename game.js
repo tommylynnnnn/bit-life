@@ -1149,9 +1149,12 @@ function joinClub(clubName) {
 }
 
 function becomeClubLeader(index) {
-  player.education.joinedClubs[index].rank = "Leader";
+  const club = player.education.joinedClubs[index];
+
+  club.rank = "Leader";
+
   updateUI();
-  openClubPopup(index);   // ⭐ re-render popup with updated rank
+  openClubPopup(index); // 🔥 THIS is what refreshes the button
 }
 
 function openClubPopup(index) {
@@ -1166,7 +1169,9 @@ function openClubPopup(index) {
       <button class="popupBtn" onclick="clubInteract(${index}, 'attend')">Attend Meeting</button>
       <button class="popupBtn" onclick="clubInteract(${index}, 'spirit')">Show Spirit</button>
 
-      ${c.loyalty >= 70 ? `<button class="popupBtn" onclick="clubInteract(${index}, 'lead')">Become Club Head</button>` : ""}
+      ${c.rank === "Member" && c.loyalty >= 70 
+  ? `<button class="popupBtn" onclick="becomeClubLeader(${index})">Become Club Leader</button>` 
+  : ""}
 
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
@@ -1200,11 +1205,6 @@ function clubInteract(index, type) {
   if (type === "spirit") {
     change = Math.floor(Math.random() * 6) + 2;
     result = `You showed spirit for ${c.name}.`;
-  }
-
-  if (type === "lead") {
-    result = `You became the head of ${c.name}!`;
-    change = 20;
   }
 
   c.loyalty = clamp(c.loyalty + change);
