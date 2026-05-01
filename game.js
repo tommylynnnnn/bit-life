@@ -31,7 +31,7 @@ let player = {
   clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
   joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
   teachers: []
-},
+};
 
 // ------------------------------
 // NAME POOLS (gender-correct)
