@@ -1361,10 +1361,16 @@ function openHighSchoolClassmatePopup(index) {
       <button class="popupBtn" onclick="highSchoolInteract(${index}, 'ignore')">Ignore</button>
 
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-      ${player.relationships.classmates[index].closeness >= 50
-  ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
-  : ""
-}
+
+      ${c.closeness >= 50
+        ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
+        : ""
+      }
+
+      ${c.closeness >= 85
+        ? `<button class="popupBtn" onclick="becomeRomantic(${index})">Become Romantic</button>`
+        : ""
+      }
     </div>
   `;
 
@@ -1384,6 +1390,37 @@ function becomeFriendFromClassmate(index) {
       closeness: c.closeness
     });
   }
+
+  function becomeRomantic(index) {
+  const c = player.relationships.classmates[index];
+
+  // prevent duplicates
+  const alreadyRomantic = player.relationships.romantic.some(r => r.name === c.name);
+  if (alreadyRomantic) return;
+
+  player.relationships.romantic.push({
+    name: c.name,
+    gender: c.gender,
+    age: c.age,
+    emoji: c.emoji,
+    closeness: c.closeness,
+    trust: 50,
+    attraction: 70,
+    type: "romantic"
+  });
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>💘 You started a romantic relationship!</p>
+      <p>They have been added to your Romantic tab.</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
 
   const popup = document.getElementById("popup");
   popup.innerHTML = `
