@@ -124,6 +124,166 @@ const clubEvents = {
   ]
 };
 
+"Chess Club": [
+  {
+    text: "There’s a school chess tournament coming up.",
+    choices: [
+      {
+        text: "Train intensely",
+        effects: { loyalty: 10, smarts: 5, happiness: -3 }
+      },
+      {
+        text: "Play casually",
+        effects: { loyalty: 6, smarts: 2 }
+      },
+      {
+        text: "Skip practice",
+        effects: { loyalty: -5 }
+      }
+    ]
+  },
+  {
+    text: "You’re matched against the club’s best player.",
+    choices: [
+      {
+        text: "Play aggressively",
+        effects: { loyalty: 8, smarts: 3 }
+      },
+      {
+        text: "Play defensively",
+        effects: { loyalty: 6, smarts: 2 }
+      },
+      {
+        text: "Panic and blunder",
+        effects: { loyalty: -6, happiness: -2 }
+      }
+    ]
+  },
+  {
+    text: "A rival school challenges your club.",
+    choices: [
+      {
+        text: "Accept the challenge",
+        effects: { loyalty: 12, smarts: 4 }
+      },
+      {
+        text: "Let others handle it",
+        effects: { loyalty: 3 }
+      }
+    ]
+  }
+],
+
+  "Band": [
+  {
+    text: "Your band is preparing for a school performance.",
+    choices: [
+      {
+        text: "Practice hard",
+        effects: { loyalty: 10, happiness: 4 }
+      },
+      {
+        text: "Just go with the flow",
+        effects: { loyalty: 5 }
+      },
+      {
+        text: "Skip rehearsal",
+        effects: { loyalty: -6 }
+      }
+    ]
+  },
+  {
+    text: "You have a solo during a performance.",
+    choices: [
+      {
+        text: "Play confidently",
+        effects: { loyalty: 12, happiness: 6 }
+      },
+      {
+        text: "Play nervously",
+        effects: { loyalty: 5 }
+      },
+      {
+        text: "Mess up badly",
+        effects: { loyalty: -8, happiness: -4 }
+      }
+    ]
+  },
+  {
+    text: "The band is arguing about song choice.",
+    choices: [
+      {
+        text: "Help settle the argument",
+        effects: { loyalty: 9, smarts: 2 }
+      },
+      {
+        text: "Stay out of it",
+        effects: { loyalty: 3 }
+      },
+      {
+        text: "Make things worse",
+        effects: { loyalty: -7 }
+      }
+    ]
+  }
+],
+
+  "Study Club": [
+  {
+    text: "A big exam is coming up.",
+    choices: [
+      {
+        text: "Lead a study session",
+        effects: { loyalty: 10, smarts: 5 }
+      },
+      {
+        text: "Study quietly",
+        effects: { loyalty: 6, smarts: 3 }
+      },
+      {
+        text: "Slack off",
+        effects: { loyalty: -6 }
+      }
+    ]
+  },
+  {
+    text: "Someone asks you for help understanding a topic.",
+    choices: [
+      {
+        text: "Help them patiently",
+        effects: { loyalty: 9, happiness: 3 }
+      },
+      {
+        text: "Give quick answers",
+        effects: { loyalty: 4 }
+      },
+      {
+        text: "Ignore them",
+        effects: { loyalty: -5 }
+      }
+    ]
+  },
+  {
+    text: "The group is struggling with a difficult assignment.",
+    choices: [
+      {
+        text: "Work together to solve it",
+        effects: { loyalty: 10, smarts: 4 }
+      },
+      {
+        text: "Do your own part only",
+        effects: { loyalty: 5 }
+      },
+      {
+        text: "Let others do the work",
+        effects: { loyalty: -7 }
+      }
+    ]
+  }
+],
+
+  
+
 // Load base events + DLC later
 async function loadEvents() {
   const base = await fetch("data/events.json").then(r => r.json());
