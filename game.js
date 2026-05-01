@@ -23,10 +23,10 @@ let player = {
 
   education: {
     grades: {
-      math: 0,
-      reading: 0,
-      science: 0,
-      art: 0
+      math: 50,
+      reading: 50,
+      science: 50,
+      art: 50
     },
     clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
     teachers: []
@@ -1118,15 +1118,14 @@ function elementaryInteract(index, type) {
 }
 
 function joinClub(clubName) {
-  // Prevent duplicates
-  if (player.education.joinedClubs?.some(c => c.name === clubName)) return;
-
-  if (!player.education.joinedClubs) player.education.joinedClubs = [];
-
+  // Add to joined clubs
   player.education.joinedClubs.push({
     name: clubName,
-    loyalty: 0
+    loyalty: 50
   });
+
+  // Remove from available clubs
+  player.education.clubs = player.education.clubs.filter(c => c !== clubName);
 
   updateUI();
 }
@@ -1150,6 +1149,18 @@ function openClubPopup(index) {
   `;
 
   popup.style.display = "flex";
+}
+
+function quitClub(index) {
+  const club = player.education.joinedClubs[index];
+
+  // Put it back into available clubs
+  player.education.clubs.push(club.name);
+
+  // Remove from joined list
+  player.education.joinedClubs.splice(index, 1);
+
+  updateUI();
 }
 
 function clubInteract(index, type) {
