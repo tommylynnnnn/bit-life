@@ -23,10 +23,10 @@ let player = {
 
   education: {
     grades: {
-      math: 0,
-      reading: 0,
-      science: 0,
-      art: 0
+      math: 50,
+      reading: 50,
+      science: 50,
+      art: 50
     },
     clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
     joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
