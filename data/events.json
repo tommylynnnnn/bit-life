@@ -1,434 +1,1239 @@
 [
   {
-    "id": "friend_request",
-    "ageRange": [5, 18],
-    "text": "A kid named {name} wants to be your friend.",
+    "id": "peekaboo",
+    "ageRange": [0, 2],
+    "text": "Your mother played peekaboo with you.",
     "choices": [
-      { "text": "Befriend them", "effects": { "addFriend": true, "happiness": 5 } },
-      { "text": "Ignore them", "effects": { "happiness": -2 } }
+      { "text": "Giggle", "effects": { "happiness": 3 } }
     ]
   },
   {
-    "id": "lost_toy",
-    "ageRange": [3, 10],
-    "text": "You misplaced your favorite toy.",
+    "id": "vaccinations",
+    "ageRange": [0, 2],
+    "text": "You were taken to get your vaccinations.",
     "choices": [
-      { "text": "Search everywhere", "effects": { "happiness": 2 } },
-      { "text": "Give up", "effects": { "happiness": -3 } }
+      { "text": "Cry loudly", "effects": { "health": 1 } },
+      { "text": "Stay calm", "effects": { "health": 2 } }
     ]
   },
   {
-    "id": "school_award",
-    "ageRange": [6, 18],
-    "text": "You were nominated for a school award.",
+    "id": "first_words",
+    "ageRange": [1, 2],
+    "text": "You babbled something that sounded like your first word.",
     "choices": [
-      { "text": "Attend the ceremony", "effects": { "happiness": 4, "smarts": 2 } },
-      { "text": "Skip it", "effects": { "happiness": -1 } }
+      { "text": "Say it again", "effects": { "happiness": 2 } }
     ]
   },
   {
-    "id": "rainy_day",
-    "ageRange": [0, 100],
-    "text": "It rained all day today.",
+    "id": "toy_rattle",
+    "ageRange": [0, 2],
+    "text": "You shook a colorful rattle.",
     "choices": [
-      { "text": "Enjoy the sound", "effects": { "happiness": 2 } },
-      { "text": "Complain about it", "effects": { "happiness": -1 } }
+      { "text": "Shake it more", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "nap_time",
+    "ageRange": [0, 2],
+    "text": "You took a long nap today.",
+    "choices": [
+      { "text": "Sleep peacefully", "effects": { "health": 1 } }
+    ]
+  },
+  {
+    "id": "first_steps",
+    "ageRange": [1, 2],
+    "text": "You tried taking your first steps.",
+    "choices": [
+      { "text": "Wobble forward", "effects": { "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "teething",
+    "ageRange": [0, 2],
+    "text": "You started teething.",
+    "choices": [
+      { "text": "Chew a toy", "effects": { "health": 1 } }
+    ]
+  },
+  {
+    "id": "crib_mobile",
+    "ageRange": [0, 2],
+    "text": "You stared at the spinning mobile above your crib.",
+    "choices": [
+      { "text": "Reach for it", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "bath_splash",
+    "ageRange": [0, 2],
+    "text": "You splashed water during bath time.",
+    "choices": [
+      { "text": "Splash more", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "blanket_cuddle",
+    "ageRange": [0, 2],
+    "text": "You cuddled with a soft blanket.",
+    "choices": [
+      { "text": "Snuggle", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "family_smiles",
+    "ageRange": [0, 2],
+    "text": "Your family smiled at you today.",
+    "choices": [
+      { "text": "Smile back", "effects": { "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "tummy_time",
+    "ageRange": [0, 2],
+    "text": "You had tummy time to build strength.",
+    "choices": [
+      { "text": "Lift your head", "effects": { "health": 1 } }
+    ]
+  },
+  {
+    "id": "toy_blocks",
+    "ageRange": [1, 2],
+    "text": "You stacked a couple of blocks.",
+    "choices": [
+      { "text": "Knock them down", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "music_box",
+    "ageRange": [0, 2],
+    "text": "A music box played a gentle tune.",
+    "choices": [
+      { "text": "Listen", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "mirror_baby",
+    "ageRange": [0, 2],
+    "text": "You saw your reflection in a mirror.",
+    "choices": [
+      { "text": "Touch the mirror", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "soft_toy",
+    "ageRange": [0, 2],
+    "text": "You hugged a soft stuffed animal.",
+    "choices": [
+      { "text": "Hold tight", "effects": { "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "family_visit",
+    "ageRange": [0, 2],
+    "text": "A relative visited and held you.",
+    "choices": [
+      { "text": "Smile", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "baby_babble",
+    "ageRange": [0, 2],
+    "text": "You babbled happily to yourself.",
+    "choices": [
+      { "text": "Keep babbling", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "toy_keys",
+    "ageRange": [0, 2],
+    "text": "You played with a set of toy keys.",
+    "choices": [
+      { "text": "Shake them", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "cereal_snack",
+    "ageRange": [1, 2],
+    "text": "You tried eating cereal pieces.",
+    "choices": [
+      { "text": "Grab more", "effects": { "health": 1 } }
+    ]
+  },
+  {
+    "id": "finger_painting",
+    "ageRange": [3, 5],
+    "text": "You tried finger painting today.",
+    "choices": [
+      { "text": "Make a mess", "effects": { "happiness": 3 } },
+      { "text": "Try to be neat", "effects": { "smarts": 1 } }
+    ]
+  },
+  {
+    "id": "playground_slide",
+    "ageRange": [3, 5],
+    "text": "You went down a big slide at the playground.",
+    "choices": [
+      { "text": "Go again!", "effects": { "happiness": 3 } },
+      { "text": "Get scared", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "story_time",
+    "ageRange": [3, 5],
+    "text": "A teacher read a story to your class.",
+    "choices": [
+      { "text": "Listen closely", "effects": { "smarts": 1 } },
+      { "text": "Get distracted", "effects": {} }
+    ]
+  },
+  {
+    "id": "block_tower",
+    "ageRange": [3, 5],
+    "text": "You built a tall tower with blocks.",
+    "choices": [
+      { "text": "Knock it down", "effects": { "happiness": 2 } },
+      { "text": "Show a teacher", "effects": { "happiness": 1 } }
+    ]
+  },
+  {
+    "id": "sandbox_castle",
+    "ageRange": [3, 5],
+    "text": "You played in the sandbox.",
+    "choices": [
+      { "text": "Build a sandcastle", "effects": { "happiness": 3 } },
+      { "text": "Dig holes", "effects": {} }
+    ]
+  },
+  {
+    "id": "crayon_art",
+    "ageRange": [3, 5],
+    "text": "You drew a picture with crayons.",
+    "choices": [
+      { "text": "Draw a rainbow", "effects": { "happiness": 2 } },
+      { "text": "Scribble wildly", "effects": {} }
+    ]
+  },
+  {
+    "id": "toy_sharing",
+    "ageRange": [3, 5],
+    "text": "Another kid asked to share toys with you.",
+    "choices": [
+      { "text": "Share", "effects": { "happiness": 2 } },
+      { "text": "Say no", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "snack_time",
+    "ageRange": [3, 5],
+    "text": "It was snack time at preschool.",
+    "choices": [
+      { "text": "Eat happily", "effects": { "happiness": 2 } },
+      { "text": "Trade snacks", "effects": {} }
+    ]
+  },
+  {
+    "id": "dress_up",
+    "ageRange": [3, 5],
+    "text": "You played dress-up with costumes.",
+    "choices": [
+      { "text": "Wear a costume", "effects": { "happiness": 3 } },
+      { "text": "Watch others", "effects": {} }
+    ]
+  },
+  {
+    "id": "toy_cars",
+    "ageRange": [3, 5],
+    "text": "You played with toy cars.",
+    "choices": [
+      { "text": "Race them", "effects": { "happiness": 2 } },
+      { "text": "Line them up", "effects": {} }
+    ]
+  },
+  {
+    "id": "teacher_hug",
+    "ageRange": [3, 5],
+    "text": "Your teacher gave you a comforting hug.",
+    "choices": [
+      { "text": "Hug back", "effects": { "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "circle_time",
+    "ageRange": [3, 5],
+    "text": "You sat in a circle with your classmates.",
+    "choices": [
+      { "text": "Participate", "effects": { "smarts": 1 } },
+      { "text": "Stay quiet", "effects": {} }
+    ]
+  },
+  {
+    "id": "toy_animals",
+    "ageRange": [3, 5],
+    "text": "You played with toy animals.",
+    "choices": [
+      { "text": "Make animal sounds", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "puzzle_time",
+    "ageRange": [3, 5],
+    "text": "You worked on a simple puzzle.",
+    "choices": [
+      { "text": "Try hard", "effects": { "smarts": 2 } },
+      { "text": "Give up", "effects": {} }
+    ]
+  },
+  {
+    "id": "music_class",
+    "ageRange": [3, 5],
+    "text": "You shook a tambourine in music class.",
+    "choices": [
+      { "text": "Shake it loudly", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "pretend_play",
+    "ageRange": [3, 5],
+    "text": "You played pretend with your classmates.",
+    "choices": [
+      { "text": "Join in", "effects": { "happiness": 3 } },
+      { "text": "Watch quietly", "effects": {} }
+    ]
+  },
+  {
+    "id": "toy_train",
+    "ageRange": [3, 5],
+    "text": "You played with a toy train set.",
+    "choices": [
+      { "text": "Push it around", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "show_and_tell",
+    "ageRange": [3, 5],
+    "text": "It was show-and-tell day.",
+    "choices": [
+      { "text": "Show something", "effects": { "happiness": 2 } },
+      { "text": "Stay quiet", "effects": {} }
+    ]
+  },
+  {
+    "id": "nap_mat",
+    "ageRange": [3, 5],
+    "text": "You lay down on your nap mat.",
+    "choices": [
+      { "text": "Rest", "effects": { "health": 1 } }
+    ]
+  },
+  {
+    "id": "bubble_time",
+    "ageRange": [3, 5],
+    "text": "Someone blew bubbles for the class.",
+    "choices": [
+      { "text": "Pop bubbles", "effects": { "happiness": 3 } }
+    ]
+  },
+  {
+    "id": "spelling_test",
+    "ageRange": [6, 11],
+    "text": "You had a spelling test today.",
+    "choices": [
+      { "text": "Try your best", "effects": { "smarts": 2 } },
+      { "text": "Guess randomly", "effects": {} }
+    ]
+  },
+  {
+    "id": "recess_tag",
+    "ageRange": [6, 11],
+    "text": "You played tag during recess.",
+    "choices": [
+      { "text": "Run fast", "effects": { "health": 1, "happiness": 2 } },
+      { "text": "Hide", "effects": {} }
+    ]
+  },
+  {
+    "id": "school_lunch_trade",
+    "ageRange": [6, 11],
+    "text": "A classmate asked to trade lunches.",
+    "choices": [
+      { "text": "Trade", "effects": { "happiness": 1 } },
+      { "text": "Keep yours", "effects": {} }
+    ]
+  },
+  {
+    "id": "math_quiz",
+    "ageRange": [6, 11],
+    "text": "Your teacher surprised the class with a math quiz.",
+    "choices": [
+      { "text": "Do your best", "effects": { "smarts": 2 } },
+      { "text": "Panic", "effects": { "happiness": -1 } }
     ]
   },
   {
     "id": "library_visit",
-    "ageRange": [6, 80],
-    "text": "You visited the local library.",
+    "ageRange": [6, 11],
+    "text": "Your class visited the school library.",
     "choices": [
-      { "text": "Read a book", "effects": { "smarts": 3 } },
-      { "text": "Browse aimlessly", "effects": { "happiness": 1 } }
+      { "text": "Pick a book", "effects": { "smarts": 2 } },
+      { "text": "Wander around", "effects": {} }
     ]
   },
   {
-    "id": "stray_cat",
-    "ageRange": [5, 60],
-    "text": "You saw a stray cat outside.",
+    "id": "art_class",
+    "ageRange": [6, 11],
+    "text": "You had art class today.",
     "choices": [
-      { "text": "Pet it", "effects": { "happiness": 3 } },
-      { "text": "Leave it alone", "effects": {} }
+      { "text": "Paint something cool", "effects": { "happiness": 2 } },
+      { "text": "Doodle", "effects": {} }
     ]
   },
   {
-    "id": "good_dream",
-    "ageRange": [0, 100],
-    "text": "You had a really pleasant dream.",
+    "id": "science_demo",
+    "ageRange": [6, 11],
+    "text": "Your teacher did a fun science demonstration.",
     "choices": [
-      { "text": "Think about it", "effects": { "happiness": 3 } },
-      { "text": "Forget it", "effects": {} }
+      { "text": "Watch closely", "effects": { "smarts": 2 } },
+      { "text": "Get distracted", "effects": {} }
     ]
   },
   {
-    "id": "bad_haircut",
-    "ageRange": [6, 60],
-    "text": "You got a haircut you don't like.",
+    "id": "lost_pencil",
+    "ageRange": [6, 11],
+    "text": "You lost your favorite pencil.",
     "choices": [
-      { "text": "Laugh it off", "effects": { "happiness": 1 } },
-      { "text": "Get upset", "effects": { "happiness": -3 } }
+      { "text": "Look for it", "effects": { "happiness": 1 } },
+      { "text": "Borrow one", "effects": {} }
     ]
   },
   {
-    "id": "teacher_praise",
-    "ageRange": [6, 18],
-    "text": "A teacher complimented your hard work.",
+    "id": "friend_argument",
+    "ageRange": [6, 11],
+    "text": "You had a small argument with a friend.",
     "choices": [
-      { "text": "Feel proud", "effects": { "happiness": 3, "smarts": 1 } },
-      { "text": "Brush it off", "effects": {} }
+      { "text": "Apologize", "effects": { "happiness": 1 } },
+      { "text": "Ignore them", "effects": { "happiness": -1 } }
     ]
   },
   {
-    "id": "new_hobby",
-    "ageRange": [8, 50],
-    "text": "You discovered a new hobby you enjoy.",
+    "id": "show_and_tell_elementary",
+    "ageRange": [6, 11],
+    "text": "Your class had show-and-tell today.",
     "choices": [
-      { "text": "Try it out", "effects": { "happiness": 4 } },
-      { "text": "Ignore it", "effects": {} }
+      { "text": "Share something cool", "effects": { "happiness": 2 } },
+      { "text": "Stay quiet", "effects": {} }
     ]
   },
   {
-    "id": "cold_weather",
-    "ageRange": [0, 100],
-    "text": "It was unusually cold this year.",
+    "id": "rainy_recess",
+    "ageRange": [6, 11],
+    "text": "Recess was held indoors because of rain.",
     "choices": [
-      { "text": "Bundle up", "effects": { "health": 1 } },
-      { "text": "Complain", "effects": { "happiness": -1 } }
+      { "text": "Play board games", "effects": { "happiness": 2 } },
+      { "text": "Sit quietly", "effects": {} }
     ]
   },
   {
-    "id": "warm_weather",
-    "ageRange": [0, 100],
-    "text": "The weather was warm and pleasant.",
+    "id": "class_pet",
+    "ageRange": [6, 11],
+    "text": "Your class got a new class pet.",
     "choices": [
-      { "text": "Enjoy it", "effects": { "happiness": 2 } },
-      { "text": "Stay inside", "effects": {} }
+      { "text": "Pet it gently", "effects": { "happiness": 2 } },
+      { "text": "Watch from afar", "effects": {} }
     ]
   },
   {
-    "id": "funny_video",
-    "ageRange": [8, 80],
-    "text": "You watched a funny video online.",
+    "id": "reading_time",
+    "ageRange": [6, 11],
+    "text": "Your teacher gave the class quiet reading time.",
     "choices": [
-      { "text": "Laugh", "effects": { "happiness": 3 } },
-      { "text": "Scroll past", "effects": {} }
+      { "text": "Read a book", "effects": { "smarts": 2 } },
+      { "text": "Daydream", "effects": {} }
     ]
   },
   {
-    "id": "lost_pen",
-    "ageRange": [6, 30],
-    "text": "You lost your favorite pen.",
+    "id": "group_activity",
+    "ageRange": [6, 11],
+    "text": "Your class did a group activity.",
     "choices": [
-      { "text": "Buy a new one", "effects": { "money": -2 } },
-      { "text": "Use another pen", "effects": {} }
-    ]
-  },
-  {
-    "id": "park_walk",
-    "ageRange": [5, 80],
-    "text": "You took a walk in the park.",
-    "choices": [
-      { "text": "Enjoy nature", "effects": { "happiness": 3, "health": 1 } },
-      { "text": "Sit on a bench", "effects": { "happiness": 1 } }
-    ]
-  },
-  {
-    "id": "family_game",
-    "ageRange": [5, 40],
-    "text": "Your family invited you to play a game.",
-    "choices": [
-      { "text": "Join them", "effects": { "happiness": 3 } },
-      { "text": "Decline", "effects": { "happiness": -1 } }
-    ]
-  },
-  {
-    "id": "favorite_food",
-    "ageRange": [3, 100],
-    "text": "You got to eat your favorite food.",
-    "choices": [
-      { "text": "Enjoy it", "effects": { "happiness": 4 } },
-      { "text": "Save it for later", "effects": {} }
-    ]
-  },
-  {
-    "id": "messy_room",
-    "ageRange": [6, 25],
-    "text": "Your room got really messy.",
-    "choices": [
-      { "text": "Clean it", "effects": { "happiness": 1 } },
-      { "text": "Ignore it", "effects": { "happiness": -1 } }
-    ]
-  },
-  {
-    "id": "new_music",
-    "ageRange": [10, 60],
-    "text": "You discovered a new song you love.",
-    "choices": [
-      { "text": "Listen again", "effects": { "happiness": 3 } },
-      { "text": "Add to playlist", "effects": { "happiness": 1 } }
+      { "text": "Participate", "effects": { "happiness": 1 } },
+      { "text": "Let others lead", "effects": {} }
     ]
   },
   {
     "id": "funny_teacher",
-    "ageRange": [6, 18],
-    "text": "One of your teachers made a funny joke.",
+    "ageRange": [6, 11],
+    "text": "Your teacher made a funny joke.",
     "choices": [
       { "text": "Laugh", "effects": { "happiness": 2 } },
       { "text": "Stay quiet", "effects": {} }
     ]
   },
   {
-    "id": "new_neighbor",
-    "ageRange": [5, 70],
-    "text": "A new neighbor moved in next door.",
+    "id": "forgot_homework",
+    "ageRange": [6, 11],
+    "text": "You forgot to bring your homework.",
+    "choices": [
+      { "text": "Tell the truth", "effects": { "happiness": -1 } },
+      { "text": "Stay quiet", "effects": {} }
+    ]
+  },
+  {
+    "id": "field_day",
+    "ageRange": [6, 11],
+    "text": "Your school held a field day.",
+    "choices": [
+      { "text": "Join the races", "effects": { "health": 1, "happiness": 2 } },
+      { "text": "Cheer for others", "effects": { "happiness": 1 } }
+    ]
+  },
+  {
+    "id": "music_class_elementary",
+    "ageRange": [6, 11],
+    "text": "You learned a new song in music class.",
+    "choices": [
+      { "text": "Sing along", "effects": { "happiness": 2 } },
+      { "text": "Mouth the words", "effects": {} }
+    ]
+  },
+  {
+    "id": "classroom_cleanup",
+    "ageRange": [6, 11],
+    "text": "Your teacher asked the class to help clean up.",
+    "choices": [
+      { "text": "Help out", "effects": { "happiness": 1 } },
+      { "text": "Pretend to help", "effects": {} }
+    ]
+  },
+  {
+    "id": "new_friend",
+    "ageRange": [6, 11],
+    "text": "A new student joined your class.",
     "choices": [
       { "text": "Say hello", "effects": { "happiness": 2 } },
+      { "text": "Stay quiet", "effects": {} }
+    ]
+  },
+  {
+    "id": "group_project",
+    "ageRange": [12, 17],
+    "text": "You were assigned a group project.",
+    "choices": [
+      { "text": "Take charge", "effects": { "smarts": 2 } },
+      { "text": "Let others lead", "effects": {} }
+    ]
+  },
+  {
+    "id": "club_recruitment",
+    "ageRange": [12, 17],
+    "text": "A school club tried to recruit you.",
+    "choices": [
+      { "text": "Check it out", "effects": { "happiness": 2 } },
       { "text": "Ignore them", "effects": {} }
     ]
   },
   {
-    "id": "school_project",
-    "ageRange": [8, 18],
-    "text": "You were assigned a school project.",
+    "id": "awkward_moment",
+    "ageRange": [12, 17],
+    "text": "You had an awkward moment in class.",
     "choices": [
-      { "text": "Work hard", "effects": { "smarts": 3 } },
-      { "text": "Do the minimum", "effects": {} }
+      { "text": "Laugh it off", "effects": { "happiness": 1 } },
+      { "text": "Get embarrassed", "effects": { "happiness": -2 } }
     ]
   },
   {
-    "id": "funny_pet",
-    "ageRange": [5, 80],
-    "text": "You saw a pet do something funny.",
+    "id": "pop_quiz",
+    "ageRange": [12, 17],
+    "text": "Your teacher surprised the class with a pop quiz.",
     "choices": [
-      { "text": "Laugh", "effects": { "happiness": 3 } },
-      { "text": "Record it", "effects": { "happiness": 1 } }
-    ]
-  },
-  {
-    "id": "new_clothes",
-    "ageRange": [5, 60],
-    "text": "You got some new clothes.",
-    "choices": [
-      { "text": "Wear them", "effects": { "happiness": 2 } },
-      { "text": "Save them", "effects": {} }
-    ]
-  },
-  {
-    "id": "sunny_day",
-    "ageRange": [0, 100],
-    "text": "It was a bright sunny day.",
-    "choices": [
-      { "text": "Go outside", "effects": { "happiness": 2 } },
-      { "text": "Stay indoors", "effects": {} }
-    ]
-  },
-  {
-    "id": "small_gift",
-    "ageRange": [5, 80],
-    "text": "Someone gave you a small gift.",
-    "choices": [
-      { "text": "Thank them", "effects": { "happiness": 3 } },
-      { "text": "Accept quietly", "effects": {} }
-    ]
-  },
-  {
-    "id": "funny_moment",
-    "ageRange": [5, 100],
-    "text": "Something unexpectedly funny happened today.",
-    "choices": [
-      { "text": "Laugh", "effects": { "happiness": 3 } },
-      { "text": "Stay serious", "effects": {} }
-    ]
-  },
-  {
-    "id": "lost_homework",
-    "ageRange": [6, 18],
-    "text": "You lost your homework.",
-    "choices": [
-      { "text": "Redo it", "effects": { "smarts": 2 } },
-      { "text": "Accept the penalty", "effects": { "happiness": -2 } }
+      { "text": "Do your best", "effects": { "smarts": 2 } },
+      { "text": "Panic internally", "effects": { "happiness": -1 } }
     ]
   },
   {
     "id": "new_friend_group",
-    "ageRange": [10, 25],
+    "ageRange": [12, 17],
     "text": "A new friend group invited you to hang out.",
     "choices": [
-      { "text": "Join them", "effects": { "happiness": 3 } },
+      { "text": "Join them", "effects": { "happiness": 2 } },
       { "text": "Decline", "effects": {} }
     ]
   },
   {
-    "id": "funny_face",
-    "ageRange": [3, 12],
-    "text": "You made a funny face in the mirror.",
+    "id": "school_drama",
+    "ageRange": [12, 17],
+    "text": "Some drama broke out between classmates.",
     "choices": [
-      { "text": "Laugh", "effects": { "happiness": 2 } },
-      { "text": "Stop immediately", "effects": {} }
+      { "text": "Stay out of it", "effects": {} },
+      { "text": "Get involved", "effects": { "happiness": -1 } }
     ]
   },
   {
-    "id": "favorite_show",
-    "ageRange": [8, 60],
-    "text": "A new episode of your favorite show came out.",
+    "id": "late_assignment",
+    "ageRange": [12, 17],
+    "text": "You realized you forgot to finish an assignment.",
     "choices": [
-      { "text": "Watch it", "effects": { "happiness": 3 } },
-      { "text": "Save it for later", "effects": {} }
+      { "text": "Rush to finish it", "effects": { "smarts": 1 } },
+      { "text": "Accept the penalty", "effects": { "happiness": -1 } }
     ]
   },
   {
-    "id": "school_lunch",
-    "ageRange": [6, 18],
-    "text": "School lunch was surprisingly good today.",
+    "id": "school_crush",
+    "ageRange": [12, 17],
+    "text": "You caught feelings for someone in your class.",
     "choices": [
-      { "text": "Enjoy it", "effects": { "happiness": 2 } },
-      { "text": "Trade food", "effects": {} }
+      { "text": "Smile at them", "effects": { "happiness": 2 } },
+      { "text": "Avoid them", "effects": {} }
     ]
   },
   {
-    "id": "funny_noise",
-    "ageRange": [5, 100],
-    "text": "You heard a strange but funny noise.",
+    "id": "friend_sleepover",
+    "ageRange": [12, 17],
+    "text": "A friend invited you to a sleepover.",
     "choices": [
-      { "text": "Laugh", "effects": { "happiness": 2 } },
-      { "text": "Ignore it", "effects": {} }
+      { "text": "Go", "effects": { "happiness": 3 } },
+      { "text": "Stay home", "effects": {} }
     ]
   },
   {
-    "id": "new_teacher",
-    "ageRange": [6, 18],
-    "text": "Your class got a new teacher.",
+    "id": "school_lunch_table",
+    "ageRange": [12, 17],
+    "text": "You had trouble deciding where to sit at lunch.",
     "choices": [
-      { "text": "Introduce yourself", "effects": { "smarts": 1 } },
-      { "text": "Stay quiet", "effects": {} }
+      { "text": "Sit with friends", "effects": { "happiness": 2 } },
+      { "text": "Sit alone", "effects": { "happiness": -1 } }
     ]
   },
   {
-    "id": "small_injury",
-    "ageRange": [5, 40],
-    "text": "You scraped your knee a little.",
+    "id": "favorite_teacher",
+    "ageRange": [12, 17],
+    "text": "Your favorite teacher complimented your work.",
     "choices": [
-      { "text": "Clean it", "effects": { "health": 1 } },
-      { "text": "Ignore it", "effects": { "health": -1 } }
+      { "text": "Feel proud", "effects": { "happiness": 2 } },
+      { "text": "Act cool", "effects": {} }
+    ]
+  },
+  {
+    "id": "school_event",
+    "ageRange": [12, 17],
+    "text": "Your school hosted a special event.",
+    "choices": [
+      { "text": "Attend", "effects": { "happiness": 2 } },
+      { "text": "Skip it", "effects": {} }
+    ]
+  },
+  {
+    "id": "locker_jam",
+    "ageRange": [12, 17],
+    "text": "Your locker got jammed.",
+    "choices": [
+      { "text": "Try to fix it", "effects": { "smarts": 1 } },
+      { "text": "Ask for help", "effects": {} }
+    ]
+  },
+  {
+    "id": "school_bus_noise",
+    "ageRange": [12, 17],
+    "text": "The school bus was unusually loud today.",
+    "choices": [
+      { "text": "Join the noise", "effects": { "happiness": 1 } },
+      { "text": "Put on headphones", "effects": {} }
+    ]
+  },
+  {
+    "id": "forgot_lunch",
+    "ageRange": [12, 17],
+    "text": "You forgot your lunch at home.",
+    "choices": [
+      { "text": "Buy lunch", "effects": { "money": -5 } },
+      { "text": "Borrow food", "effects": {} }
+    ]
+  },
+  {
+    "id": "school_presentation",
+    "ageRange": [12, 17],
+    "text": "You had to present in front of the class.",
+    "choices": [
+      { "text": "Do well", "effects": { "smarts": 2 } },
+      { "text": "Get nervous", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "friend_argument_teen",
+    "ageRange": [12, 17],
+    "text": "You had a disagreement with a friend.",
+    "choices": [
+      { "text": "Talk it out", "effects": { "happiness": 1 } },
+      { "text": "Ignore them", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "school_club_event",
+    "ageRange": [12, 17],
+    "text": "A school club hosted a fun event.",
+    "choices": [
+      { "text": "Participate", "effects": { "happiness": 2 } },
+      { "text": "Skip it", "effects": {} }
+    ]
+  },
+  {
+    "id": "music_discovery",
+    "ageRange": [12, 17],
+    "text": "You discovered a new song you really like.",
+    "choices": [
+      { "text": "Add to playlist", "effects": { "happiness": 2 } },
+      { "text": "Forget it", "effects": {} }
     ]
   },
   {
     "id": "funny_classmate",
-    "ageRange": [6, 18],
-    "text": "A classmate made everyone laugh.",
+    "ageRange": [12, 17],
+    "text": "A classmate made everyone laugh today.",
     "choices": [
       { "text": "Laugh along", "effects": { "happiness": 2 } },
       { "text": "Stay quiet", "effects": {} }
     ]
   },
   {
-    "id": "new_skill",
-    "ageRange": [8, 50],
-    "text": "You learned a new skill.",
+    "id": "first_job",
+    "ageRange": [18, 29],
+    "text": "You considered applying for your first job.",
     "choices": [
-      { "text": "Practice it", "effects": { "smarts": 2 } },
-      { "text": "Forget it", "effects": {} }
+      { "text": "Apply", "effects": { "smarts": 1 } },
+      { "text": "Put it off", "effects": {} }
     ]
   },
   {
-    "id": "family_movie",
-    "ageRange": [5, 40],
-    "text": "Your family watched a movie together.",
+    "id": "rent_due",
+    "ageRange": [18, 29],
+    "text": "Your rent was due this month.",
     "choices": [
-      { "text": "Join them", "effects": { "happiness": 3 } },
+      { "text": "Pay on time", "effects": { "money": -500 } },
+      { "text": "Pay late", "effects": { "happiness": -2 } }
+    ]
+  },
+  {
+    "id": "new_apartment",
+    "ageRange": [18, 29],
+    "text": "You thought about moving into a new apartment.",
+    "choices": [
+      { "text": "Start searching", "effects": { "happiness": 2 } },
+      { "text": "Stay where you are", "effects": {} }
+    ]
+  },
+  {
+    "id": "budgeting",
+    "ageRange": [18, 29],
+    "text": "You tried making a monthly budget.",
+    "choices": [
+      { "text": "Stick to it", "effects": { "money": 50 } },
+      { "text": "Ignore it", "effects": {} }
+    ]
+  },
+  {
+    "id": "college_stress",
+    "ageRange": [18, 29],
+    "text": "You felt stressed about school or work.",
+    "choices": [
+      { "text": "Take a break", "effects": { "happiness": 2 } },
+      { "text": "Push through", "effects": { "health": -1 } }
+    ]
+  },
+  {
+    "id": "new_friend_group_young",
+    "ageRange": [18, 29],
+    "text": "You were invited to hang out with a new group of people.",
+    "choices": [
+      { "text": "Join them", "effects": { "happiness": 2 } },
+      { "text": "Decline", "effects": {} }
+    ]
+  },
+  {
+    "id": "first_paycheck",
+    "ageRange": [18, 29],
+    "text": "You received your first real paycheck.",
+    "choices": [
+      { "text": "Save it", "effects": { "money": 100 } },
+      { "text": "Treat yourself", "effects": { "happiness": 2, "money": -50 } }
+    ]
+  },
+  {
+    "id": "roommate_conflict",
+    "ageRange": [18, 29],
+    "text": "You had a disagreement with a roommate.",
+    "choices": [
+      { "text": "Talk it out", "effects": { "happiness": 1 } },
+      { "text": "Ignore it", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "late_night_study",
+    "ageRange": [18, 29],
+    "text": "You stayed up late studying or working.",
+    "choices": [
+      { "text": "Push through", "effects": { "smarts": 2, "health": -1 } },
+      { "text": "Go to sleep", "effects": { "health": 1 } }
+    ]
+  },
+  {
+    "id": "coffee_addiction",
+    "ageRange": [18, 29],
+    "text": "You started relying heavily on coffee.",
+    "choices": [
+      { "text": "Drink more", "effects": { "happiness": 1, "money": -5 } },
+      { "text": "Cut back", "effects": { "health": 1 } }
+    ]
+  },
+  {
+    "id": "car_trouble",
+    "ageRange": [18, 29],
+    "text": "Your car made a strange noise.",
+    "choices": [
+      { "text": "Get it checked", "effects": { "money": -150 } },
+      { "text": "Ignore it", "effects": { "health": -1 } }
+    ]
+  },
+  {
+    "id": "new_hobby_young",
+    "ageRange": [18, 29],
+    "text": "You discovered a new hobby.",
+    "choices": [
+      { "text": "Try it out", "effects": { "happiness": 2 } },
+      { "text": "Ignore it", "effects": {} }
+    ]
+  },
+  {
+    "id": "job_interview",
+    "ageRange": [18, 29],
+    "text": "You were invited to a job interview.",
+    "choices": [
+      { "text": "Prepare well", "effects": { "smarts": 2 } },
+      { "text": "Wing it", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "grocery_budget",
+    "ageRange": [18, 29],
+    "text": "You realized groceries are more expensive than you thought.",
+    "choices": [
+      { "text": "Buy cheap options", "effects": { "money": 20 } },
+      { "text": "Buy what you want", "effects": { "happiness": 1, "money": -20 } }
+    ]
+  },
+  {
+    "id": "weekend_plans",
+    "ageRange": [18, 29],
+    "text": "You were invited to weekend plans.",
+    "choices": [
+      { "text": "Go out", "effects": { "happiness": 2, "money": -30 } },
+      { "text": "Stay home", "effects": { "health": 1 } }
+    ]
+  },
+  {
+    "id": "online_shopping",
+    "ageRange": [18, 29],
+    "text": "You browsed online shopping sites.",
+    "choices": [
+      { "text": "Buy something small", "effects": { "money": -15, "happiness": 1 } },
+      { "text": "Close the app", "effects": {} }
+    ]
+  },
+  {
+    "id": "career_confusion",
+    "ageRange": [18, 29],
+    "text": "You questioned what career path you want.",
+    "choices": [
+      { "text": "Research options", "effects": { "smarts": 1 } },
+      { "text": "Ignore it", "effects": {} }
+    ]
+  },
+  {
+    "id": "gym_membership",
+    "ageRange": [18, 29],
+    "text": "You considered getting a gym membership.",
+    "choices": [
+      { "text": "Sign up", "effects": { "health": 2, "money": -40 } },
       { "text": "Skip it", "effects": {} }
     ]
   },
   {
-    "id": "new_scent",
-    "ageRange": [5, 100],
-    "text": "You smelled something really nice today.",
+    "id": "friend_reunion",
+    "ageRange": [18, 29],
+    "text": "You reunited with an old friend.",
     "choices": [
-      { "text": "Enjoy it", "effects": { "happiness": 2 } },
+      { "text": "Catch up", "effects": { "happiness": 3 } },
+      { "text": "Keep it brief", "effects": {} }
+    ]
+  },
+  {
+    "id": "late_bill",
+    "ageRange": [18, 29],
+    "text": "You forgot to pay a bill on time.",
+    "choices": [
+      { "text": "Pay it now", "effects": { "money": -50 } },
+      { "text": "Wait longer", "effects": { "happiness": -2 } }
+    ]
+  },
+  {
+    "id": "work_praise",
+    "ageRange": [30, 59],
+    "text": "Your boss complimented your work.",
+    "choices": [
+      { "text": "Feel proud", "effects": { "happiness": 2 } },
+      { "text": "Stay humble", "effects": {} }
+    ]
+  },
+  {
+    "id": "busy_week",
+    "ageRange": [30, 59],
+    "text": "You had an extremely busy week.",
+    "choices": [
+      { "text": "Push through", "effects": { "health": -1 } },
+      { "text": "Take a break", "effects": { "happiness": 1 } }
+    ]
+  },
+  {
+    "id": "work_meeting",
+    "ageRange": [30, 59],
+    "text": "You had a long work meeting.",
+    "choices": [
+      { "text": "Participate actively", "effects": { "smarts": 1 } },
+      { "text": "Zone out", "effects": {} }
+    ]
+  },
+  {
+    "id": "family_dinner",
+    "ageRange": [30, 59],
+    "text": "Your family invited you to dinner.",
+    "choices": [
+      { "text": "Go", "effects": { "happiness": 2 } },
+      { "text": "Stay home", "effects": {} }
+    ]
+  },
+  {
+    "id": "unexpected_bill",
+    "ageRange": [30, 59],
+    "text": "You received an unexpected bill.",
+    "choices": [
+      { "text": "Pay it", "effects": { "money": -100 } },
+      { "text": "Delay it", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "work_training",
+    "ageRange": [30, 59],
+    "text": "Your job offered optional training.",
+    "choices": [
+      { "text": "Attend", "effects": { "smarts": 2 } },
+      { "text": "Skip it", "effects": {} }
+    ]
+  },
+  {
+    "id": "weekend_errands",
+    "ageRange": [30, 59],
+    "text": "You spent the weekend running errands.",
+    "choices": [
+      { "text": "Get everything done", "effects": { "happiness": 1 } },
+      { "text": "Procrastinate", "effects": {} }
+    ]
+  },
+  {
+    "id": "old_friend_message",
+    "ageRange": [30, 59],
+    "text": "An old friend messaged you out of nowhere.",
+    "choices": [
+      { "text": "Catch up", "effects": { "happiness": 2 } },
       { "text": "Ignore it", "effects": {} }
     ]
   },
   {
-    "id": "funny_memory",
-    "ageRange": [10, 100],
-    "text": "You remembered something funny from years ago.",
+    "id": "health_check",
+    "ageRange": [30, 59],
+    "text": "You considered scheduling a health checkup.",
     "choices": [
-      { "text": "Laugh", "effects": { "happiness": 3 } },
+      { "text": "Schedule it", "effects": { "health": 2 } },
+      { "text": "Put it off", "effects": { "health": -1 } }
+    ]
+  },
+  {
+    "id": "work_stress",
+    "ageRange": [30, 59],
+    "text": "Work felt unusually stressful this week.",
+    "choices": [
+      { "text": "Take a walk", "effects": { "happiness": 1 } },
+      { "text": "Push through", "effects": { "health": -1 } }
+    ]
+  },
+  {
+    "id": "new_coworker",
+    "ageRange": [30, 59],
+    "text": "Your workplace hired a new coworker.",
+    "choices": [
+      { "text": "Introduce yourself", "effects": { "happiness": 1 } },
+      { "text": "Stay quiet", "effects": {} }
+    ]
+  },
+  {
+    "id": "car_maintenance",
+    "ageRange": [30, 59],
+    "text": "Your car needed routine maintenance.",
+    "choices": [
+      { "text": "Get it done", "effects": { "money": -80 } },
+      { "text": "Ignore it", "effects": { "health": -1 } }
+    ]
+  },
+  {
+    "id": "weekend_relax",
+    "ageRange": [30, 59],
+    "text": "You finally had a relaxing weekend.",
+    "choices": [
+      { "text": "Enjoy it fully", "effects": { "happiness": 3 } },
+      { "text": "Do chores instead", "effects": {} }
+    ]
+  },
+  {
+    "id": "work_lunch",
+    "ageRange": [30, 59],
+    "text": "Your coworkers invited you to lunch.",
+    "choices": [
+      { "text": "Join them", "effects": { "happiness": 2, "money": -15 } },
+      { "text": "Decline", "effects": {} }
+    ]
+  },
+  {
+    "id": "home_repair",
+    "ageRange": [30, 59],
+    "text": "Something in your home needed fixing.",
+    "choices": [
+      { "text": "Fix it", "effects": { "money": -50 } },
+      { "text": "Ignore it", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "new_hobby_adult",
+    "ageRange": [30, 59],
+    "text": "You considered picking up a new hobby.",
+    "choices": [
+      { "text": "Try it", "effects": { "happiness": 2 } },
+      { "text": "Forget it", "effects": {} }
+    ]
+  },
+  {
+    "id": "family_event",
+    "ageRange": [30, 59],
+    "text": "Your family hosted a small gathering.",
+    "choices": [
+      { "text": "Attend", "effects": { "happiness": 2 } },
+      { "text": "Skip it", "effects": {} }
+    ]
+  },
+  {
+    "id": "work_from_home",
+    "ageRange": [30, 59],
+    "text": "You worked from home today.",
+    "choices": [
+      { "text": "Stay focused", "effects": { "smarts": 1 } },
+      { "text": "Get distracted", "effects": {} }
+    ]
+  },
+  {
+    "id": "morning_coffee",
+    "ageRange": [30, 59],
+    "text": "You enjoyed a peaceful morning coffee.",
+    "choices": [
+      { "text": "Savor it", "effects": { "happiness": 2 } },
+      { "text": "Rush through it", "effects": {} }
+    ]
+  },
+  {
+    "id": "unexpected_call",
+    "ageRange": [30, 59],
+    "text": "You received an unexpected phone call.",
+    "choices": [
+      { "text": "Answer it", "effects": { "happiness": 1 } },
+      { "text": "Ignore it", "effects": {} }
+    ]
+  },
+  {
+    "id": "nostalgia",
+    "ageRange": [60, 120],
+    "text": "You reminisced about your younger years.",
+    "choices": [
+      { "text": "Smile at the memories", "effects": { "happiness": 3 } },
+      { "text": "Feel emotional", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "doctor_visit",
+    "ageRange": [60, 120],
+    "text": "You went for a routine doctor checkup.",
+    "choices": [
+      { "text": "Follow advice", "effects": { "health": 2 } },
+      { "text": "Ignore it", "effects": { "health": -1 } }
+    ]
+  },
+  {
+    "id": "morning_walk",
+    "ageRange": [60, 120],
+    "text": "You took a peaceful morning walk.",
+    "choices": [
+      { "text": "Enjoy the fresh air", "effects": { "health": 1, "happiness": 2 } },
+      { "text": "Cut it short", "effects": {} }
+    ]
+  },
+  {
+    "id": "old_photos",
+    "ageRange": [60, 120],
+    "text": "You looked through old photo albums.",
+    "choices": [
+      { "text": "Cherish the memories", "effects": { "happiness": 3 } },
+      { "text": "Put them away", "effects": {} }
+    ]
+  },
+  {
+    "id": "family_visit_senior",
+    "ageRange": [60, 120],
+    "text": "A family member visited you.",
+    "choices": [
+      { "text": "Enjoy the visit", "effects": { "happiness": 3 } },
+      { "text": "Keep it short", "effects": {} }
+    ]
+  },
+  {
+    "id": "gardening",
+    "ageRange": [60, 120],
+    "text": "You spent time gardening.",
+    "choices": [
+      { "text": "Tend to plants", "effects": { "happiness": 2 } },
+      { "text": "Sit and relax", "effects": {} }
+    ]
+  },
+  {
+    "id": "light_exercise",
+    "ageRange": [60, 120],
+    "text": "You did some light exercise.",
+    "choices": [
+      { "text": "Stretch carefully", "effects": { "health": 1 } },
+      { "text": "Skip it", "effects": {} }
+    ]
+  },
+  {
+    "id": "favorite_show",
+    "ageRange": [60, 120],
+    "text": "You watched one of your favorite old shows.",
+    "choices": [
+      { "text": "Enjoy it", "effects": { "happiness": 2 } },
+      { "text": "Change the channel", "effects": {} }
+    ]
+  },
+  {
+    "id": "tea_time",
+    "ageRange": [60, 120],
+    "text": "You made yourself a warm cup of tea.",
+    "choices": [
+      { "text": "Sip slowly", "effects": { "happiness": 2 } },
+      { "text": "Drink quickly", "effects": {} }
+    ]
+  },
+  {
+    "id": "neighborhood_walk",
+    "ageRange": [60, 120],
+    "text": "You walked around your neighborhood.",
+    "choices": [
+      { "text": "Take your time", "effects": { "health": 1 } },
+      { "text": "Head home early", "effects": {} }
+    ]
+  },
+  {
+    "id": "old_friend_call",
+    "ageRange": [60, 120],
+    "text": "An old friend called you.",
+    "choices": [
+      { "text": "Catch up", "effects": { "happiness": 3 } },
+      { "text": "Keep it short", "effects": {} }
+    ]
+  },
+  {
+    "id": "light_cleaning",
+    "ageRange": [60, 120],
+    "text": "You did some light cleaning around the house.",
+    "choices": [
+      { "text": "Tidy up", "effects": { "happiness": 1 } },
+      { "text": "Rest instead", "effects": {} }
+    ]
+  },
+  {
+    "id": "bird_watching",
+    "ageRange": [60, 120],
+    "text": "You watched birds outside your window.",
+    "choices": [
+      { "text": "Observe quietly", "effects": { "happiness": 2 } },
+      { "text": "Look away", "effects": {} }
+    ]
+  },
+  {
+    "id": "puzzle_book",
+    "ageRange": [60, 120],
+    "text": "You worked on a puzzle book.",
+    "choices": [
+      { "text": "Solve a puzzle", "effects": { "smarts": 1 } },
+      { "text": "Put it down", "effects": {} }
+    ]
+  },
+  {
+    "id": "sunny_day_senior",
+    "ageRange": [60, 120],
+    "text": "It was a warm, sunny day.",
+    "choices": [
+      { "text": "Sit outside", "effects": { "happiness": 2 } },
+      { "text": "Stay indoors", "effects": {} }
+    ]
+  },
+  {
+    "id": "evening_relax",
+    "ageRange": [60, 120],
+    "text": "You had a calm and quiet evening.",
+    "choices": [
+      { "text": "Relax fully", "effects": { "happiness": 2 } },
+      { "text": "Do chores", "effects": {} }
+    ]
+  },
+  {
+    "id": "memory_lane",
+    "ageRange": [60, 120],
+    "text": "You thought about your childhood.",
+    "choices": [
+      { "text": "Reflect fondly", "effects": { "happiness": 3 } },
       { "text": "Move on", "effects": {} }
     ]
   },
   {
-    "id": "new_backpack",
-    "ageRange": [6, 18],
-    "text": "You got a new backpack for school.",
+    "id": "light_cooking",
+    "ageRange": [60, 120],
+    "text": "You cooked a simple meal.",
     "choices": [
-      { "text": "Use it proudly", "effects": { "happiness": 2 } },
-      { "text": "Save it", "effects": {} }
+      { "text": "Enjoy cooking", "effects": { "happiness": 2 } },
+      { "text": "Order food instead", "effects": { "money": -20 } }
     ]
   },
   {
-    "id": "quiet_day",
-    "ageRange": [0, 100],
-    "text": "Today was unusually quiet.",
+    "id": "grandkids_visit",
+    "ageRange": [60, 120],
+    "text": "Your grandchildren visited you.",
+    "choices": [
+      { "text": "Spend time with them", "effects": { "happiness": 4 } },
+      { "text": "Rest instead", "effects": {} }
+    ]
+  },
+  {
+    "id": "quiet_morning",
+    "ageRange": [60, 120],
+    "text": "You enjoyed a peaceful, quiet morning.",
     "choices": [
       { "text": "Relax", "effects": { "happiness": 2 } },
-      { "text": "Feel bored", "effects": { "happiness": -1 } }
-    ]
-  },
-  {
-    "id": "funny_sneeze",
-    "ageRange": [5, 100],
-    "text": "Someone sneezed in a really funny way.",
-    "choices": [
-      { "text": "Laugh", "effects": { "happiness": 2 } },
-      { "text": "Stay polite", "effects": {} }
-    ]
-  },
-  {
-    "id": "new_shoes",
-    "ageRange": [5, 60],
-    "text": "You got a new pair of shoes.",
-    "choices": [
-      { "text": "Wear them", "effects": { "happiness": 2 } },
-      { "text": "Keep them clean", "effects": {} }
-    ]
-  },
-  {
-    "id": "funny_sign",
-    "ageRange": [5, 100],
-    "text": "You saw a funny sign while walking.",
-    "choices": [
-      { "text": "Laugh", "effects": { "happiness": 2 } },
-      { "text": "Ignore it", "effects": {} }
-    ]
-  },
-  {
-    "id": "school_field_trip",
-    "ageRange": [7, 18],
-    "text": "Your class is going on a field trip.",
-    "choices": [
-      { "text": "Go", "effects": { "happiness": 4 } },
-      { "text": "Stay behind", "effects": { "happiness": -2 } }
-    ]
-  },
-  {
-    "id": "funny_dog",
-    "ageRange": [5, 80],
-    "text": "You saw a dog doing something silly.",
-    "choices": [
-      { "text": "Laugh", "effects": { "happiness": 3 } },
-      { "text": "Pet it", "effects": { "happiness": 2 } }
-    ]
-  },
-  {
-    "id": "new_snack",
-    "ageRange": [5, 60],
-    "text": "You tried a new snack today.",
-    "choices": [
-      { "text": "Enjoy it", "effects": { "happiness": 2 } },
-      { "text": "Dislike it", "effects": { "happiness": -1 } }
+      { "text": "Start chores early", "effects": {} }
     ]
   }
 ]
+
+
