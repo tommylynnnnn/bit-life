@@ -9,7 +9,7 @@ let player = {
   name: "",
   gender: "",
   emoji: "",
-  lastName: "",   // <-- NEW
+  lastName: "",   // family last name ONLY
 
   relationships: {
     family: [],
@@ -198,9 +198,8 @@ function startGame() {
 
   if (!name) return alert("Please enter a name.");
 
-  // Player full name with family last name
-  player.lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-  player.name = `${name} ${player.lastName}`;
+  // Player DOES NOT get a last name
+  player.name = name;
   player.gender = gender;
   player.emoji = genderEmoji(gender, player.age);
 
@@ -266,18 +265,18 @@ if (player.age < 3) {
   schoolLevel.textContent = "Too young for school.";
   classmatesList.innerHTML = "<p>No classmates yet.</p>";
 }
-else if (player.age <= 5) {
-  schoolLevel.textContent = "Preschool";
-
-  classmatesList.innerHTML = player.relationships.classmates.map((c, index) => `
-    <p class="clickablePreschoolClassmate" data-index="${index}">
-      ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
-    </p>
-  `).join("");
-
-  document.querySelectorAll(".clickablePreschoolClassmate").forEach(el => {
-    el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
-  });
+if (player.age <= 5) {
+    // Preschool: hide all school extras
+    document.getElementById("gradesList").style.display = "none";
+    document.getElementById("clubSelector").style.display = "none";
+    document.getElementById("joinedClubs").style.display = "none";
+    document.getElementById("teachersList").style.display = "none";
+} else {
+    // Elementary and up: show everything
+    document.getElementById("gradesList").style.display = "block";
+    document.getElementById("clubSelector").style.display = "block";
+    document.getElementById("joinedClubs").style.display = "block";
+    document.getElementById("teachersList").style.display = "block";
 }
 else if (player.age <= 13) {
   schoolLevel.textContent = "Elementary School";
