@@ -413,14 +413,26 @@ function updateUI() {
     teachersList.style.display = "block";
   }
   else if (player.age <= 18) {
-    schoolLevel.textContent = "High School";
-    classmatesList.innerHTML = "<p>High school classmates coming soon.</p>";
+  schoolLevel.textContent = "High School";
 
-    gradesList.style.display = "block";
-    clubSelector.style.display = "block";
-    joinedClubs.style.display = "block";
-    teachersList.style.display = "block";
-  }
+  classmatesList.innerHTML =
+    player.relationships.classmates.length === 0
+      ? "<p>No classmates yet.</p>"
+      : player.relationships.classmates.map((c, index) => `
+          <p class="clickableHighSchoolClassmate" data-index="${index}">
+            ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+          </p>
+        `).join("");
+
+  document.querySelectorAll(".clickableHighSchoolClassmate").forEach(el => {
+    el.addEventListener("click", () => openHighSchoolClassmatePopup(el.dataset.index));
+  });
+
+  gradesList.style.display = "block";
+  clubSelector.style.display = "block";
+  joinedClubs.style.display = "block";
+  teachersList.style.display = "block";
+}
   else {
     schoolLevel.textContent = "College / University";
     classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
@@ -1290,6 +1302,29 @@ function openElementaryClassmatePopup(index) {
   popup.style.display = "flex";
 }
 
+function openHighSchoolClassmatePopup(index) {
+  const c = player.relationships.classmates[index];
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>Age: ${c.age}</p>
+      <p>Closeness: ${c.closeness}%</p>
+
+      <button class="popupBtn" onclick="highSchoolInteract(${index}, 'talk')">Talk</button>
+      <button class="popupBtn" onclick="highSchoolInteract(${index}, 'hangout')">Hang Out</button>
+      <button class="popupBtn" onclick="highSchoolInteract(${index}, 'study')">Study Together</button>
+      <button class="popupBtn" onclick="highSchoolInteract(${index}, 'drama')">Get Involved in Drama</button>
+      <button class="popupBtn" onclick="highSchoolInteract(${index}, 'ignore')">Ignore</button>
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
 function elementaryInteract(index, type) {
   const c = player.relationships.classmates[index];
   let result = "";
@@ -1318,6 +1353,54 @@ function elementaryInteract(index, type) {
       <h2>${c.emoji} ${c.name}</h2>
       <p>${result}</p>
       <p>Closeness is now ${c.closeness}%</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
+function highSchoolInteract(index, type) {
+  const c = player.relationships.classmates[index];
+
+  let change = 0;
+  let result = "";
+
+  if (type === "talk") {
+    change = Math.floor(Math.random() * 8) + 2;
+    result = `You had a conversation with ${c.name}.`;
+  }
+
+  if (type === "hangout") {
+    change = Math.floor(Math.random() * 12) + 4;
+    result = `You hung out with ${c.name} after school.`;
+  }
+
+  if (type === "study") {
+    change = Math.floor(Math.random() * 10) + 3;
+    player.smarts = clamp(player.smarts + 2);
+    result = `You studied together with ${c.name}.`;
+  }
+
+  if (type === "drama") {
+    change = Math.floor(Math.random() * 6) - 4; // risky choice
+    result = `You got involved in school drama with ${c.name}.`;
+  }
+
+  if (type === "ignore") {
+    change = -Math.floor(Math.random() * 6);
+    result = `You ignored ${c.name}.`;
+  }
+
+  c.closeness = clamp(c.closeness + change);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.emoji} ${c.name}</h2>
+      <p>${result}</p>
+      <p>Closeness is now ${c.closeness}%</p>
+
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
