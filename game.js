@@ -257,7 +257,7 @@ function updateUI() {
   const classmatesList = document.getElementById("classmatesList");
   const gradesList = document.getElementById("gradesList");
   const clubSelector = document.getElementById("clubSelector");
-  const  = document.getElementById("");
+  const joinedClubs = document.getElementById("joinedClubs");
   const teachersList = document.getElementById("teachersList");
 
   // SCHOOL LEVEL + CLASSMATES
