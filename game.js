@@ -1151,6 +1151,7 @@ function joinClub(clubName) {
 function becomeClubLeader(index) {
   player.education.joinedClubs[index].rank = "Leader";
   updateUI();
+  openClubPopup(index);   // ⭐ re-render popup with updated rank
 }
 
 function openClubPopup(index) {
