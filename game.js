@@ -1003,18 +1003,9 @@ function generateTeachers() {
 // CLUB GENERATOR
 // ------------------------------
 function generateClubs() {
-  const possibleClubs = ["Chess Club", "Art Club", "Study Club", "Band"];
-  const count = Math.floor(Math.random() * 3) + 2; // 2–4 clubs
-
-  player.education.clubs = []; // reset available clubs
+  // All clubs are always available
+  player.education.clubs = ["Chess Club", "Art Club", "Band", "Study Club"];
   player.education.joinedClubs = []; // clubs the player actually joins
-
-  for (let i = 0; i < count; i++) {
-    const club = possibleClubs[Math.floor(Math.random() * possibleClubs.length)];
-    if (!player.education.clubs.includes(club)) {
-      player.education.clubs.push(club);
-    }
-  }
 }
 
 // ------------------------------
