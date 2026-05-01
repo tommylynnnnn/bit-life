@@ -9,12 +9,426 @@
     ]
   },
   {
-    "id": "found_money",
-    "ageRange": [10, 60],
-    "text": "You found $20 on the ground.",
+    "id": "lost_toy",
+    "ageRange": [3, 10],
+    "text": "You misplaced your favorite toy.",
     "choices": [
-      { "text": "Take it", "effects": { "money": 20 } },
-      { "text": "Leave it", "effects": { "happiness": 1 } }
+      { "text": "Search everywhere", "effects": { "happiness": 2 } },
+      { "text": "Give up", "effects": { "happiness": -3 } }
+    ]
+  },
+  {
+    "id": "school_award",
+    "ageRange": [6, 18],
+    "text": "You were nominated for a school award.",
+    "choices": [
+      { "text": "Attend the ceremony", "effects": { "happiness": 4, "smarts": 2 } },
+      { "text": "Skip it", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "rainy_day",
+    "ageRange": [0, 100],
+    "text": "It rained all day today.",
+    "choices": [
+      { "text": "Enjoy the sound", "effects": { "happiness": 2 } },
+      { "text": "Complain about it", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "library_visit",
+    "ageRange": [6, 80],
+    "text": "You visited the local library.",
+    "choices": [
+      { "text": "Read a book", "effects": { "smarts": 3 } },
+      { "text": "Browse aimlessly", "effects": { "happiness": 1 } }
+    ]
+  },
+  {
+    "id": "stray_cat",
+    "ageRange": [5, 60],
+    "text": "You saw a stray cat outside.",
+    "choices": [
+      { "text": "Pet it", "effects": { "happiness": 3 } },
+      { "text": "Leave it alone", "effects": {} }
+    ]
+  },
+  {
+    "id": "good_dream",
+    "ageRange": [0, 100],
+    "text": "You had a really pleasant dream.",
+    "choices": [
+      { "text": "Think about it", "effects": { "happiness": 3 } },
+      { "text": "Forget it", "effects": {} }
+    ]
+  },
+  {
+    "id": "bad_haircut",
+    "ageRange": [6, 60],
+    "text": "You got a haircut you don't like.",
+    "choices": [
+      { "text": "Laugh it off", "effects": { "happiness": 1 } },
+      { "text": "Get upset", "effects": { "happiness": -3 } }
+    ]
+  },
+  {
+    "id": "teacher_praise",
+    "ageRange": [6, 18],
+    "text": "A teacher complimented your hard work.",
+    "choices": [
+      { "text": "Feel proud", "effects": { "happiness": 3, "smarts": 1 } },
+      { "text": "Brush it off", "effects": {} }
+    ]
+  },
+  {
+    "id": "new_hobby",
+    "ageRange": [8, 50],
+    "text": "You discovered a new hobby you enjoy.",
+    "choices": [
+      { "text": "Try it out", "effects": { "happiness": 4 } },
+      { "text": "Ignore it", "effects": {} }
+    ]
+  },
+  {
+    "id": "cold_weather",
+    "ageRange": [0, 100],
+    "text": "It was unusually cold this year.",
+    "choices": [
+      { "text": "Bundle up", "effects": { "health": 1 } },
+      { "text": "Complain", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "warm_weather",
+    "ageRange": [0, 100],
+    "text": "The weather was warm and pleasant.",
+    "choices": [
+      { "text": "Enjoy it", "effects": { "happiness": 2 } },
+      { "text": "Stay inside", "effects": {} }
+    ]
+  },
+  {
+    "id": "funny_video",
+    "ageRange": [8, 80],
+    "text": "You watched a funny video online.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 3 } },
+      { "text": "Scroll past", "effects": {} }
+    ]
+  },
+  {
+    "id": "lost_pen",
+    "ageRange": [6, 30],
+    "text": "You lost your favorite pen.",
+    "choices": [
+      { "text": "Buy a new one", "effects": { "money": -2 } },
+      { "text": "Use another pen", "effects": {} }
+    ]
+  },
+  {
+    "id": "park_walk",
+    "ageRange": [5, 80],
+    "text": "You took a walk in the park.",
+    "choices": [
+      { "text": "Enjoy nature", "effects": { "happiness": 3, "health": 1 } },
+      { "text": "Sit on a bench", "effects": { "happiness": 1 } }
+    ]
+  },
+  {
+    "id": "family_game",
+    "ageRange": [5, 40],
+    "text": "Your family invited you to play a game.",
+    "choices": [
+      { "text": "Join them", "effects": { "happiness": 3 } },
+      { "text": "Decline", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "favorite_food",
+    "ageRange": [3, 100],
+    "text": "You got to eat your favorite food.",
+    "choices": [
+      { "text": "Enjoy it", "effects": { "happiness": 4 } },
+      { "text": "Save it for later", "effects": {} }
+    ]
+  },
+  {
+    "id": "messy_room",
+    "ageRange": [6, 25],
+    "text": "Your room got really messy.",
+    "choices": [
+      { "text": "Clean it", "effects": { "happiness": 1 } },
+      { "text": "Ignore it", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "new_music",
+    "ageRange": [10, 60],
+    "text": "You discovered a new song you love.",
+    "choices": [
+      { "text": "Listen again", "effects": { "happiness": 3 } },
+      { "text": "Add to playlist", "effects": { "happiness": 1 } }
+    ]
+  },
+  {
+    "id": "funny_teacher",
+    "ageRange": [6, 18],
+    "text": "One of your teachers made a funny joke.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 2 } },
+      { "text": "Stay quiet", "effects": {} }
+    ]
+  },
+  {
+    "id": "new_neighbor",
+    "ageRange": [5, 70],
+    "text": "A new neighbor moved in next door.",
+    "choices": [
+      { "text": "Say hello", "effects": { "happiness": 2 } },
+      { "text": "Ignore them", "effects": {} }
+    ]
+  },
+  {
+    "id": "school_project",
+    "ageRange": [8, 18],
+    "text": "You were assigned a school project.",
+    "choices": [
+      { "text": "Work hard", "effects": { "smarts": 3 } },
+      { "text": "Do the minimum", "effects": {} }
+    ]
+  },
+  {
+    "id": "funny_pet",
+    "ageRange": [5, 80],
+    "text": "You saw a pet do something funny.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 3 } },
+      { "text": "Record it", "effects": { "happiness": 1 } }
+    ]
+  },
+  {
+    "id": "new_clothes",
+    "ageRange": [5, 60],
+    "text": "You got some new clothes.",
+    "choices": [
+      { "text": "Wear them", "effects": { "happiness": 2 } },
+      { "text": "Save them", "effects": {} }
+    ]
+  },
+  {
+    "id": "sunny_day",
+    "ageRange": [0, 100],
+    "text": "It was a bright sunny day.",
+    "choices": [
+      { "text": "Go outside", "effects": { "happiness": 2 } },
+      { "text": "Stay indoors", "effects": {} }
+    ]
+  },
+  {
+    "id": "small_gift",
+    "ageRange": [5, 80],
+    "text": "Someone gave you a small gift.",
+    "choices": [
+      { "text": "Thank them", "effects": { "happiness": 3 } },
+      { "text": "Accept quietly", "effects": {} }
+    ]
+  },
+  {
+    "id": "funny_moment",
+    "ageRange": [5, 100],
+    "text": "Something unexpectedly funny happened today.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 3 } },
+      { "text": "Stay serious", "effects": {} }
+    ]
+  },
+  {
+    "id": "lost_homework",
+    "ageRange": [6, 18],
+    "text": "You lost your homework.",
+    "choices": [
+      { "text": "Redo it", "effects": { "smarts": 2 } },
+      { "text": "Accept the penalty", "effects": { "happiness": -2 } }
+    ]
+  },
+  {
+    "id": "new_friend_group",
+    "ageRange": [10, 25],
+    "text": "A new friend group invited you to hang out.",
+    "choices": [
+      { "text": "Join them", "effects": { "happiness": 3 } },
+      { "text": "Decline", "effects": {} }
+    ]
+  },
+  {
+    "id": "funny_face",
+    "ageRange": [3, 12],
+    "text": "You made a funny face in the mirror.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 2 } },
+      { "text": "Stop immediately", "effects": {} }
+    ]
+  },
+  {
+    "id": "favorite_show",
+    "ageRange": [8, 60],
+    "text": "A new episode of your favorite show came out.",
+    "choices": [
+      { "text": "Watch it", "effects": { "happiness": 3 } },
+      { "text": "Save it for later", "effects": {} }
+    ]
+  },
+  {
+    "id": "school_lunch",
+    "ageRange": [6, 18],
+    "text": "School lunch was surprisingly good today.",
+    "choices": [
+      { "text": "Enjoy it", "effects": { "happiness": 2 } },
+      { "text": "Trade food", "effects": {} }
+    ]
+  },
+  {
+    "id": "funny_noise",
+    "ageRange": [5, 100],
+    "text": "You heard a strange but funny noise.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 2 } },
+      { "text": "Ignore it", "effects": {} }
+    ]
+  },
+  {
+    "id": "new_teacher",
+    "ageRange": [6, 18],
+    "text": "Your class got a new teacher.",
+    "choices": [
+      { "text": "Introduce yourself", "effects": { "smarts": 1 } },
+      { "text": "Stay quiet", "effects": {} }
+    ]
+  },
+  {
+    "id": "small_injury",
+    "ageRange": [5, 40],
+    "text": "You scraped your knee a little.",
+    "choices": [
+      { "text": "Clean it", "effects": { "health": 1 } },
+      { "text": "Ignore it", "effects": { "health": -1 } }
+    ]
+  },
+  {
+    "id": "funny_classmate",
+    "ageRange": [6, 18],
+    "text": "A classmate made everyone laugh.",
+    "choices": [
+      { "text": "Laugh along", "effects": { "happiness": 2 } },
+      { "text": "Stay quiet", "effects": {} }
+    ]
+  },
+  {
+    "id": "new_skill",
+    "ageRange": [8, 50],
+    "text": "You learned a new skill.",
+    "choices": [
+      { "text": "Practice it", "effects": { "smarts": 2 } },
+      { "text": "Forget it", "effects": {} }
+    ]
+  },
+  {
+    "id": "family_movie",
+    "ageRange": [5, 40],
+    "text": "Your family watched a movie together.",
+    "choices": [
+      { "text": "Join them", "effects": { "happiness": 3 } },
+      { "text": "Skip it", "effects": {} }
+    ]
+  },
+  {
+    "id": "new_scent",
+    "ageRange": [5, 100],
+    "text": "You smelled something really nice today.",
+    "choices": [
+      { "text": "Enjoy it", "effects": { "happiness": 2 } },
+      { "text": "Ignore it", "effects": {} }
+    ]
+  },
+  {
+    "id": "funny_memory",
+    "ageRange": [10, 100],
+    "text": "You remembered something funny from years ago.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 3 } },
+      { "text": "Move on", "effects": {} }
+    ]
+  },
+  {
+    "id": "new_backpack",
+    "ageRange": [6, 18],
+    "text": "You got a new backpack for school.",
+    "choices": [
+      { "text": "Use it proudly", "effects": { "happiness": 2 } },
+      { "text": "Save it", "effects": {} }
+    ]
+  },
+  {
+    "id": "quiet_day",
+    "ageRange": [0, 100],
+    "text": "Today was unusually quiet.",
+    "choices": [
+      { "text": "Relax", "effects": { "happiness": 2 } },
+      { "text": "Feel bored", "effects": { "happiness": -1 } }
+    ]
+  },
+  {
+    "id": "funny_sneeze",
+    "ageRange": [5, 100],
+    "text": "Someone sneezed in a really funny way.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 2 } },
+      { "text": "Stay polite", "effects": {} }
+    ]
+  },
+  {
+    "id": "new_shoes",
+    "ageRange": [5, 60],
+    "text": "You got a new pair of shoes.",
+    "choices": [
+      { "text": "Wear them", "effects": { "happiness": 2 } },
+      { "text": "Keep them clean", "effects": {} }
+    ]
+  },
+  {
+    "id": "funny_sign",
+    "ageRange": [5, 100],
+    "text": "You saw a funny sign while walking.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 2 } },
+      { "text": "Ignore it", "effects": {} }
+    ]
+  },
+  {
+    "id": "school_field_trip",
+    "ageRange": [7, 18],
+    "text": "Your class is going on a field trip.",
+    "choices": [
+      { "text": "Go", "effects": { "happiness": 4 } },
+      { "text": "Stay behind", "effects": { "happiness": -2 } }
+    ]
+  },
+  {
+    "id": "funny_dog",
+    "ageRange": [5, 80],
+    "text": "You saw a dog doing something silly.",
+    "choices": [
+      { "text": "Laugh", "effects": { "happiness": 3 } },
+      { "text": "Pet it", "effects": { "happiness": 2 } }
+    ]
+  },
+  {
+    "id": "new_snack",
+    "ageRange": [5, 60],
+    "text": "You tried a new snack today.",
+    "choices": [
+      { "text": "Enjoy it", "effects": { "happiness": 2 } },
+      { "text": "Dislike it", "effects": { "happiness": -1 } }
     ]
   }
 ]
