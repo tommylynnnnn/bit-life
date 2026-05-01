@@ -21,16 +21,17 @@ let player = {
     classmates: []
   },
 
- education: {
-  grades: {
-    math: 0,
-    reading: 0,
-    science: 0,
-    art: 0
-  },
-  clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
-  joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
-  teachers: []
+  education: {
+    grades: {
+      math: 0,
+      reading: 0,
+      science: 0,
+      art: 0
+    },
+    clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
+    joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
+    teachers: []
+  }
 };
 
 // ------------------------------
