@@ -21,17 +21,17 @@ let player = {
     classmates: []
   },
 
-  education: {
-    grades: {
-      math: 50,
-      reading: 50,
-      science: 50,
-      art: 50
-    },
-    clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
-    teachers: []
-  }
-};
+ education: {
+  grades: {
+    math: 0,
+    reading: 0,
+    science: 0,
+    art: 0
+  },
+  clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
+  joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
+  teachers: []
+}
 
 // ------------------------------
 // NAME POOLS (gender-correct)
@@ -257,7 +257,7 @@ function updateUI() {
   const classmatesList = document.getElementById("classmatesList");
   const gradesList = document.getElementById("gradesList");
   const clubSelector = document.getElementById("clubSelector");
-  const joinedClubs = document.getElementById("joinedClubs");
+  const  = document.getElementById("");
   const teachersList = document.getElementById("teachersList");
 
   // SCHOOL LEVEL + CLASSMATES
@@ -339,19 +339,20 @@ function updateUI() {
   `;
 
   // CLUB SELECTOR
-  clubSelector.innerHTML = player.education.clubs.map(club => `
-    <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
-  `).join("");
+ clubSelector.innerHTML = player.education.clubs.map(club => `
+  <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
+`).join("");
 
   // JOINED CLUBS
-  joinedClubs.innerHTML =
-    !player.education.joinedClubs || player.education.joinedClubs.length === 0
-      ? "<p>You have not joined any clubs yet.</p>"
-      : player.education.joinedClubs.map((c, index) => `
-          <p class="clickableClub" data-index="${index}">
-            ${c.name} — Loyalty: ${c.loyalty}%
-          </p>
-        `).join("");
+ joinedClubs.innerHTML =
+  player.education.joinedClubs.length === 0
+    ? "<p>You have not joined any clubs yet.</p>"
+    : player.education.joinedClubs.map((c, index) => `
+        <p class="clickableClub" data-index="${index}">
+          ${c.name} — Loyalty: ${c.loyalty}% 
+          <button class="popupBtn smallQuitBtn" onclick="quitClub(${index})">Quit</button>
+        </p>
+      `).join("");
 
   document.querySelectorAll(".clickableClub").forEach(el => {
     el.addEventListener("click", () => openClubPopup(el.dataset.index));
@@ -1118,13 +1119,11 @@ function elementaryInteract(index, type) {
 }
 
 function joinClub(clubName) {
-  // Add to joined clubs
   player.education.joinedClubs.push({
     name: clubName,
     loyalty: 50
   });
 
-  // Remove from available clubs
   player.education.clubs = player.education.clubs.filter(c => c !== clubName);
 
   updateUI();
@@ -1154,10 +1153,7 @@ function openClubPopup(index) {
 function quitClub(index) {
   const club = player.education.joinedClubs[index];
 
-  // Put it back into available clubs
   player.education.clubs.push(club.name);
-
-  // Remove from joined list
   player.education.joinedClubs.splice(index, 1);
 
   updateUI();
