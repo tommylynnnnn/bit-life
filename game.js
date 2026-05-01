@@ -548,19 +548,20 @@ document.querySelectorAll(".clickableTeacher").forEach(el => {
     });
   }
 
-  if (romanticList) {
-    romanticList.innerHTML =
-  player.relationships.romantic.length === 0
-    ? "<p>No romantic relationships yet.</p>"
-    : player.relationships.romantic.map((r, index) => `
-        <p class="clickableRomantic" data-index="${index}">
-          ${r.emoji} ${r.name} — status: ${r.status}
-        </p>
-      `).join("");
+if (romanticList) {
+  romanticList.innerHTML =
+    player.relationships.romantic.length === 0
+      ? "<p>No romantic relationships yet.</p>"
+      : player.relationships.romantic.map((r, index) => `
+          <p class="clickableRomantic" data-index="${index}">
+            ${r.emoji} ${r.name} — status: ${r.status}
+          </p>
+        `).join("");
 
-document.querySelectorAll(".clickableRomantic").forEach(el => {
-  el.addEventListener("click", () => openRomanticPopup(el.dataset.index));
-});
+  document.querySelectorAll(".clickableRomantic").forEach(el => {
+    el.addEventListener("click", () => openRomanticPopup(el.dataset.index));
+  });
+} // ✅ THIS WAS MISSING
 
   if (petsList) {
     petsList.innerHTML =
