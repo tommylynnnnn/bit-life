@@ -78,6 +78,7 @@ let player = {
   }
 };
 
+
 // ------------------------------
 // RANDOM STARTING STATS
 // ------------------------------
@@ -109,6 +110,8 @@ const lastNames = [
   "Lee","Perez","Thompson","White","Harris","Sanchez","Clark","Ramirez","Lewis","Robinson",
   "Walker","Young","Allen","King","Wright","Scott","Torres","Nguyen","Hill","Flores"
 ];
+
+let currentJob = null;
 
 // ------------------------------
 // RANDOM NAME (gender-aware)
@@ -451,7 +454,7 @@ function startGame() {
   player.emoji = genderEmoji(gender, player.age);
 
   generateFamily();
-  renderJobs();
+  ();
 
   document.getElementById("startScreen").style.display = "none";
   updateUI();
@@ -932,43 +935,103 @@ function siblingInteract(index, type) {
 
 function renderJobs() {
   const list = document.getElementById("jobsList");
+  if (!list) return;
+
   list.innerHTML = "";
 
+  // ✅ If player HAS a job → only show that job
+  if (currentJob) {
+    const div = document.createElement("div");
+    div.className = "jobItem";
+    div.textContent = `${currentJob.name} — $${currentJob.salary}/yr (Click to quit)`;
+
+    div.onclick = () => openQuitJobPopup();
+
+    list.appendChild(div);
+    return;
+  }
+
+  // ❌ If NO job → show available jobs
   jobOpenings.forEach(job => {
-    const btn = document.createElement("button");
-    btn.className = "jobBtn";
-    btn.textContent = job.name;
 
-    btn.onclick = () => openJobPopup(job);
+    // Age requirement check
+    if (player.age < job.minAge) return;
 
-    list.appendChild(btn);
+    const div = document.createElement("div");
+    div.className = "jobItem";
+    div.textContent = `${job.name} — $${job.salary}/yr`;
+
+    div.onclick = () => openJobPopup(job);
+
+    list.appendChild(div);
   });
 }
 
 function openJobPopup(job) {
   const popup = document.getElementById("popup");
-  const content = document.getElementById("popupContent");
 
-  const qualifies =
-    player.age >= job.minAge &&
-    player.smarts >= job.smarts;
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${job.name}</h2>
+      <p>💰 Salary: $${job.salary}</p>
+      <p>🎂 Min Age: ${job.minAge}</p>
+      <p>🧠 Required Smarts: ${job.smarts}</p>
+      <p>😊 Required Happiness: ${job.happiness}</p>
 
-  content.innerHTML = `
-    <h2>${job.name}</h2>
-    <p>Salary: $${job.salary}</p>
-    <p>Min Age: ${job.minAge}</p>
-    <p>Smarts Needed: ${job.smarts}</p>
-
-    ${
-      qualifies
-        ? `<button onclick="applyJob('${job.name}')">Apply</button>`
-        : `<p style="color:red;">Not qualified</p>`
-    }
-
-    <button onclick="closePopup()">Close</button>
+      <button class="popupBtn" onclick="applyForJob('${job.name}')">Apply</button>
+      <button class="popupBtn" onclick="closePopup()">Cancel</button>
+    </div>
   `;
 
   popup.style.display = "flex";
+}
+
+function applyForJob(jobName) {
+  const job = jobOpenings.find(j => j.name === jobName);
+  if (!job) return;
+
+  // Requirements check
+  if (
+    player.age < job.minAge ||
+    player.smarts < job.smarts ||
+    player.happiness < job.happiness
+  ) {
+    alert("❌ You don't meet the requirements!");
+    return;
+  }
+
+  // ✅ SUCCESS
+  currentJob = job;
+
+  document.getElementById("eventText").textContent =
+    `🎉 You got a job as ${job.name}!`;
+
+  closePopup();
+  renderJobs();
+}
+
+function openQuitJobPopup() {
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>Quit Job?</h2>
+      <button class="popupBtn" onclick="quitJob()">Yes</button>
+      <button class="popupBtn" onclick="closePopup()">No</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function quitJob() {
+  currentJob = null;
+
+  document.getElementById("eventText").textContent =
+    "You quit your job.";
+
+  closePopup();
+  renderJobs();
 }
 
 // ------------------------------
