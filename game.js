@@ -2014,7 +2014,7 @@ function chooseUniversity() {
 }
 
 function openUniversity(index) {
-  console.log("Opening university index:", index);
+  console.log("openUniversity called with:", index);
 
   const uni = universities[index];
 
@@ -2053,7 +2053,6 @@ function openUniversity(index) {
     </div>
   `;
 }
-
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
