@@ -864,6 +864,27 @@ document.addEventListener("click", e => {
   document.getElementById("assets-" + target).classList.add("active");
 });
 
+  function workShift() {
+  if (!currentJob) return;
+
+  // small random job effects
+  player.jobStats = player.jobStats || {
+    loyalty: 50,
+    performance: 50,
+    rank: "Employee"
+  };
+
+  player.jobStats.performance += Math.floor(Math.random() * 3);
+  player.jobStats.loyalty += Math.floor(Math.random() * 2);
+
+  player.jobStats.performance = clamp(player.jobStats.performance);
+  player.jobStats.loyalty = clamp(player.jobStats.loyalty);
+
+  player.happiness = clamp(player.happiness + 1);
+
+  updateUI();
+}
+
 
   // ------------------------------
   // SUBTAB BUTTONS
