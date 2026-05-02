@@ -79,7 +79,7 @@ let player = {
   name: "",
   gender: "",
   emoji: "",
-  lastName: "",   // family last name ONLY
+  lastName: "",
 
   relationships: {
     family: [],
@@ -92,10 +92,10 @@ let player = {
   },
 
   activities: {
-  exercise: ["🚶 Go for a walk", "🤸 Do jumping jacks", "🏋️ Stretch"],
-  fun: ["🎮 Play a game", "📺 Watch a show", "✏️ Draw something"],
-  misc: ["🧹 Clean your room", "🗃️ Organize your desk", "🧘 Meditate", "✈️ Go on a vacation"]
-},
+    exercise: ["🚶 Go for a walk", "🤸 Do jumping jacks", "🏋️ Stretch"],
+    fun: ["🎮 Play a game", "📺 Watch a show", "✏️ Draw something"],
+    misc: ["🧹 Clean your room", "🗃️ Organize your desk", "🧘 Meditate", "✈️ Go on a vacation"]
+  },
 
   education: {
     grades: {
@@ -105,14 +105,15 @@ let player = {
       art: 50
     },
     clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
-    joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
+    joinedClubs: [],
     teachers: []
   },
 
-  player.assets = {
-  houses: [],
-  vehicles: [],
-  items: []
+  assets: {
+    houses: [],
+    vehicles: [],
+    items: []
+  }
 };
 
 
