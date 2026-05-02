@@ -21,6 +21,12 @@ let player = {
     classmates: []
   },
 
+  activities: {
+  exercise: ["Go for a walk", "Do jumping jacks", "Stretch"],
+  fun: ["Play a game", "Watch a show", "Draw something"],
+  misc: ["Clean your room", "Organize your desk", "Meditate"]
+},
+
   education: {
     grades: {
       math: 50,
@@ -680,6 +686,41 @@ document.querySelectorAll(".clickableTeacher").forEach(el => {
   }
 
   // ------------------------------
+// ACTIVITIES TAB (AGE 6+)
+// ------------------------------
+const activitiesTab = document.getElementById("activitiesTab");
+
+if (player.age < 6) {
+  if (activitiesTab) activitiesTab.style.display = "none";
+} else {
+  if (activitiesTab) activitiesTab.style.display = "block";
+
+  // Render Exercise
+  document.getElementById("exerciseSection").innerHTML = `
+    <h3>Exercise</h3>
+    ${player.activities.exercise.map((a, i) => `
+      <button class="popupBtn" onclick="doActivity('exercise', ${i})">${a}</button>
+    `).join("")}
+  `;
+
+  // Render Fun
+  document.getElementById("funSection").innerHTML = `
+    <h3>Fun</h3>
+    ${player.activities.fun.map((a, i) => `
+      <button class="popupBtn" onclick="doActivity('fun', ${i})">${a}</button>
+    `).join("")}
+  `;
+
+  // Render Misc
+  document.getElementById("miscSection").innerHTML = `
+    <h3>Miscellaneous</h3>
+    ${player.activities.misc.map((a, i) => `
+      <button class="popupBtn" onclick="doActivity('misc', ${i})">${a}</button>
+    `).join("")}
+  `;
+}
+
+  // ------------------------------
   // SUBTAB BUTTONS
   // ------------------------------
   document.querySelectorAll(".subtabBtn").forEach(btn => {
@@ -1009,6 +1050,27 @@ function openTeacherPopup(index) {
 
   popup.style.display = "flex";
 }
+
+function doActivity(type, index) {
+  const activity = player.activities[type][index];
+
+  // Basic effect for now
+  player.happiness = clamp(player.happiness + 3);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>Activity</h2>
+      <p>You did: ${activity}</p>
+      <p>You feel a little happier.</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+  popup.style.display = "flex";
+
+  updateUI();
+}
+
 
 // ------------------------------
 // DEATH SYSTEM
