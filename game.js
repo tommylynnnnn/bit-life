@@ -966,7 +966,12 @@ function openJobPopup(index) {
       <p>🧠 Required Smarts: ${job.smarts}</p>
       <p>🎂 Minimum Age: ${job.minAge}</p>
 
-      <button class="popupBtn" onclick="applyForJob(${index})">Apply</button>
+      ${
+        player.age >= job.minAge && player.smarts >= job.smarts
+          ? `<button class="popupBtn" onclick="applyJob(${index})">Apply</button>`
+          : `<p style="color:red;">You do not meet the requirements.</p>`
+      }
+
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
@@ -977,19 +982,12 @@ function openJobPopup(index) {
 function applyJob(index) {
   const job = jobOpenings[index];
 
-  if (player.age < job.minAge) {
-    alert("You are too young for this job.");
-    return;
-  }
-
-  if (player.smarts < job.smarts) {
-    alert("You are not smart enough for this job.");
+  if (player.age < job.minAge || player.smarts < job.smarts) {
+    alert("You don't qualify.");
     return;
   }
 
   currentJob = job;
-  player.money += job.salary;
-  player.happiness += job.happiness;
 
   closePopup();
   renderJobs();
@@ -1230,49 +1228,28 @@ function doActivity(type, index) {
   updateUI();
 }
 
-function openJobPopup(job) {
+function openJobPopup(index) {
+  const job = jobOpenings[index];
   const popup = document.getElementById("popup");
-  const content = document.getElementById("popupContent");
 
-  const qualifies =
-    player.age >= job.minAge &&
-    player.smarts >= job.smarts;
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${job.name}</h2>
+      <p>💰 Salary: $${job.salary}</p>
+      <p>🧠 Required Smarts: ${job.smarts}</p>
+      <p>🎂 Minimum Age: ${job.minAge}</p>
 
-  content.innerHTML = `
-    <h2>${job.name}</h2>
-    <p><b>Salary:</b> $${job.salary}</p>
-    <p><b>Minimum Age:</b> ${job.minAge}</p>
-    <p><b>Required Smarts:</b> ${job.smarts}</p>
+      ${
+        player.age >= job.minAge && player.smarts >= job.smarts
+          ? `<button class="popupBtn" onclick="applyJob(${index})">Apply</button>`
+          : `<p style="color:red;">You do not meet the requirements.</p>`
+      }
 
-    ${
-      qualifies
-        ? `<button onclick="applyJob('${job.name}')">Apply</button>`
-        : `<p style="color:red;">You do not meet the requirements.</p>`
-    }
-
-    <button onclick="closePopup()">Close</button>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
   `;
 
   popup.style.display = "flex";
-}
-
-function applyJob(jobName) {
-  const job = jobOpenings.find(j => j.name === jobName);
-
-  if (!job) return;
-
-  if (player.age < job.minAge || player.smarts < job.smarts) {
-    alert("You don't qualify.");
-    return;
-  }
-
-  player.job = job.name;
-  player.salary = job.salary;
-
-  document.getElementById("eventText").textContent =
-    `You got a job as ${job.name}! 🎉`;
-
-  closePopup();
 }
 
 function closePopup() {
