@@ -1117,12 +1117,21 @@ function openJobPopup(index) {
 function applyJob(index) {
   const job = jobOpenings[index];
 
+  if (!job) return;
+
   if (player.age < job.minAge || player.smarts < job.smarts) {
     alert("You don't qualify.");
     return;
   }
 
   currentJob = job;
+
+  // initialize job stats safely
+  player.jobStats = player.jobStats || {
+    loyalty: 50,
+    performance: 50,
+    rank: "Employee"
+  };
 
   closePopup();
   renderJobs();
