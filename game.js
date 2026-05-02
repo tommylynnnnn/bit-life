@@ -719,6 +719,24 @@ if (activitiesTab) {
   }
 }
 
+  // ASSETS SUBTAB SWITCHING
+document.addEventListener("click", e => {
+  if (!e.target.classList.contains("subtabBtn")) return;
+
+  const target = e.target.dataset.subtab;
+
+  // Remove active from all subtabs
+  document.querySelectorAll("#assets .subtab").forEach(s => s.classList.remove("active"));
+
+  // Remove active from all buttons
+  document.querySelectorAll("#assets .subtabBtn").forEach(b => b.classList.remove("active"));
+
+  // Activate clicked button + matching subtab
+  e.target.classList.add("active");
+  document.getElementById("assets-" + target).classList.add("active");
+});
+
+
   // ------------------------------
   // SUBTAB BUTTONS
   // ------------------------------
