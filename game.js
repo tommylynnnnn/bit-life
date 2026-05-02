@@ -345,11 +345,11 @@ function clamp(val) {
 }
 
 function updateStat(stat, value) {
-  if (stat === "money") {
-    player.money = Math.max(0, player.money + value);
-  } else {
-    player[stat] = clamp(player[stat] + value);
-  }
+  player[stat] = clamp(player[stat] + value);
+}
+
+function updateMoney(value) {
+  player.money = Math.max(0, player.money + value);
 }
 
 function runYearEvents() {
