@@ -1,28 +1,23 @@
 const universities = [
   {
     name: "🏛️ Maple University",
-    req: { math: 60, reading: 60, science: 60 },
-    programs: ["Arts", "Business", "Law"]
+    req: { math: 60, reading: 60, science: 60 }
   },
   {
-    name: "🔬 Tech Institute",
-    req: { math: 75, reading: 50, science: 75 },
-    programs: ["Engineering", "Computer Science"]
+    name: "💻 Tech Institute",
+    req: { math: 75, science: 75 }
   },
   {
     name: "🎨 Fine Arts College",
-    req: { art: 70, reading: 50 },
-    programs: ["Painting", "Design"]
+    req: { art: 70, reading: 50 }
   },
   {
     name: "🏥 Medical School",
-    req: { math: 85, science: 90 },
-    programs: ["Medicine"]
+    req: { math: 85, science: 90 }
   },
   {
     name: "📚 Community College",
-    req: { math: 40, reading: 40 },
-    programs: ["General Studies"]
+    req: { math: 40, reading: 40 }
   }
 ];
 
@@ -101,10 +96,13 @@ let player = {
   looks: 50,
   money: 0,
 
+  path: null,          // ✅ FIXED
+  university: null,    // ✅ FIXED
+
   name: "",
   gender: "",
   emoji: "",
-  lastName: "",   // family last name ONLY
+  lastName: "",
 
   relationships: {
     family: [],
@@ -1114,26 +1112,28 @@ function updateUI() {
   teachersList.style.display = "block";
 }
 else {
-  schoolLevel.innerHTML = `
-    <p>🎓 You have finished high school.</p>
-    <button class="popupBtn" onclick="showPostHighSchoolChoice()">
-      Choose Next Step
-    </button>
-  `;
+  // If player already chose university
+  if (player.path === "university") {
+    schoolLevel.innerHTML = `
+      <p>🎓 Attending: ${player.university}</p>
+    `;
+  } 
+  // If they haven’t chosen yet
+  else {
+    schoolLevel.innerHTML = `
+      <p>🎓 You finished high school.</p>
+      <button class="popupBtn" onclick="renderUniversityOptions()">
+        Apply to University
+      </button>
+    `;
+  }
 
-  // Hide ALL education subsections completely
+  // 🔴 HIDE EVERYTHING ELSE
   classmatesList.style.display = "none";
   gradesList.style.display = "none";
   clubSelector.style.display = "none";
   joinedClubs.style.display = "none";
   teachersList.style.display = "none";
-
-  // Clear their contents so nothing "flickers" if re-enabled later
-  classmatesList.innerHTML = "";
-  gradesList.innerHTML = "";
-  clubSelector.innerHTML = "";
-  joinedClubs.innerHTML = "";
-  teachersList.innerHTML = "";
 }
 
   // GRADES
@@ -1924,7 +1924,7 @@ function showPostHighSchoolChoice() {
       <h2>🎓 What’s Next?</h2>
       <p>You’ve finished high school. What do you want to do?</p>
 
-      <button class="popupBtn" onclick="applyToUniversity()">
+      <button class="popupBtn" onclick="chooseUniversity()">
         🎓 Apply to University
       </button>
 
@@ -1937,20 +1937,96 @@ function showPostHighSchoolChoice() {
   popup.style.display = "flex";
 }
 
-function chooseJobs() {
-  player.path = "jobs"; // simple state flag
 
+// ------------------------------
+// JOB PATH
+// ------------------------------
+function chooseJobs() {
+  player.path = "jobs";
   closePopup();
   updateUI();
 }
 
-function applyToUniversity(index) {
-  if (typeof index !== "number" || !universities[index]) {
-    console.error("Invalid apply index:", index);
+
+// ------------------------------
+// UNIVERSITY LIST (SIMPLE VERSION)
+// ------------------------------
+function chooseUniversity() {
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>🎓 Choose a University</h2>
+
+      ${universities.map((u, i) => `
+        <button class="popupBtn" onclick="openUniversity(${i})">
+          ${u.name}
+        </button>
+      `).join("")}
+
+      <button class="popupBtn popupClose" onclick="closePopup()">
+        Close
+      </button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+
+// ------------------------------
+// UNIVERSITY DETAILS
+// ------------------------------
+function openUniversity(index) {
+  const uni = universities[index];
+
+  if (!uni) {
+    console.error("Invalid university index:", index);
     return;
   }
 
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${uni.name}</h2>
+
+      <h3>📊 Requirements</h3>
+      ${Object.entries(uni.req).map(([subject, value]) => `
+        <p><b>${subject}:</b> ${value}%</p>
+      `).join("")}
+
+      <h3>📚 Programs</h3>
+      <p>${uni.programs.join(", ")}</p>
+
+      <button class="popupBtn" onclick="applyToUniversity(${index})">
+        Apply
+      </button>
+
+      <button class="popupBtn" onclick="tryScholarship(${index})">
+        Apply for Scholarship
+      </button>
+
+      <button class="popupBtn popupClose" onclick="chooseUniversity()">
+        Back
+      </button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+
+// ------------------------------
+// APPLY LOGIC (FIXED)
+// ------------------------------
+function applyToUniversity(index) {
   const uni = universities[index];
+
+  if (!uni) {
+    console.error("Invalid university:", index);
+    return;
+  }
 
   let accepted = true;
 
@@ -1976,12 +2052,16 @@ function applyToUniversity(index) {
   }
 }
 
+
+// ------------------------------
+// SCHOLARSHIP
+// ------------------------------
 function tryScholarship(index) {
   const uni = universities[index];
 
   if (!uni) return;
 
-  const chance = uni.scholarshipChance || 0.3; // default 30%
+  const chance = uni.scholarshipChance || 0.3;
 
   if (Math.random() < chance) {
     player.scholarship = uni.name;
@@ -1991,96 +2071,10 @@ function tryScholarship(index) {
   }
 }
 
-function chooseUniversity() {
-  const popup = document.getElementById("popup");
 
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>🎓 Choose a University</h2>
-      <div id="uniList"></div>
-
-      <button class="popupBtn popupClose" onclick="closePopup()">
-        Close
-      </button>
-    </div>
-  `;
-
-  const list = document.getElementById("uniList");
-
-  universities.forEach((u, i) => {
-    const btn = document.createElement("button");
-    btn.className = "popupBtn";
-    btn.textContent = u.name;
-
-    // 🔒 store index in dataset instead of relying on scope
-    btn.dataset.index = i;
-
-    btn.onclick = function () {
-      openUniversity(this.dataset.index);
-    };
-
-    list.appendChild(btn);
-  });
-
-  popup.style.display = "flex";
-}
-
-function openUniversity(index) {
-  index = Number(index);
-
-  if (isNaN(index) || !universities[index]) {
-    console.error("Blocked invalid index:", index);
-    return;
-  }
-
-  const uni = universities[index];
-  const popup = document.getElementById("popup");
-
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${uni.name}</h2>
-
-      <h3>📊 Requirements</h3>
-      <div id="reqBox"></div>
-
-      <h3>📚 Programs</h3>
-      <p>${uni.programs.join(", ")}</p>
-
-      <div id="actionButtons"></div>
-
-      <button class="popupBtn popupClose" onclick="chooseUniversity()">
-        Back
-      </button>
-    </div>
-  `;
-
-  // ✅ Fill requirements safely
-  const reqBox = document.getElementById("reqBox");
-  Object.entries(uni.req).forEach(([subject, value]) => {
-    const p = document.createElement("p");
-    p.innerHTML = `<b>${subject}:</b> ${value}%`;
-    reqBox.appendChild(p);
-  });
-
-  // ✅ Create buttons safely (NO inline onclick)
-  const actionBox = document.getElementById("actionButtons");
-
-  const applyBtn = document.createElement("button");
-  applyBtn.className = "popupBtn";
-  applyBtn.textContent = "Apply";
-  applyBtn.onclick = () => applyToUniversity(index);
-
-  const scholarshipBtn = document.createElement("button");
-  scholarshipBtn.className = "popupBtn";
-  scholarshipBtn.textContent = "Apply for Scholarship";
-  scholarshipBtn.onclick = () => tryScholarship(index);
-
-  actionBox.appendChild(applyBtn);
-  actionBox.appendChild(scholarshipBtn);
-
-  popup.style.display = "flex";
-}
-
+// ------------------------------
+// CLOSE POPUP
+// ------------------------------
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
