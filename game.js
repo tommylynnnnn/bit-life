@@ -344,6 +344,14 @@ function clamp(val) {
   return Math.max(0, Math.min(100, val));
 }
 
+function updateStat(stat, value) {
+  if (stat === "money") {
+    player.money = Math.max(0, player.money + value);
+  } else {
+    player[stat] = clamp(player[stat] + value);
+  }
+}
+
 function runYearEvents() {
   const event = yearEvents[Math.floor(Math.random() * yearEvents.length)];
   eventQueue.push(event);
@@ -404,7 +412,7 @@ function closeAndContinue() {
 
 function processYearlyIncome() {
   if (currentJob) {
-    player.money += currentJob.salary;
+    updateStat("money", currentJob.salary);
   }
 
   // optional: trigger job event like clubs
@@ -1127,10 +1135,9 @@ function openJobEvent() {
 }
 
 function applyJobEffects(effects) {
-  if (effects.money) player.money += effects.money;
-  if (effects.happiness) player.happiness = clamp(player.happiness + effects.happiness);
-  if (effects.smarts) player.smarts = clamp(player.smarts + effects.smarts);
-
+  if (effects.money) updateStat("money", effects.money);
+if (effects.happiness) updateStat("happiness", effects.happiness);
+if (effects.smarts) updateStat("smarts", effects.smarts);
   updateUI();
 }
 // ------------------------------
@@ -1333,7 +1340,7 @@ function doActivity(type, index) {
   }
 
   // Basic activity effect
-  player.happiness = clamp(player.happiness + 3);
+  updateStat("happiness", 3);
 
   const popup = document.getElementById("popup");
   popup.innerHTML = `
