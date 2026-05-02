@@ -22,9 +22,9 @@ let player = {
   },
 
   activities: {
-  exercise: ["Go for a walk", "Do jumping jacks", "Stretch"],
-  fun: ["Play a game", "Watch a show", "Draw something"],
-  misc: ["Clean your room", "Organize your desk", "Meditate"]
+  exercise: ["🚶 Go for a walk", "🤸 Do jumping jacks", "🏋️ Stretch"],
+  fun: ["🎮 Play a game", "📺 Watch a show", "✏️ Draw something"],
+  misc: ["🧹 Clean your room", "🗃️ Organize your desk", "🧘 Meditate"]
 },
 
   education: {
