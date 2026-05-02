@@ -1085,15 +1085,21 @@ function updateUI() {
   joinedClubs.style.display = "block";
   teachersList.style.display = "block";
 }
-  else {
-    schoolLevel.textContent = "College / University";
-    classmatesList.innerHTML = "<p>College classmates coming soon.</p>";
+else {
+  schoolLevel.innerHTML = `
+    <p>🎓 You have finished high school.</p>
+    <button class="popupBtn" onclick="showPostHighSchoolChoice()">
+      Choose Next Step
+    </button>
+  `;
 
-    gradesList.style.display = "block";
-    clubSelector.style.display = "block";
-    joinedClubs.style.display = "block";
-    teachersList.style.display = "block";
-  }
+  classmatesList.innerHTML = "<p>No classmates in this stage.</p>";
+
+  gradesList.style.display = "block";
+  clubSelector.style.display = "block";
+  joinedClubs.style.display = "block";
+  teachersList.style.display = "block";
+}
 
   // GRADES
   gradesList.innerHTML = `
@@ -1873,6 +1879,43 @@ function openJobPopup(index) {
   `;
 
   popup.style.display = "flex";
+}
+
+function showPostHighSchoolChoice() {
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>🎓 What’s Next?</h2>
+      <p>You’ve finished high school. What do you want to do?</p>
+
+      <button class="popupBtn" onclick="applyToUniversity()">
+        🎓 Apply to University
+      </button>
+
+      <button class="popupBtn" onclick="chooseJobs()">
+        💼 Look for Jobs
+      </button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function chooseJobs() {
+  player.path = "jobs"; // simple state flag
+
+  closePopup();
+  updateUI();
+}
+
+function applyToUniversity() {
+  player.path = "university";
+
+  closePopup();
+  updateUI();
+
+  // later you'll expand this into applications system
 }
 
 function closePopup() {
