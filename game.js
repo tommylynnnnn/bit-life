@@ -1535,6 +1535,76 @@ function applyJobEffects(effects) {
 
   updateUI();
 }
+
+function openStorePopup(storeName, index) {
+  const item = stores[storeName][index];
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${item.name}</h2>
+      <p>💰 Price: $${item.price}</p>
+      <p>${item.description}</p>
+
+      <p>Effects:</p>
+      <ul>
+        ${Object.entries(item.effects).map(([key, val]) => `
+          <li>${key}: ${val > 0 ? "+" : ""}${val}</li>
+        `).join("")}
+      </ul>
+
+      ${
+        player.money >= item.price
+          ? `<button class="popupBtn" onclick="buyStoreItem('${storeName}', ${index})">Buy</button>`
+          : `<p style="color:red;">Not enough money</p>`
+      }
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function buyStoreItem(storeName, index) {
+  const item = stores[storeName][index];
+
+  if (player.money < item.price) {
+    alert("Not enough money!");
+    return;
+  }
+
+  // subtract money
+  player.money -= item.price;
+
+  // apply effects
+  for (let key in item.effects) {
+    if (player.hasOwnProperty(key)) {
+      player[key] = clamp(player[key] + item.effects[key]);
+    }
+  }
+
+  closePopup();
+  updateUI();
+}
+
+function renderStores() {
+  const container = document.getElementById("storesList");
+  if (!container) return;
+
+  container.innerHTML = Object.keys(stores).map(storeName => {
+    return `
+      <div class="storeBlock">
+        <h3>${storeName}</h3>
+        ${stores[storeName].map((item, index) => `
+          <button class="popupBtn" onclick="openStorePopup('${storeName}', ${index})">
+            ${item.name} - $${item.price}
+          </button>
+        `).join("")}
+      </div>
+    `;
+  }).join("");
+}
 // ------------------------------
 // POPUP SYSTEM (PETS)
 // ------------------------------
