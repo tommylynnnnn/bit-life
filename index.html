@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>LifeSim</title>
-  <link rel="stylesheet" href="style.css">
-</head>
 <body>
 
 <!-- START SCREEN -->
@@ -27,7 +20,6 @@
 
   <!-- HEADER -->
   <div class="game-header">
-
     <div id="playerHeader" class="playerHeader"></div>
 
     <div class="game-title">
@@ -49,33 +41,25 @@
     <div class="stats-panel">
       <div class="stat-row">
         <span class="stat-label">Happiness</span>
-        <div class="stat-bar">
-          <div class="stat-fill" id="stat-happiness"></div>
-        </div>
+        <div class="stat-bar"><div class="stat-fill" id="stat-happiness"></div></div>
         <span class="stat-value" id="stat-happiness-text">50%</span>
       </div>
 
       <div class="stat-row">
         <span class="stat-label">Health</span>
-        <div class="stat-bar">
-          <div class="stat-fill" id="stat-health"></div>
-        </div>
+        <div class="stat-bar"><div class="stat-fill" id="stat-health"></div></div>
         <span class="stat-value" id="stat-health-text">50%</span>
       </div>
 
       <div class="stat-row">
         <span class="stat-label">Smarts</span>
-        <div class="stat-bar">
-          <div class="stat-fill" id="stat-smarts"></div>
-        </div>
+        <div class="stat-bar"><div class="stat-fill" id="stat-smarts"></div></div>
         <span class="stat-value" id="stat-smarts-text">50%</span>
       </div>
 
       <div class="stat-row">
         <span class="stat-label">Looks</span>
-        <div class="stat-bar">
-          <div class="stat-fill" id="stat-looks"></div>
-        </div>
+        <div class="stat-bar"><div class="stat-fill" id="stat-looks"></div></div>
         <span class="stat-value" id="stat-looks-text">50%</span>
       </div>
     </div>
@@ -90,114 +74,85 @@
     <button class="nav-btn tabBtn" data-tab="education">Education</button>
   </div>
 
- <!-- TABS -->
-<div id="tabContent" class="tab-content">
+  <!-- TABS -->
+  <div id="tabContent" class="tab-content">
 
-  <!-- PERSONAL TAB -->
-  <div id="personal" class="tab active">
-    <p>Basic info and stats will appear here.</p>
-  </div>
+    <!-- PERSONAL -->
+    <div id="personal" class="tab active"></div>
 
-  <!-- ASSETS TAB -->
- <!-- ASSETS TAB -->
-<div id="assets" class="tab">
+    <!-- ASSETS -->
+    <div id="assets" class="tab">
 
-  <h2>Assets</h2>
+      <h2>Assets</h2>
 
-  <!-- SUBTAB BUTTONS -->
-  <div class="subtabBar">
-    <button class="subtabBtn" data-subtab="jobs">Jobs</button>
-    <button class="subtabBtn" data-subtab="houses">Houses</button>
-    <button class="subtabBtn" data-subtab="vehicles">Vehicles</button>
-    <button class="subtabBtn" data-subtab="items">Items</button>
-    <button class="subtabBtn" data-subtab="stores">Stores</button>
-  </div>
+      <div class="subtabBar">
+        <button class="subtabBtn" data-subtab="jobs">Jobs</button>
+        <button class="subtabBtn" data-subtab="houses">Houses</button>
+        <button class="subtabBtn" data-subtab="vehicles">Vehicles</button>
+        <button class="subtabBtn" data-subtab="items">Items</button>
+        <button class="subtabBtn" data-subtab="stores">Stores</button>
+      </div>
 
-  <!-- SUBTABS -->
-  <div id="assets-jobs" class="subtab active">
-    <h3>Jobs</h3>
-    <div id="jobsList"></div>
-  </div>
+      <div id="assets-jobs" class="subtab active">
+        <h3>Jobs</h3>
+        <div id="jobsList"></div>
+      </div>
 
-  <div id="assets-houses" class="subtab">
-    <h3>Houses</h3>
-    <div id="housesList"></div>
-  </div>
+      <div id="assets-houses" class="subtab"><div id="housesList"></div></div>
+      <div id="assets-vehicles" class="subtab"><div id="vehiclesList"></div></div>
+      <div id="assets-items" class="subtab"><div id="itemsList"></div></div>
+      <div id="assets-stores" class="subtab"><div id="storesList"></div></div>
 
-  <div id="assets-vehicles" class="subtab">
-    <h3>Vehicles</h3>
-    <div id="vehiclesList"></div>
-  </div>
+    </div>
 
-  <div id="assets-items" class="subtab">
-    <h3>Items</h3>
-    <div id="itemsList"></div>
-  </div>
+    <!-- RELATIONSHIPS -->
+    <div id="relationships" class="tab">
 
-  <div id="assets-stores" class="subtab">
-    <h3>Stores</h3>
-    <div id="storesList"></div>
-  </div>
+      <h3>Parents</h3><div id="familyList"></div>
+      <h3>Siblings</h3><div id="siblingsList"></div>
+      <h3>Friends</h3><div id="friendsList"></div>
+      <h3>Romantic</h3><div id="romanticList"></div>
+      <h3>Pets</h3><div id="petsList"></div>
+      <h3>Deceased</h3><div id="deceasedList"></div>
 
-</div>
+    </div>
 
-  <!-- RELATIONSHIPS TAB -->
-  <div id="relationships" class="tab">
-    <h3>Parents</h3>
-    <div id="familyList"></div>
+    <!-- ACTIVITIES -->
+    <div id="activitiesTab" class="tab">
+      <h2>Activities</h2>
 
-    <h3>Siblings</h3>
-    <div id="siblingsList"></div>
+      <div id="exerciseSection"></div>
+      <div id="funSection"></div>
+      <div id="miscSection"></div>
+    </div>
 
-    <h3>Friends</h3>
-    <div id="friendsList"></div>
+    <!-- EDUCATION -->
+    <div id="education" class="tab">
 
-    <h3>Romantic</h3>
-    <div id="romanticList"></div>
+      <h3>School Level</h3>
+      <p id="schoolLevel"></p>
 
-    <h3>Pets</h3>
-    <div id="petsList"></div>
+      <h3>Classmates</h3>
+      <div id="classmatesList"></div>
 
-    <h3>Deceased</h3>
-    <div id="deceasedList"></div>
-  </div>
+      <h3>Grades</h3>
+      <div id="gradesList"></div>
 
-  <!-- ⭐ ACTIVITIES TAB (correct placement + correct class) -->
-  <div id="activitiesTab" class="tab">
-    <h2>Activities</h2>
+      <h3>Clubs</h3>
+      <div id="clubSelector"></div>
+      <div id="joinedClubs"></div>
 
-    <div id="exerciseSection"></div>
-    <div id="funSection"></div>
-    <div id="miscSection"></div>
-  </div>
+      <h3>Teachers</h3>
+      <div id="teachersList"></div>
 
-  <!-- EDUCATION TAB -->
-  <div id="education" class="tab">
-
-    <h3>School Level</h3>
-    <p id="schoolLevel"></p>
-
-    <h3>Classmates</h3>
-    <div id="classmatesList"></div>
-
-    <h3>Grades</h3>
-    <div id="gradesList"></div>
-
-    <h3>Clubs</h3>
-    <div id="clubSelector"></div>
-    <div id="joinedClubs"></div>
-
-    <h3>Teachers</h3>
-    <div id="teachersList"></div>
+    </div>
 
   </div>
 
 </div>
 
+<!-- GLOBAL POPUP -->
+<div id="popup" class="popupOverlay"></div>
 
-  <!-- GLOBAL POPUP -->
-  <div id="popup" class="popupOverlay"></div>
-
-  <script src="game.js"></script>
+<script src="game.js"></script>
 </body>
-</html>
