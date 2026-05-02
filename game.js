@@ -945,6 +945,32 @@ function renderJobs() {
   });
 }
 
+function openJobPopup(job) {
+  const popup = document.getElementById("popup");
+  const content = document.getElementById("popupContent");
+
+  const qualifies =
+    player.age >= job.minAge &&
+    player.smarts >= job.smarts;
+
+  content.innerHTML = `
+    <h2>${job.name}</h2>
+    <p>Salary: $${job.salary}</p>
+    <p>Min Age: ${job.minAge}</p>
+    <p>Smarts Needed: ${job.smarts}</p>
+
+    ${
+      qualifies
+        ? `<button onclick="applyJob('${job.name}')">Apply</button>`
+        : `<p style="color:red;">Not qualified</p>`
+    }
+
+    <button onclick="closePopup()">Close</button>
+  `;
+
+  popup.style.display = "flex";
+}
+
 // ------------------------------
 // POPUP SYSTEM (PETS)
 // ------------------------------
