@@ -273,6 +273,66 @@ const clubEvents = {
   ]
 };
 
+const jobEvents = {
+  "🍔 Fast Food Worker": [
+    {
+      text: "A rush hits the restaurant. Everything is chaos.",
+      choices: [
+        { text: "Work faster", effects: { money: 20, happiness: -2 } },
+        { text: "Stay calm and steady", effects: { money: 10 } },
+        { text: "Hide in the back for a bit", effects: { happiness: 5, money: -10 } }
+      ]
+    },
+    {
+      text: "A customer complains about their order.",
+      choices: [
+        { text: "Fix it politely", effects: { happiness: 3, money: 10 } },
+        { text: "Ignore them", effects: { happiness: -5 } }
+      ]
+    }
+  ],
+
+  "🛒 Retail Employee": [
+    {
+      text: "The store is understaffed today.",
+      choices: [
+        { text: "Help extra customers", effects: { money: 15, happiness: 2 } },
+        { text: "Do only your section", effects: { happiness: -2 } }
+      ]
+    }
+  ],
+
+  "💻 Junior Developer": [
+    {
+      text: "A bug breaks the entire system.",
+      choices: [
+        { text: "Fix it quickly", effects: { smarts: 2, money: 40 } },
+        { text: "Ask for help", effects: { happiness: 2 } }
+      ]
+    }
+  ],
+
+  "🏥 Doctor": [
+    {
+      text: "A difficult patient arrives.",
+      choices: [
+        { text: "Stay professional", effects: { happiness: 2, money: 80 } },
+        { text: "Take extra time with them", effects: { happiness: 5 } }
+      ]
+    }
+  ],
+
+  "🎨 Artist": [
+    {
+      text: "You’re offered a small commission.",
+      choices: [
+        { text: "Accept it", effects: { money: 50, happiness: 3 } },
+        { text: "Decline and rest", effects: { happiness: 5 } }
+      ]
+    }
+  ]
+};
+
 // Load base events + DLC later
 async function loadEvents() {
   const base = await fetch("data/events.json").then(r => r.json());
@@ -343,9 +403,14 @@ function closeAndContinue() {
 }
 
 function processYearlyIncome() {
-  if (!currentJob) return;
+  if (currentJob) {
+    player.money += currentJob.salary;
+  }
 
-  player.money += currentJob.salary;
+  // optional: trigger job event like clubs
+  if (currentJob && Math.random() < 0.6) {
+    openJobEvent();
+  }
 }
 
 // ------------------------------
@@ -1017,6 +1082,56 @@ function openQuitJobPopup() {
 function quitJob() {
   currentJob = null;
   renderJobs();
+}
+
+function openJobEvent() {
+  if (!currentJob) return;
+
+  const events = jobEvents[currentJob.name];
+  if (!events) return;
+
+  const event = events[Math.floor(Math.random() * events.length)];
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>💼 Work Event</h2>
+      <p>${event.text}</p>
+      <div id="jobChoices"></div>
+    </div>
+  `;
+
+  const choiceBox = document.getElementById("jobChoices");
+
+  event.choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.className = "popupBtn";
+    btn.textContent = choice.text;
+
+    btn.onclick = () => {
+      applyJobEffects(choice.effects);
+
+      popup.innerHTML = `
+        <div class="popupCard">
+          <h2>Work Complete</h2>
+          <p>You chose: ${choice.text}</p>
+          <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+        </div>
+      `;
+    };
+
+    choiceBox.appendChild(btn);
+  });
+
+  popup.style.display = "flex";
+}
+
+function applyJobEffects(effects) {
+  if (effects.money) player.money += effects.money;
+  if (effects.happiness) player.happiness = clamp(player.happiness + effects.happiness);
+  if (effects.smarts) player.smarts = clamp(player.smarts + effects.smarts);
+
+  updateUI();
 }
 // ------------------------------
 // POPUP SYSTEM (PETS)
