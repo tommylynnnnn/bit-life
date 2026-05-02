@@ -1049,6 +1049,11 @@ function renderJobs() {
 }
 
 function openJobPopup(index) {
+  if (index === undefined || jobOpenings[index] === undefined) {
+    console.error("Invalid job index:", index);
+    return;
+  }
+
   const job = jobOpenings[index];
   const popup = document.getElementById("popup");
 
@@ -1388,30 +1393,6 @@ function doActivity(type, index) {
   popup.style.display = "flex";
 
   updateUI();
-}
-
-function openJobPopup(index) {
-  const job = jobOpenings[index];
-  const popup = document.getElementById("popup");
-
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${job.name}</h2>
-      <p>💰 Salary: $${job.salary}</p>
-      <p>🧠 Required Smarts: ${job.smarts}</p>
-      <p>🎂 Minimum Age: ${job.minAge}</p>
-
-      ${
-        player.age >= job.minAge && player.smarts >= job.smarts
-          ? `<button class="popupBtn" onclick="applyJob(${index})">Apply</button>`
-          : `<p style="color:red;">You do not meet the requirements.</p>`
-      }
-
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
-  popup.style.display = "flex";
 }
 
 function closePopup() {
