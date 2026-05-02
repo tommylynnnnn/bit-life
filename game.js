@@ -690,34 +690,34 @@ document.querySelectorAll(".clickableTeacher").forEach(el => {
 // ------------------------------
 const activitiesTab = document.getElementById("activitiesTab");
 
-if (player.age < 6) {
-  if (activitiesTab) activitiesTab.style.display = "none";
-} else {
-  if (activitiesTab) activitiesTab.style.display = "block";
+if (activitiesTab && activitiesTab.classList.contains("active")) {
 
-  // Render Exercise
-  document.getElementById("exerciseSection").innerHTML = `
-    <h3>Exercise</h3>
-    ${player.activities.exercise.map((a, i) => `
-      <button class="popupBtn" onclick="doActivity('exercise', ${i})">${a}</button>
-    `).join("")}
-  `;
+  if (player.age < 6) {
+    activitiesTab.style.display = "none";
+  } else {
+    activitiesTab.style.display = "block";
 
-  // Render Fun
-  document.getElementById("funSection").innerHTML = `
-    <h3>Fun</h3>
-    ${player.activities.fun.map((a, i) => `
-      <button class="popupBtn" onclick="doActivity('fun', ${i})">${a}</button>
-    `).join("")}
-  `;
+    document.getElementById("exerciseSection").innerHTML = `
+      <h3>Exercise</h3>
+      ${player.activities.exercise.map((a, i) => `
+        <button class="popupBtn" onclick="doActivity('exercise', ${i})">${a}</button>
+      `).join("")}
+    `;
 
-  // Render Misc
-  document.getElementById("miscSection").innerHTML = `
-    <h3>Miscellaneous</h3>
-    ${player.activities.misc.map((a, i) => `
-      <button class="popupBtn" onclick="doActivity('misc', ${i})">${a}</button>
-    `).join("")}
-  `;
+    document.getElementById("funSection").innerHTML = `
+      <h3>Fun</h3>
+      ${player.activities.fun.map((a, i) => `
+        <button class="popupBtn" onclick="doActivity('fun', ${i})">${a}</button>
+      `).join("")}
+    `;
+
+    document.getElementById("miscSection").innerHTML = `
+      <h3>Miscellaneous</h3>
+      ${player.activities.misc.map((a, i) => `
+        <button class="popupBtn" onclick="doActivity('misc', ${i})">${a}</button>
+      `).join("")}
+    `;
+  }
 }
 
   // ------------------------------
