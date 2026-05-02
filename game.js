@@ -1465,6 +1465,9 @@ function applyClubEffects(index, effects, clubName) {
 
 function ageUp() {
   player.age++;
+
+  processYearlyIncome();
+  
   player.emoji = genderEmoji(player.gender, player.age);
 
   yearEventUsed = false;
