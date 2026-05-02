@@ -453,8 +453,8 @@ function startGame() {
   player.gender = gender;
   player.emoji = genderEmoji(gender, player.age);
 
-  generateFamily();
-  ();
+generateFamily();
+renderJobs(); // ← REQUIRED
 
   document.getElementById("startScreen").style.display = "none";
   updateUI();
