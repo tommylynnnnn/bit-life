@@ -1053,13 +1053,26 @@ function openTeacherPopup(index) {
 function doActivity(type, index) {
   const activity = player.activities[type][index];
 
-  // ⭐ SPECIAL CASE: VACATION
+  // ⭐ AGE RESTRICTION FOR VACATION
   if (activity.includes("vacation")) {
+    if (player.age < 18) {
+      const popup = document.getElementById("popup");
+      popup.innerHTML = `
+        <div class="popupCard">
+          <h2>✈️ Vacation Locked</h2>
+          <p>You need to be 18 years old or older to go on vacation.</p>
+          <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+        </div>
+      `;
+      popup.style.display = "flex";
+      return;
+    }
+
     openVacationPopup();
     return;
   }
 
-  // Basic effect for now
+  // Basic activity effect
   player.happiness = clamp(player.happiness + 3);
 
   const popup = document.getElementById("popup");
@@ -1075,7 +1088,6 @@ function doActivity(type, index) {
 
   updateUI();
 }
-
 
 // ------------------------------
 // DEATH SYSTEM
