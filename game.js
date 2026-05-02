@@ -1336,7 +1336,33 @@ function ageUp() {
 
   checkDeaths();
   runEvent();
+
+  yearlyStatChanges();
+  
   updateUI();
+}
+
+// ------------------------------
+// YEARLY STAT CHANGES
+// ------------------------------
+function yearlyStatChanges() {
+  // Happiness naturally shifts
+  player.happiness += Math.floor(Math.random() * 7) - 3; // -3 to +3
+
+  // Health slowly declines or improves
+  player.health += Math.floor(Math.random() * 5) - 2; // -2 to +2
+
+  // Smarts slightly improves with age (or drifts)
+  player.smarts += Math.floor(Math.random() * 4) - 1; // -1 to +2
+
+  // Looks slowly declines with age (subtle realism)
+  player.looks += Math.floor(Math.random() * 3) - 2; // -2 to +0
+
+  // Clamp everything
+  player.happiness = clamp(player.happiness);
+  player.health = clamp(player.health);
+  player.smarts = clamp(player.smarts);
+  player.looks = clamp(player.looks);
 }
 
 // ------------------------------
