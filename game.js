@@ -344,10 +344,10 @@ function clamp(val) {
   return Math.max(0, Math.min(100, val));
 }
 
-function updateStat(stat, value) {
+function changeStat(stat, value) {
   if (stat === "money") {
     player.money = Math.max(0, player.money + value);
-  } else {
+  } else if (player.hasOwnProperty(stat)) {
     player[stat] = clamp(player[stat] + value);
   }
 }
@@ -1135,9 +1135,10 @@ function openJobEvent() {
 }
 
 function applyJobEffects(effects) {
-  if (effects.money) updateStat("money", effects.money);
-if (effects.happiness) updateStat("happiness", effects.happiness);
-if (effects.smarts) updateStat("smarts", effects.smarts);
+  if (effects.money) changeStat("money", effects.money);
+  if (effects.happiness) changeStat("happiness", effects.happiness);
+  if (effects.smarts) changeStat("smarts", effects.smarts);
+
   updateUI();
 }
 // ------------------------------
@@ -1470,12 +1471,11 @@ function showGameOver() {
 function applyChoice(effects, npcName = null) {
   for (let stat in effects) {
 
-    // Add friend event
     if (stat === "addFriend" && npcName) {
       const gender = randomGender();
       player.relationships.friends.push({
         name: npcName,
-        gender: gender,
+        gender,
         age: player.age,
         emoji: genderEmoji(gender, player.age),
         closeness: 50
@@ -1483,12 +1483,8 @@ function applyChoice(effects, npcName = null) {
       continue;
     }
 
-    // Normal stat changes
-   if (stat === "money") {
-  updateStat("money", effects[stat]);
-} else if (player.hasOwnProperty(stat)) {
-  player[stat] = clamp(player[stat] + effects[stat]);
-}
+    changeStat(stat, effects[stat]);
+  }
 
   document.getElementById("choices").innerHTML = "";
   document.getElementById("eventText").textContent = "You made your choice.";
@@ -1568,11 +1564,10 @@ function applyClubEffects(index, effects, clubName) {
   for (let key in effects) {
     if (key === "loyalty") {
       club.loyalty = clamp(club.loyalty + effects[key]);
-    } else if (key === "money") {
-  updateStat("money", effects[key]);
-} else if (player.hasOwnProperty(key)) {
-  player[key] = clamp(player[key] + effects[key]);
-}
+    } else {
+      changeStat(key, effects[key]);
+    }
+  }
 
   const popup = document.getElementById("popup");
   popup.innerHTML = `
