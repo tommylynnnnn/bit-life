@@ -41,7 +41,6 @@ const stores = {
     {
       name: "Tiny Apartment",
       price: 5000,
-      category: "houses",
       effects: { happiness: 5 },
       description: "A small but cozy starter home."
     }
@@ -51,7 +50,6 @@ const stores = {
     {
       name: "Old Bicycle",
       price: 100,
-      category: "vehicles",
       effects: { happiness: 2 },
       description: "Cheap transport."
     }
@@ -61,9 +59,8 @@ const stores = {
     {
       name: "Vintage Clock",
       price: 500,
-      category: "items",
       effects: { happiness: 3 },
-      description: "A decorative antique piece."
+      description: "Old but valuable."
     }
   ]
 };
@@ -79,7 +76,7 @@ let player = {
   name: "",
   gender: "",
   emoji: "",
-  lastName: "",
+  lastName: "",   // family last name ONLY
 
   relationships: {
     family: [],
@@ -92,10 +89,10 @@ let player = {
   },
 
   activities: {
-    exercise: ["🚶 Go for a walk", "🤸 Do jumping jacks", "🏋️ Stretch"],
-    fun: ["🎮 Play a game", "📺 Watch a show", "✏️ Draw something"],
-    misc: ["🧹 Clean your room", "🗃️ Organize your desk", "🧘 Meditate", "✈️ Go on a vacation"]
-  },
+  exercise: ["🚶 Go for a walk", "🤸 Do jumping jacks", "🏋️ Stretch"],
+  fun: ["🎮 Play a game", "📺 Watch a show", "✏️ Draw something"],
+  misc: ["🧹 Clean your room", "🗃️ Organize your desk", "🧘 Meditate", "✈️ Go on a vacation"]
+},
 
   education: {
     grades: {
@@ -105,16 +102,8 @@ let player = {
       art: 50
     },
     clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
-    joinedClubs: [],
+    joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
     teachers: []
-  },
-
-  assets: {
-    jobs: [],
-    houses: [],
-    vehicles: [],
-    items: [],
-    stores: []
   }
 };
 
@@ -1015,20 +1004,6 @@ function updateUI() {
     `;
   }
 
-  const assetBox = document.getElementById("assets");
-
-if (assetBox) {
-  assetBox.innerHTML = `
-    <h3>🏠 Houses</h3>
-    ${player.assets.houses.map(h => `<p>${h.name}</p>`).join("") || "<p>None</p>"}
-
-    <h3>🚗 Vehicles</h3>
-    ${player.assets.vehicles.map(v => `<p>${v.name}</p>`).join("") || "<p>None</p>"}
-
-    <h3>🎒 Items</h3>
-    ${player.assets.items.map(i => `<p>${i.name}</p>`).join("") || "<p>None</p>"}
-  `;
-}
   // ------------------------------
   // EDUCATION
   // ------------------------------
@@ -1632,20 +1607,11 @@ function buyStoreItem(storeName, index) {
   // subtract money
   player.money -= item.price;
 
-  // apply stat effects
+  // apply effects
   for (let key in item.effects) {
     if (player.hasOwnProperty(key)) {
       player[key] = clamp(player[key] + item.effects[key]);
     }
-  }
-
-  // 🧠 STORE ITEM IN CORRECT CATEGORY
-  if (item.category && player.assets[item.category]) {
-    player.assets[item.category].push({
-      name: item.name,
-      description: item.description,
-      price: item.price
-    });
   }
 
   closePopup();
