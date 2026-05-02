@@ -1093,17 +1093,19 @@ else {
     </button>
   `;
 
-  // Hide ALL school-related sections
+  // Hide ALL education subsections completely
+  classmatesList.style.display = "none";
+  gradesList.style.display = "none";
+  clubSelector.style.display = "none";
+  joinedClubs.style.display = "none";
+  teachersList.style.display = "none";
+
+  // Clear their contents so nothing "flickers" if re-enabled later
   classmatesList.innerHTML = "";
   gradesList.innerHTML = "";
   clubSelector.innerHTML = "";
   joinedClubs.innerHTML = "";
   teachersList.innerHTML = "";
-
-  gradesList.style.display = "none";
-  clubSelector.style.display = "none";
-  joinedClubs.style.display = "none";
-  teachersList.style.display = "none";
 }
 
   // GRADES
