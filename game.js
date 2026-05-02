@@ -2114,7 +2114,7 @@ function generateElementaryClassmates() {
 // TEACHER GENERATOR
 // ------------------------------
 function generateTeachers() {
-  const teacherNames = ["Ms. Carter", "Mr. Lopez", "Mrs. Singh", "Mr. Brown", "Ms. Nguyen"];
+  const teacherNames = ["Ms. Carter", "Mr. Lopez", "Mrs. Singh", "Mr. Brown", "Ms. Nguyen", "Mr. Smithers", "Ms. Inglethorp", "Ms. Printz", "Ms. Chambers", "Ms. Shen", "Mr. Maputena", "Mr. Stefanov", "Mr. Jones", "Ms. Swan", "Ms. MacDonald"];
 
   const subjects = ["Math", "Reading", "Science", "Art"];
 
