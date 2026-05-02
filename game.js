@@ -1998,11 +1998,7 @@ function chooseUniversity() {
   popup.innerHTML = `
     <div class="popupCard">
       <h2>🎓 Choose a University</h2>
-      ${universities.map((u, i) => `
-        <button class="popupBtn" onclick="openUniversity(${i})">
-          ${u.name}
-        </button>
-      `).join("")}
+      <div id="uniList"></div>
 
       <button class="popupBtn popupClose" onclick="closePopup()">
         Close
@@ -2010,16 +2006,34 @@ function chooseUniversity() {
     </div>
   `;
 
+  const list = document.getElementById("uniList");
+
+  universities.forEach((u, i) => {
+    const btn = document.createElement("button");
+    btn.className = "popupBtn";
+    btn.textContent = u.name;
+
+    btn.onclick = () => openUniversity(i); // ✅ ALWAYS correct
+
+    list.appendChild(btn);
+  });
+
   popup.style.display = "flex";
 }
 
 function openUniversity(index) {
   console.log("openUniversity called with:", index);
 
+  // 🔒 FORCE a valid index
+  if (index === undefined || index === null || isNaN(index)) {
+    console.warn("Invalid index received. Defaulting to 0.");
+    index = 0;
+  }
+
   const uni = universities[index];
 
   if (!uni || !uni.req) {
-    console.error("Invalid university:", index);
+    console.error("Still invalid university at index:", index);
     return;
   }
 
@@ -2052,7 +2066,10 @@ function openUniversity(index) {
       </button>
     </div>
   `;
+
+  popup.style.display = "flex";
 }
+
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
