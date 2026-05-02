@@ -342,6 +342,12 @@ function closeAndContinue() {
   showNextEvent();
 }
 
+function processYearlyIncome() {
+  if (!currentJob) return;
+
+  player.money += currentJob.salary;
+}
+
 // ------------------------------
 // START GAME + FAMILY GENERATOR
 // ------------------------------
