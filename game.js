@@ -412,7 +412,7 @@ function closeAndContinue() {
 
 function processYearlyIncome() {
   if (currentJob) {
-    updateStat("money", currentJob.salary);
+    changeStat("money", currentJob.salary);
   }
 
   // optional: trigger job event like clubs
