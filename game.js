@@ -1848,7 +1848,7 @@ function doActivity(type, index) {
   }
 
   // Basic activity effect
-  updateStat("happiness", 3);
+  changeStat("happiness", 3);
 
   const popup = document.getElementById("popup");
   popup.innerHTML = `
