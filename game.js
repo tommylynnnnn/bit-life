@@ -24,7 +24,7 @@ let player = {
   activities: {
   exercise: ["🚶 Go for a walk", "🤸 Do jumping jacks", "🏋️ Stretch"],
   fun: ["🎮 Play a game", "📺 Watch a show", "✏️ Draw something"],
-  misc: ["🧹 Clean your room", "🗃️ Organize your desk", "🧘 Meditate"]
+  misc: ["🧹 Clean your room", "🗃️ Organize your desk", "🧘 Meditate", "✈️ Go on a vacation"]
 },
 
   education: {
@@ -1053,6 +1053,12 @@ function openTeacherPopup(index) {
 function doActivity(type, index) {
   const activity = player.activities[type][index];
 
+  // ⭐ SPECIAL CASE: VACATION
+  if (activity.includes("vacation")) {
+    openVacationPopup();
+    return;
+  }
+
   // Basic effect for now
   player.happiness = clamp(player.happiness + 3);
 
@@ -1670,6 +1676,65 @@ function becomeFriendFromClassmate(index) {
       <h2>${c.emoji} ${c.name}</h2>
       <p>You are now friends!</p>
       <p>They have been added to your Friends list.</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
+function openVacationPopup() {
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>✈️ Vacation Time!</h2>
+      <p>Where would you like to go?</p>
+
+      <button class="popupBtn" onclick="vacationChoice('beach')">🏖️ Beach</button>
+      <button class="popupBtn" onclick="vacationChoice('mountains')">⛰️ Mountains</button>
+      <button class="popupBtn" onclick="vacationChoice('city')">🏙️ City</button>
+      <button class="popupBtn" onclick="vacationChoice('stayhome')">🏠 Stay Home</button>
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Cancel</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function vacationChoice(type) {
+  let result = "";
+  let happinessGain = 0;
+
+  if (type === "beach") {
+    result = "You relaxed at the beach and swam in the ocean.";
+    happinessGain = 15;
+  }
+
+  if (type === "mountains") {
+    result = "You went hiking and enjoyed the fresh air.";
+    happinessGain = 12;
+  }
+
+  if (type === "city") {
+    result = "You explored a busy city full of lights and food.";
+    happinessGain = 10;
+  }
+
+  if (type === "stayhome") {
+    result = "You stayed home and rested all week.";
+    happinessGain = 8;
+  }
+
+  player.happiness = clamp(player.happiness + happinessGain);
+
+  const popup = document.getElementById("popup");
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>✈️ Vacation Result</h2>
+      <p>${result}</p>
+      <p>You gained +${happinessGain}% happiness!</p>
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
