@@ -291,7 +291,8 @@ html {
 .clickableFamily:hover,
 .clickableSibling:hover,
 .clickablePet:hover,
-.clickableFriend:hover {
+.clickableFriend:hover,
+.clickableRomantic:hover {
   text-decoration: underline;
 }
 
