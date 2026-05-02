@@ -409,12 +409,9 @@ function closeAndContinue() {
 }
 
 function processYearlyIncome() {
-  if (currentJob) {
-    player.money += currentJob.salary;
+  if (!currentJob) return;
 
-    player.jobStats.performance -= 1;
-    player.jobStats.performance = clamp(player.jobStats.performance);
-  }
+  player.money += currentJob.salary;
 }
 
 function applyJobChoice(effects) {
