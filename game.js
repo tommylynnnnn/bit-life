@@ -1,3 +1,5 @@
+const originalMoneySetter = Object.getOwnPropertyDescriptor(player, 'money');
+
 const jobOpenings = [
   {
     name: "🍔 Fast Food Worker",
