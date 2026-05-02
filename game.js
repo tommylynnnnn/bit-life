@@ -41,6 +41,7 @@ const stores = {
     {
       name: "Tiny Apartment",
       price: 5000,
+      effects: { happiness: 5 },
       description: "A small but cozy starter home."
     }
   ],
@@ -49,6 +50,7 @@ const stores = {
     {
       name: "Old Bicycle",
       price: 100,
+      effects: { happiness: 2 },
       description: "Cheap transport."
     }
   ],
@@ -57,6 +59,7 @@ const stores = {
     {
       name: "Vintage Clock",
       price: 500,
+      effects: { happiness: 3 },
       description: "Old but valuable."
     }
   ]
@@ -1593,7 +1596,7 @@ function openStorePopup(storeName, index) {
   popup.style.display = "flex";
 }
 
-function buyItem(storeName, index) {
+function buyStoreItem(storeName, index) {
   const item = stores[storeName][index];
 
   if (player.money < item.price) {
@@ -1601,11 +1604,18 @@ function buyItem(storeName, index) {
     return;
   }
 
+  // subtract money
   player.money -= item.price;
-  player.assets[item.category].push(item);
 
+  // apply effects
+  for (let key in item.effects) {
+    if (player.hasOwnProperty(key)) {
+      player[key] = clamp(player[key] + item.effects[key]);
+    }
+  }
+
+  closePopup();
   updateUI();
-  renderInventory(); // if you're using inventory tab
 }
 
 function renderStores() {
