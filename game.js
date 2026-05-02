@@ -1484,10 +1484,11 @@ function applyChoice(effects, npcName = null) {
     }
 
     // Normal stat changes
-    if (player.hasOwnProperty(stat)) {
-      player[stat] = clamp(player[stat] + effects[stat]);
-    }
-  }
+   if (stat === "money") {
+  updateStat("money", effects[stat]);
+} else if (player.hasOwnProperty(stat)) {
+  player[stat] = clamp(player[stat] + effects[stat]);
+}
 
   document.getElementById("choices").innerHTML = "";
   document.getElementById("eventText").textContent = "You made your choice.";
@@ -1567,10 +1568,11 @@ function applyClubEffects(index, effects, clubName) {
   for (let key in effects) {
     if (key === "loyalty") {
       club.loyalty = clamp(club.loyalty + effects[key]);
-    } else if (player.hasOwnProperty(key)) {
-      player[key] = clamp(player[key] + effects[key]);
-    }
-  }
+    } else if (key === "money") {
+  updateStat("money", effects[key]);
+} else if (player.hasOwnProperty(key)) {
+  player[key] = clamp(player[key] + effects[key]);
+}
 
   const popup = document.getElementById("popup");
   popup.innerHTML = `
