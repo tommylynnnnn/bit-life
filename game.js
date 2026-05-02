@@ -41,7 +41,6 @@ const stores = {
     {
       name: "Tiny Apartment",
       price: 5000,
-      effects: { happiness: 5 },
       description: "A small but cozy starter home."
     }
   ],
@@ -50,7 +49,6 @@ const stores = {
     {
       name: "Old Bicycle",
       price: 100,
-      effects: { happiness: 2 },
       description: "Cheap transport."
     }
   ],
@@ -59,7 +57,6 @@ const stores = {
     {
       name: "Vintage Clock",
       price: 500,
-      effects: { happiness: 3 },
       description: "Old but valuable."
     }
   ]
