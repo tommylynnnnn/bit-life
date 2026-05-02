@@ -963,11 +963,11 @@ function openJobPopup(index) {
     <div class="popupCard">
       <h2>${job.name}</h2>
       <p>💰 Salary: $${job.salary}</p>
-      <p>🎂 Required Age: ${job.minAge}</p>
       <p>🧠 Required Smarts: ${job.smarts}</p>
+      <p>🎂 Minimum Age: ${job.minAge}</p>
 
-      <button class="popupBtn" onclick="applyJob(${index})">Apply</button>
-      <button class="popupBtn popupClose" onclick="closePopup()">Cancel</button>
+      <button class="popupBtn" onclick="applyForJob(${index})">Apply</button>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
 
