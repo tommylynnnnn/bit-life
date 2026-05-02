@@ -1593,7 +1593,7 @@ function openStorePopup(storeName, index) {
   popup.style.display = "flex";
 }
 
-function buyStoreItem(storeName, index) {
+function buyItem(storeName, index) {
   const item = stores[storeName][index];
 
   if (player.money < item.price) {
@@ -1601,18 +1601,11 @@ function buyStoreItem(storeName, index) {
     return;
   }
 
-  // subtract money
   player.money -= item.price;
+  player.assets[item.category].push(item);
 
-  // apply effects
-  for (let key in item.effects) {
-    if (player.hasOwnProperty(key)) {
-      player[key] = clamp(player[key] + item.effects[key]);
-    }
-  }
-
-  closePopup();
   updateUI();
+  renderInventory(); // if you're using inventory tab
 }
 
 function renderStores() {
