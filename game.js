@@ -1945,9 +1945,7 @@ function chooseJobs() {
 }
 
 function applyToUniversity(index) {
-  index = Number(index);
-
-  if (isNaN(index) || !universities[index]) {
+  if (typeof index !== "number" || !universities[index]) {
     console.error("Invalid apply index:", index);
     return;
   }
@@ -2028,12 +2026,9 @@ function chooseUniversity() {
 }
 
 function openUniversity(index) {
-  console.log("RAW index:", index);
-
-  // 🔒 Convert to number safely
   index = Number(index);
 
-  if (isNaN(index) || index < 0 || index >= universities.length) {
+  if (isNaN(index) || !universities[index]) {
     console.error("Blocked invalid index:", index);
     return;
   }
@@ -2041,33 +2036,47 @@ function openUniversity(index) {
   const uni = universities[index];
   const popup = document.getElementById("popup");
 
-  const requirements = Object.entries(uni.req)
-    .map(([subject, value]) => `<p><b>${subject}:</b> ${value}%</p>`)
-    .join("");
-
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${uni.name}</h2>
 
       <h3>📊 Requirements</h3>
-      ${requirements}
+      <div id="reqBox"></div>
 
       <h3>📚 Programs</h3>
       <p>${uni.programs.join(", ")}</p>
 
-      <button class="popupBtn" onclick="applyToUniversity(${index})">
-        Apply
-      </button>
-
-      <button class="popupBtn" onclick="tryScholarship(${index})">
-        Apply for Scholarship
-      </button>
+      <div id="actionButtons"></div>
 
       <button class="popupBtn popupClose" onclick="chooseUniversity()">
         Back
       </button>
     </div>
   `;
+
+  // ✅ Fill requirements safely
+  const reqBox = document.getElementById("reqBox");
+  Object.entries(uni.req).forEach(([subject, value]) => {
+    const p = document.createElement("p");
+    p.innerHTML = `<b>${subject}:</b> ${value}%`;
+    reqBox.appendChild(p);
+  });
+
+  // ✅ Create buttons safely (NO inline onclick)
+  const actionBox = document.getElementById("actionButtons");
+
+  const applyBtn = document.createElement("button");
+  applyBtn.className = "popupBtn";
+  applyBtn.textContent = "Apply";
+  applyBtn.onclick = () => applyToUniversity(index);
+
+  const scholarshipBtn = document.createElement("button");
+  scholarshipBtn.className = "popupBtn";
+  scholarshipBtn.textContent = "Apply for Scholarship";
+  scholarshipBtn.onclick = () => tryScholarship(index);
+
+  actionBox.appendChild(applyBtn);
+  actionBox.appendChild(scholarshipBtn);
 
   popup.style.display = "flex";
 }
