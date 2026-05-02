@@ -1,3 +1,36 @@
+const universities = [
+  {
+    name: "🏛️ Chambers University",
+    req: { smarts: 85 },
+    programs: ["Law", "Medicine", "Business"],
+    scholarshipChance: 0.2
+  },
+  {
+    name: "🔬 Cambridge Institute of Tech",
+    req: { smarts: 75 },
+    programs: ["Computer Science", "Engineering", "AI"],
+    scholarshipChance: 0.25
+  },
+  {
+    name: "🎨 Riverdale Arts College",
+    req: { smarts: 50 },
+    programs: ["Fine Arts", "Design", "Music"],
+    scholarshipChance: 0.35
+  },
+  {
+    name: "📚 Eastern State University",
+    req: { smarts: 65 },
+    programs: ["Education", "History", "Psychology"],
+    scholarshipChance: 0.3
+  },
+  {
+    name: "⚕️ Polkin's Medical School",
+    req: { smarts: 90 },
+    programs: ["Medicine", "Surgery", "Nursing"],
+    scholarshipChance: 0.15
+  }
+];
+
 const jobOpenings = [
   {
     name: "🍔 Fast Food Worker",
@@ -1916,14 +1949,79 @@ function chooseJobs() {
   updateUI();
 }
 
-function applyToUniversity() {
-  player.path = "university";
+function applyToUniversity(index) {
+  const uni = universities[index];
 
-  closePopup();
-  updateUI();
+  if (player.smarts >= uni.req.smarts) {
+    player.university = uni.name;
+    player.programs = uni.programs;
 
-  // later you'll expand this into applications system
+    closePopup();
+    alert("🎉 You got accepted into " + uni.name);
+  } else {
+    closePopup();
+    alert("❌ You were not accepted.");
+  }
 }
+
+function tryScholarship(index) {
+  const uni = universities[index];
+
+  if (Math.random() < uni.scholarshipChance) {
+    player.scholarship = uni.name;
+    alert("🎉 You received a scholarship!");
+  } else {
+    alert("❌ You did not get the scholarship.");
+  }
+}
+
+function chooseUniversity() {
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>🎓 Choose a University</h2>
+      ${universities.map((u, i) => `
+        <button class="popupBtn" onclick="openUniversity(${i})">
+          ${u.name}
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function openUniversity(index) {
+  const uni = universities[index];
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${uni.name}</h2>
+
+      <p><b>Required Smarts:</b> ${uni.req.smarts}%</p>
+
+      <p><b>Programs:</b> ${uni.programs.join(", ")}</p>
+
+      <button class="popupBtn" onclick="applyToUniversity(${index})">
+        Apply
+      </button>
+
+      <button class="popupBtn" onclick="tryScholarship(${index})">
+        Apply for Scholarship
+      </button>
+
+      <button class="popupBtn popupClose" onclick="closePopup()">
+        Close
+      </button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+
 
 function closePopup() {
   document.getElementById("popup").style.display = "none";
