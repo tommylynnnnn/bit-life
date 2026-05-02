@@ -97,6 +97,31 @@ function genderEmoji(gender, age) {
 
 let events = [];
 
+let yearEvents = [
+  {
+    text: "🎉 A new school year begins! You feel a fresh start.",
+    choices: [
+      { text: "Work harder this year", effects: { smarts: 5, happiness: 2 } },
+      { text: "Take it easy", effects: { happiness: 5 } },
+      { text: "Try to become popular", effects: { looks: 3, happiness: 3 } }
+    ]
+  },
+  {
+    text: "📢 A school announcement: clubs are recruiting heavily this year.",
+    choices: [
+      { text: "Join more clubs", effects: { smarts: 3 } },
+      { text: "Ignore clubs", effects: { happiness: -2 } }
+    ]
+  },
+  {
+    text: "💬 You feel like your life might change this year.",
+    choices: [
+      { text: "Set personal goals", effects: { smarts: 2, happiness: 2 } },
+      { text: "Go with the flow", effects: { happiness: 3 } }
+    ]
+  }
+];
+
 const clubEvents = {
   "Art Club": [
     {
@@ -207,6 +232,61 @@ async function loadEvents() {
 // Clamp stats between 0–100
 function clamp(val) {
   return Math.max(0, Math.min(100, val));
+}
+
+function runYearEvents() {
+  const popup = document.getElementById("popup");
+
+  // pick 1–3 events
+  const count = Math.floor(Math.random() * 3) + 1;
+
+  let selected = [];
+  for (let i = 0; i < count; i++) {
+    selected.push(yearEvents[Math.floor(Math.random() * yearEvents.length)]);
+  }
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>📅 New Year Events</h2>
+      <div id="yearEventContainer"></div>
+    </div>
+  `;
+
+  const container = document.getElementById("yearEventContainer");
+
+  selected.forEach((event, i) => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <p><strong>${event.text}</strong></p>
+      <div id="choices-${i}"></div>
+      <hr>
+    `;
+
+    container.appendChild(div);
+
+    const choiceBox = div.querySelector(`#choices-${i}`);
+
+    event.choices.forEach(choice => {
+      const btn = document.createElement("button");
+      btn.className = "popupBtn";
+      btn.textContent = choice.text;
+
+      btn.onclick = () => {
+        applyChoice(choice.effects);
+        div.innerHTML = `<p>✔ You chose an option.</p>`;
+      };
+
+      choiceBox.appendChild(btn);
+    });
+  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "popupBtn popupClose";
+  closeBtn.textContent = "Close";
+  closeBtn.onclick = closePopup;
+
+  popup.appendChild(closeBtn);
+  popup.style.display = "flex";
 }
 
 // ------------------------------
@@ -1128,6 +1208,8 @@ function applyClubEffects(index, effects, clubName) {
 function ageUp() {
   player.age++;
   player.emoji = genderEmoji(player.gender, player.age);
+
+  runYearEvents();
 
   // Age family
   player.relationships.family.forEach(p => {
