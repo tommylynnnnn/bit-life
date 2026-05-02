@@ -36,6 +36,35 @@ const jobOpenings = [
   }
 ];
 
+const stores = {
+  "🏠 Real Estate Office": [
+    {
+      name: "Tiny Apartment",
+      price: 5000,
+      effects: { happiness: 5 },
+      description: "A small but cozy starter home."
+    }
+  ],
+
+  "🚗 Vehicle Shop": [
+    {
+      name: "Old Bicycle",
+      price: 100,
+      effects: { happiness: 2 },
+      description: "Cheap transport."
+    }
+  ],
+
+  "🖼️ Antique Shop": [
+    {
+      name: "Vintage Clock",
+      price: 500,
+      effects: { happiness: 3 },
+      description: "Old but valuable."
+    }
+  ]
+};
+
 let player = {
   age: 0,
   happiness: 50,
