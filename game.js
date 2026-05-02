@@ -1,3 +1,41 @@
+const jobOpenings = [
+  {
+    name: "🍔 Fast Food Worker",
+    minAge: 16,
+    smarts: 20,
+    happiness: 0,
+    salary: 20000
+  },
+  {
+    name: "🛒 Retail Employee",
+    minAge: 16,
+    smarts: 25,
+    happiness: 0,
+    salary: 24000
+  },
+  {
+    name: "💻 Junior Developer",
+    minAge: 18,
+    smarts: 70,
+    happiness: 0,
+    salary: 60000
+  },
+  {
+    name: "🏥 Doctor",
+    minAge: 26,
+    smarts: 90,
+    happiness: 10,
+    salary: 120000
+  },
+  {
+    name: "🎨 Artist",
+    minAge: 18,
+    smarts: 40,
+    happiness: 20,
+    salary: 35000
+  }
+];
+
 let player = {
   age: 0,
   happiness: 50,
@@ -413,6 +451,7 @@ function startGame() {
   player.emoji = genderEmoji(gender, player.age);
 
   generateFamily();
+  renderJobs();
 
   document.getElementById("startScreen").style.display = "none";
   updateUI();
@@ -891,6 +930,21 @@ function siblingInteract(index, type) {
   updateUI();
 }
 
+function renderJobs() {
+  const list = document.getElementById("jobsList");
+  list.innerHTML = "";
+
+  jobOpenings.forEach(job => {
+    const btn = document.createElement("button");
+    btn.className = "jobBtn";
+    btn.textContent = job.name;
+
+    btn.onclick = () => openJobPopup(job);
+
+    list.appendChild(btn);
+  });
+}
+
 // ------------------------------
 // POPUP SYSTEM (PETS)
 // ------------------------------
@@ -1105,6 +1159,55 @@ function doActivity(type, index) {
   popup.style.display = "flex";
 
   updateUI();
+}
+
+function openJobPopup(job) {
+  const popup = document.getElementById("popup");
+  const content = document.getElementById("popupContent");
+
+  const qualifies =
+    player.age >= job.minAge &&
+    player.smarts >= job.smarts;
+
+  content.innerHTML = `
+    <h2>${job.name}</h2>
+    <p><b>Salary:</b> $${job.salary}</p>
+    <p><b>Minimum Age:</b> ${job.minAge}</p>
+    <p><b>Required Smarts:</b> ${job.smarts}</p>
+
+    ${
+      qualifies
+        ? `<button onclick="applyJob('${job.name}')">Apply</button>`
+        : `<p style="color:red;">You do not meet the requirements.</p>`
+    }
+
+    <button onclick="closePopup()">Close</button>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function applyJob(jobName) {
+  const job = jobOpenings.find(j => j.name === jobName);
+
+  if (!job) return;
+
+  if (player.age < job.minAge || player.smarts < job.smarts) {
+    alert("You don't qualify.");
+    return;
+  }
+
+  player.job = job.name;
+  player.salary = job.salary;
+
+  document.getElementById("eventText").textContent =
+    `You got a job as ${job.name}! 🎉`;
+
+  closePopup();
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
 }
 
 // ------------------------------
