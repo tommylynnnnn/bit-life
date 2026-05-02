@@ -75,13 +75,7 @@ let player = {
     clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
     joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
     teachers: []
-  },
- 
-  jobStats: {
-  loyalty: 50,
-  performance: 50,
-  rank: "Employee"
-},
+  }
 };
 
 
@@ -409,23 +403,14 @@ function closeAndContinue() {
 }
 
 function processYearlyIncome() {
-  if (!currentJob) return;
+  if (currentJob) {
+    player.money += currentJob.salary;
+  }
 
-  player.money += currentJob.salary;
-}
-
-function applyJobChoice(effects) {
-  if (effects.money) player.money += effects.money;
-  if (effects.happiness) player.happiness = clamp(player.happiness + effects.happiness);
-  if (effects.smarts) player.smarts = clamp(player.smarts + effects.smarts);
-
-  player.jobStats.performance += effects.money ? 5 : 2;
-  player.jobStats.loyalty += 1;
-
-  player.jobStats.performance = clamp(player.jobStats.performance);
-  player.jobStats.loyalty = clamp(player.jobStats.loyalty);
-
-  updateUI();
+  // optional: trigger job event like clubs
+  if (currentJob && Math.random() < 0.6) {
+    openJobEvent();
+  }
 }
 
 // ------------------------------
@@ -864,27 +849,6 @@ document.addEventListener("click", e => {
   document.getElementById("assets-" + target).classList.add("active");
 });
 
-  function workShift() {
-  if (!currentJob) return;
-
-  // small random job effects
-  player.jobStats = player.jobStats || {
-    loyalty: 50,
-    performance: 50,
-    rank: "Employee"
-  };
-
-  player.jobStats.performance += Math.floor(Math.random() * 3);
-  player.jobStats.loyalty += Math.floor(Math.random() * 2);
-
-  player.jobStats.performance = clamp(player.jobStats.performance);
-  player.jobStats.loyalty = clamp(player.jobStats.loyalty);
-
-  player.happiness = clamp(player.happiness + 1);
-
-  updateUI();
-}
-
 
   // ------------------------------
   // SUBTAB BUTTONS
@@ -1044,21 +1008,17 @@ function renderJobs() {
   const jobsList = document.getElementById("jobsList");
   if (!jobsList) return;
 
+  // If player already has a job
   if (currentJob) {
     jobsList.innerHTML = `
-      <p>💼 ${currentJob.name}</p>
-      <p>💰 Salary: $${currentJob.salary}</p>
-
-      <p>Loyalty: ${player.jobStats.loyalty}%</p>
-      <p>Performance: ${player.jobStats.performance}%</p>
-      <p>Rank: ${player.jobStats.rank}</p>
-
-      <button class="popupBtn" onclick="openJobPopup()">Work Shift</button>
+      <p>${currentJob.name}</p>
+      <p>Salary: $${currentJob.salary}</p>
       <button class="popupBtn" onclick="quitJob()">Quit Job</button>
     `;
     return;
   }
 
+  // Show all available jobs
   jobsList.innerHTML = jobOpenings.map((job, index) => `
     <button class="popupBtn" onclick="openJobPopup(${index})">
       ${job.name}
@@ -1067,49 +1027,25 @@ function renderJobs() {
 }
 
 function openJobPopup(index) {
-  if (index === undefined || jobOpenings[index] === undefined) {
-    console.error("Invalid job index:", index);
-    return;
-  }
-
   const job = jobOpenings[index];
   const popup = document.getElementById("popup");
 
-  const event = jobEvents[job.name]?.[
-    Math.floor(Math.random() * jobEvents[job.name].length)
-  ];
-
-  if (!event) return;
-
   popup.innerHTML = `
     <div class="popupCard">
-      <h2>💼 ${job.name}</h2>
-      <p>${event.text}</p>
-      <div id="jobChoices"></div>
+      <h2>${job.name}</h2>
+      <p>💰 Salary: $${job.salary}</p>
+      <p>🧠 Required Smarts: ${job.smarts}</p>
+      <p>🎂 Minimum Age: ${job.minAge}</p>
+
+      ${
+        player.age >= job.minAge && player.smarts >= job.smarts
+          ? `<button class="popupBtn" onclick="applyJob(${index})">Apply</button>`
+          : `<p style="color:red;">You do not meet the requirements.</p>`
+      }
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
-  const choiceBox = document.getElementById("jobChoices");
-
-  event.choices.forEach(choice => {
-    const btn = document.createElement("button");
-    btn.className = "popupBtn";
-    btn.textContent = choice.text;
-
-    btn.onclick = () => {
-      applyJobChoice(choice.effects);
-
-      popup.innerHTML = `
-        <div class="popupCard">
-          <h2>Shift Complete</h2>
-          <p>You chose: ${choice.text}</p>
-          <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-        </div>
-      `;
-    };
-
-    choiceBox.appendChild(btn);
-  });
 
   popup.style.display = "flex";
 }
@@ -1117,21 +1053,12 @@ function openJobPopup(index) {
 function applyJob(index) {
   const job = jobOpenings[index];
 
-  if (!job) return;
-
   if (player.age < job.minAge || player.smarts < job.smarts) {
     alert("You don't qualify.");
     return;
   }
 
   currentJob = job;
-
-  // initialize job stats safely
-  player.jobStats = player.jobStats || {
-    loyalty: 50,
-    performance: 50,
-    rank: "Employee"
-  };
 
   closePopup();
   renderJobs();
@@ -1420,6 +1347,30 @@ function doActivity(type, index) {
   popup.style.display = "flex";
 
   updateUI();
+}
+
+function openJobPopup(index) {
+  const job = jobOpenings[index];
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${job.name}</h2>
+      <p>💰 Salary: $${job.salary}</p>
+      <p>🧠 Required Smarts: ${job.smarts}</p>
+      <p>🎂 Minimum Age: ${job.minAge}</p>
+
+      ${
+        player.age >= job.minAge && player.smarts >= job.smarts
+          ? `<button class="popupBtn" onclick="applyJob(${index})">Apply</button>`
+          : `<p style="color:red;">You do not meet the requirements.</p>`
+      }
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
 }
 
 function closePopup() {
