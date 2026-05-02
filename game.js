@@ -2014,6 +2014,8 @@ function chooseUniversity() {
 }
 
 function openUniversity(index) {
+  console.log("Opening university index:", index);
+
   const uni = universities[index];
 
   if (!uni || !uni.req) {
@@ -2023,7 +2025,6 @@ function openUniversity(index) {
 
   const popup = document.getElementById("popup");
 
-  // Dynamically show requirements
   const requirements = Object.entries(uni.req)
     .map(([subject, value]) => `<p><b>${subject}:</b> ${value}%</p>`)
     .join("");
@@ -2051,8 +2052,6 @@ function openUniversity(index) {
       </button>
     </div>
   `;
-
-  popup.style.display = "flex";
 }
 
 function closePopup() {
