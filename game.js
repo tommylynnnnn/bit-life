@@ -1122,7 +1122,7 @@ else {
   else {
     schoolLevel.innerHTML = `
       <p>🎓 You finished high school.</p>
-      <button class="popupBtn" onclick="renderUniversityOptions()">
+      <button class="popupBtn" onclick="chooseUniversity">
         Apply to University
       </button>
     `;
