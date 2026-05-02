@@ -553,13 +553,21 @@ document.querySelectorAll(".clickableTeacher").forEach(el => {
   }
 
   if (romanticList) {
-    romanticList.innerHTML =
-      player.relationships.romantic.length === 0
-        ? "<p>No romantic relationships yet.</p>"
-        : player.relationships.romantic.map((r, index) => `
-            <p>${r.emoji} ${r.name}</p>
-          `).join("");
-  }
+  romanticList.innerHTML =
+    player.relationships.romantic.length === 0
+      ? "<p>No romantic relationships yet.</p>"
+      : player.relationships.romantic.map((r, index) => `
+          <p class="clickableRomantic" data-index="${index}">
+            ${r.emoji} ${r.name} — ❤️ ${r.closeness}%
+          </p>
+        `).join("");
+
+  document.querySelectorAll(".clickableRomantic").forEach(el => {
+    el.addEventListener("click", () =>
+      openRomanticPopup(el.dataset.index)
+    );
+  });
+}
 
   if (petsList) {
     petsList.innerHTML =
@@ -1403,6 +1411,91 @@ function becomeRomantic(index) {
       <h2>${c.emoji} ${c.name}</h2>
       <p>💘 You started a romantic relationship!</p>
       <p>They have been added to your Romantic tab.</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  updateUI();
+}
+
+function openRomanticPopup(index) {
+  const r = player.relationships.romantic[index];
+
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${r.emoji} ${r.name}</h2>
+      <p>Age: ${r.age}</p>
+      <p>Closeness: ${r.closeness}%</p>
+      <p>Trust: ${r.trust}%</p>
+      <p>Attraction: ${r.attraction}%</p>
+
+      <button class="popupBtn" onclick="romanticInteract(${index}, 'talk')">Talk</button>
+      <button class="popupBtn" onclick="romanticInteract(${index}, 'date')">Go on a Date</button>
+      <button class="popupBtn" onclick="romanticInteract(${index}, 'kiss')">Kiss</button>
+
+      ${
+        r.closeness >= 100
+          ? `<button class="popupBtn" onclick="romanticInteract(${index}, 'intimate')">Be Intimate 😈</button>`
+          : ""
+      }
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
+function romanticInteract(index, type) {
+  const r = player.relationships.romantic[index];
+
+  let change = 0;
+  let trustChange = 0;
+  let attractionChange = 0;
+  let result = "";
+
+  if (type === "talk") {
+    change = Math.floor(Math.random() * 6) + 2;
+    trustChange = 2;
+    result = `You had a deep conversation with ${r.name}.`;
+  }
+
+  if (type === "date") {
+    change = Math.floor(Math.random() * 12) + 5;
+    trustChange = 3;
+    attractionChange = 3;
+    result = `You went on a date with ${r.name}.`;
+  }
+
+  if (type === "kiss") {
+    change = Math.floor(Math.random() * 15) + 8;
+    trustChange = 4;
+    attractionChange = 5;
+    result = `You kissed ${r.name}.`;
+  }
+
+  if (type === "intimate") {
+    if (r.closeness < 100) return;
+
+    change = 10;
+    trustChange = -2;
+    attractionChange = 6;
+    result = `You became very close with ${r.name}.`;
+  }
+
+  r.closeness = clamp(r.closeness + change);
+  r.trust = clamp(r.trust + trustChange);
+  r.attraction = clamp(r.attraction + attractionChange);
+
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${r.emoji} ${r.name}</h2>
+      <p>${result}</p>
+      <p>Closeness: ${r.closeness}%</p>
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
