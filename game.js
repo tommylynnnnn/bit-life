@@ -1093,12 +1093,17 @@ else {
     </button>
   `;
 
-  classmatesList.innerHTML = "<p>No classmates in this stage.</p>";
+  // Hide ALL school-related sections
+  classmatesList.innerHTML = "";
+  gradesList.innerHTML = "";
+  clubSelector.innerHTML = "";
+  joinedClubs.innerHTML = "";
+  teachersList.innerHTML = "";
 
-  gradesList.style.display = "block";
-  clubSelector.style.display = "block";
-  joinedClubs.style.display = "block";
-  teachersList.style.display = "block";
+  gradesList.style.display = "none";
+  clubSelector.style.display = "none";
+  joinedClubs.style.display = "none";
+  teachersList.style.display = "none";
 }
 
   // GRADES
