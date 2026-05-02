@@ -110,9 +110,11 @@ let player = {
   },
 
   assets: {
+    jobs: [],
     houses: [],
     vehicles: [],
-    items: []
+    items: [],
+    stores: []
   }
 };
 
