@@ -382,3 +382,31 @@ html {
   background: #ff4d4d;
   color: white;
 }
+
+.subtabBar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.subtabBtn {
+  flex: 1;
+  padding: 8px;
+  background: #ddd;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  cursor: pointer;
+}
+
+.subtabBtn.active {
+  background: #bbb;
+}
+
+.subtab {
+  display: none;
+}
+
+.subtab.active {
+  display: block;
+}
+
