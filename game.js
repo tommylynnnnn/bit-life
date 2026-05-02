@@ -1945,14 +1945,15 @@ function chooseJobs() {
 }
 
 function applyToUniversity(index) {
-  const uni = universities[index];
+  index = Number(index);
 
-  if (!uni || !uni.req) {
-    console.error("Invalid university:", index);
+  if (isNaN(index) || !universities[index]) {
+    console.error("Invalid apply index:", index);
     return;
   }
 
-  // Check ALL requirements
+  const uni = universities[index];
+
   let accepted = true;
 
   for (let subject in uni.req) {
@@ -2013,7 +2014,12 @@ function chooseUniversity() {
     btn.className = "popupBtn";
     btn.textContent = u.name;
 
-    btn.onclick = () => openUniversity(i); // ✅ ALWAYS correct
+    // 🔒 store index in dataset instead of relying on scope
+    btn.dataset.index = i;
+
+    btn.onclick = function () {
+      openUniversity(this.dataset.index);
+    };
 
     list.appendChild(btn);
   });
@@ -2022,21 +2028,17 @@ function chooseUniversity() {
 }
 
 function openUniversity(index) {
-  console.log("openUniversity called with:", index);
+  console.log("RAW index:", index);
 
-  // 🔒 FORCE a valid index
-  if (index === undefined || index === null || isNaN(index)) {
-    console.warn("Invalid index received. Defaulting to 0.");
-    index = 0;
-  }
+  // 🔒 Convert to number safely
+  index = Number(index);
 
-  const uni = universities[index];
-
-  if (!uni || !uni.req) {
-    console.error("Still invalid university at index:", index);
+  if (isNaN(index) || index < 0 || index >= universities.length) {
+    console.error("Blocked invalid index:", index);
     return;
   }
 
+  const uni = universities[index];
   const popup = document.getElementById("popup");
 
   const requirements = Object.entries(uni.req)
