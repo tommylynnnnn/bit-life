@@ -274,63 +274,457 @@ const clubEvents = {
 };
 
 const jobEvents = {
-  "🍔 Fast Food Worker": [
-    {
-      text: "A rush hits the restaurant. Everything is chaos.",
-      choices: [
-        { text: "Work faster", effects: { money: 20, happiness: -2 } },
-        { text: "Stay calm and steady", effects: { money: 10 } },
-        { text: "Hide in the back for a bit", effects: { happiness: 5, money: -10 } }
-      ]
-    },
-    {
-      text: "A customer complains about their order.",
-      choices: [
-        { text: "Fix it politely", effects: { happiness: 3, money: 10 } },
-        { text: "Ignore them", effects: { happiness: -5 } }
-      ]
-    }
-  ],
+ "🍔 Fast Food Worker": [
+  {
+    text: "A rush hits the restaurant. Everything is chaos.",
+    choices: [
+      { text: "Work faster", effects: { money: 20, happiness: -2 } },
+      { text: "Stay calm and steady", effects: { money: 10 } },
+      { text: "Hide in the back for a bit", effects: { happiness: 5, money: -10 } }
+    ]
+  },
+  {
+    text: "An angry karen complains about their order.",
+    choices: [
+      { text: "Fix it politely", effects: { happiness: 3, money: 10 } },
+      { text: "Ignore them", effects: { happiness: -5 } }
+    ]
+  },
+  {
+    text: "A coworker calls in sick last minute.",
+    choices: [
+      { text: "Cover their shift", effects: { money: 25, happiness: -3 } },
+      { text: "Refuse extra work", effects: { happiness: 2 } }
+    ]
+  },
+  {
+    text: "You accidentally burn a batch of fries.",
+    choices: [
+      { text: "Fix it quickly", effects: { happiness: -2 } },
+      { text: "Blame equipment", effects: { happiness: -5 } }
+    ]
+  },
+  {
+    text: "A regular customer tips you extra.",
+    choices: [
+      { text: "Thank them warmly", effects: { money: 15, happiness: 3 } },
+      { text: "Stay professional", effects: { money: 10 } }
+    ]
+  },
+  {
+    text: "The manager is watching closely today.",
+    choices: [
+      { text: "Work extra hard", effects: { money: 20, happiness: -2 } },
+      { text: "Act natural", effects: { money: 10 } }
+    ]
+  },
+  {
+    text: "You drop a tray in front of customers.",
+    choices: [
+      { text: "Clean up quickly", effects: { happiness: -3 } },
+      { text: "Laugh it off", effects: { happiness: 2 } }
+    ]
+  },
+  {
+    text: "Break time is unusually long today.",
+    choices: [
+      { text: "Relax fully", effects: { happiness: 4 } },
+      { text: "Help anyway", effects: { money: 10 } }
+    ]
+  },
+  {
+    text: "A new employee asks you for help.",
+    choices: [
+      { text: "Teach them", effects: { happiness: 3 } },
+      { text: "Ignore them", effects: { happiness: -2 } }
+    ]
+  },
+  {
+    text: "The kitchen is running out of supplies.",
+    choices: [
+      { text: "Improvise quickly", effects: { money: 15 } },
+      { text: "Tell manager", effects: { happiness: -1 } }
+    ]
+  },
+  {
+    text: "A customer leaves a negative review about you.",
+    choices: [
+      { text: "Ignore it", effects: { happiness: -2 } },
+      { text: "Try harder next shift", effects: { happiness: 2 } }
+    ]
+  },
+  {
+    text: "You find free leftover food at the end of shift.",
+    choices: [
+      { text: "Take it home", effects: { happiness: 4 } },
+      { text: "Leave it", effects: { happiness: 1 } }
+    ]
+  },
+  {
+    text: "The music in the restaurant is awful today.",
+    choices: [
+      { text: "Push through it", effects: { happiness: -1 } },
+      { text: "Mentally tune it out", effects: { happiness: 2 } }
+    ]
+  },
+  {
+    text: "You get praised for good teamwork.",
+    choices: [
+      { text: "Feel proud", effects: { happiness: 5, money: 10 } }
+    ]
+  }
+],
 
-  "🛒 Retail Employee": [
-    {
-      text: "The store is understaffed today.",
-      choices: [
-        { text: "Help extra customers", effects: { money: 15, happiness: 2 } },
-        { text: "Do only your section", effects: { happiness: -2 } }
-      ]
-    }
-  ],
+ "🛒 Retail Employee": [
+  {
+    text: "The store is understaffed today.",
+    choices: [
+      { text: "Help extra customers", effects: { money: 15, happiness: 2 } },
+      { text: "Do only your section", effects: { happiness: -2 } }
+    ]
+  },
+  {
+    text: "A customer is angry about pricing.",
+    choices: [
+      { text: "Explain calmly", effects: { happiness: 3 } },
+      { text: "Call manager", effects: { happiness: -1 } }
+    ]
+  },
+  {
+    text: "You find a misplaced item worth a lot.",
+    choices: [
+      { text: "Return it to stock", effects: { happiness: 2 } },
+      { text: "Ignore it", effects: { happiness: -3 } }
+    ]
+  },
+  {
+    text: "Holiday rush begins unexpectedly.",
+    choices: [
+      { text: "Work harder", effects: { money: 25 } },
+      { text: "Stay steady", effects: { happiness: 1 } }
+    ]
+  },
+  {
+    text: "A coworker asks you to swap shifts.",
+    choices: [
+      { text: "Agree", effects: { happiness: 3 } },
+      { text: "Decline", effects: { happiness: -2 } }
+    ]
+  },
+  {
+    text: "A customer is very kind to you today.",
+    choices: [
+      { text: "Feel appreciated", effects: { happiness: 5 } }
+    ]
+  },
+  {
+    text: "You are asked to restock shelves all day.",
+    choices: [
+      { text: "Do it efficiently", effects: { money: 10 } },
+      { text: "Take it slow", effects: { happiness: 2 } }
+    ]
+  },
+  {
+    text: "A spill happens in aisle 4.",
+    choices: [
+      { text: "Clean it immediately", effects: { happiness: -1 } },
+      { text: "Report it", effects: { happiness: 1 } }
+    ]
+  },
+  {
+    text: "You get complimented by your manager.",
+    choices: [
+      { text: "Feel motivated", effects: { happiness: 4, money: 10 } }
+    ]
+  },
+  {
+    text: "A long line forms at checkout.",
+    choices: [
+      { text: "Work quickly", effects: { money: 15, happiness: -2 } },
+      { text: "Stay calm", effects: { money: 10 } }
+    ]
+  },
+  {
+    text: "You are trained on a new system.",
+    choices: [
+      { text: "Learn fast", effects: { smarts: 2 } },
+      { text: "Struggle a bit", effects: { happiness: -2 } }
+    ]
+  },
+  {
+    text: "You find a broken item on the shelf.",
+    choices: [
+      { text: "Remove it", effects: { happiness: 1 } },
+      { text: "Ignore it", effects: { happiness: -2 } }
+    ]
+  },
+  {
+    text: "End of shift arrives early today.",
+    choices: [
+      { text: "Leave happily", effects: { happiness: 3 } }
+    ]
+  }
+],
 
   "💻 Junior Developer": [
-    {
-      text: "A bug breaks the entire system.",
-      choices: [
-        { text: "Fix it quickly", effects: { smarts: 2, money: 40 } },
-        { text: "Ask for help", effects: { happiness: 2 } }
-      ]
-    }
-  ],
+  {
+    text: "A bug breaks the entire system.",
+    choices: [
+      { text: "Fix it quickly", effects: { smarts: 2, money: 40 } },
+      { text: "Ask for help", effects: { happiness: 2 } }
+    ]
+  },
+  {
+    text: "Your code passes all tests.",
+    choices: [
+      { text: "Celebrate quietly", effects: { happiness: 5, money: 20 } }
+    ]
+  },
+  {
+    text: "You introduce a new bug accidentally.",
+    choices: [
+      { text: "Fix it immediately", effects: { smarts: 3 } },
+      { text: "Hide it for now", effects: { happiness: -5 } }
+    ]
+  },
+  {
+    text: "Senior developer reviews your code.",
+    choices: [
+      { text: "Accept feedback", effects: { smarts: 2 } },
+      { text: "Feel defensive", effects: { happiness: -3 } }
+    ]
+  },
+  {
+    text: "You discover a shortcut to optimize code.",
+    choices: [
+      { text: "Implement it", effects: { smarts: 3, money: 20 } }
+    ]
+  },
+  {
+    text: "Server goes down unexpectedly.",
+    choices: [
+      { text: "Fix urgently", effects: { money: 50, happiness: -4 } }
+    ]
+  },
+  {
+    text: "You finish early today.",
+    choices: [
+      { text: "Relax", effects: { happiness: 4 } }
+    ]
+  },
+  {
+    text: "You get praised in a team meeting.",
+    choices: [
+      { text: "Feel proud", effects: { happiness: 5, money: 30 } }
+    ]
+  },
+  {
+    text: "You are stuck debugging for hours.",
+    choices: [
+      { text: "Push through", effects: { smarts: 2 } },
+      { text: "Take a break", effects: { happiness: 2 } }
+    ]
+  },
+  {
+    text: "A coworker asks for help.",
+    choices: [
+      { text: "Help them", effects: { happiness: 3 } },
+      { text: "Ignore them", effects: { happiness: -2 } }
+    ]
+  },
+  {
+    text: "You accidentally delete a file.",
+    choices: [
+      { text: "Recover it", effects: { smarts: 2 } },
+      { text: "Panic", effects: { happiness: -5 } }
+    ]
+  },
+  {
+    text: "Your app gets a small feature request.",
+    choices: [
+      { text: "Build it", effects: { money: 25 } }
+    ]
+  },
+  {
+    text: "You learn a new programming trick.",
+    choices: [
+      { text: "Apply it", effects: { smarts: 3 } }
+    ]
+  },
+  {
+    text: "You fix a critical production bug.",
+    choices: [
+      { text: "Get praised", effects: { money: 60, happiness: 5 } }
+    ]
+  }
+],
 
   "🏥 Doctor": [
-    {
-      text: "A difficult patient arrives.",
-      choices: [
-        { text: "Stay professional", effects: { happiness: 2, money: 80 } },
-        { text: "Take extra time with them", effects: { happiness: 5 } }
-      ]
-    }
-  ],
+  {
+    text: "A difficult patient arrives.",
+    choices: [
+      { text: "Stay professional", effects: { happiness: 2, money: 80 } },
+      { text: "Take extra time with them", effects: { happiness: 5 } }
+    ]
+  },
+  {
+    text: "Emergency surgery goes well.",
+    choices: [
+      { text: "Feel relieved", effects: { happiness: 6, money: 100 } }
+    ]
+  },
+  {
+    text: "You make a small mistake.",
+    choices: [
+      { text: "Fix it immediately", effects: { smarts: 2 } },
+      { text: "Stress about it", effects: { happiness: -5 } }
+    ]
+  },
+  {
+    text: "Long shift in the hospital.",
+    choices: [
+      { text: "Push through", effects: { money: 50, happiness: -3 } }
+    ]
+  },
+  {
+    text: "Patient thanks you personally.",
+    choices: [
+      { text: "Feel appreciated", effects: { happiness: 5 } }
+    ]
+  },
+  {
+    text: "You get called into an emergency room.",
+    choices: [
+      { text: "Respond quickly", effects: { money: 70, happiness: -2 } }
+    ]
+  },
+  {
+    text: "You teach medical students.",
+    choices: [
+      { text: "Enjoy teaching", effects: { smarts: 2, happiness: 3 } }
+    ]
+  },
+  {
+    text: "A patient refuses treatment.",
+    choices: [
+      { text: "Try to convince them", effects: { happiness: -1 } }
+    ]
+  },
+  {
+    text: "You save a life.",
+    choices: [
+      { text: "Feel proud", effects: { happiness: 10, money: 120 } }
+    ]
+  },
+  {
+    text: "You are exhausted after shift.",
+    choices: [
+      { text: "Rest", effects: { happiness: 5 } }
+    ]
+  },
+  {
+    text: "A colleague praises you.",
+    choices: [
+      { text: "Feel motivated", effects: { happiness: 4 } }
+    ]
+  },
+  {
+    text: "Paperwork piles up.",
+    choices: [
+      { text: "Do it", effects: { smarts: 1 } }
+    ]
+  },
+  {
+    text: "You handle a crisis calmly.",
+    choices: [
+      { text: "Earn respect", effects: { money: 90, happiness: 5 } }
+    ]
+  }
+],
 
-  "🎨 Artist": [
-    {
-      text: "You’re offered a small commission.",
-      choices: [
-        { text: "Accept it", effects: { money: 50, happiness: 3 } },
-        { text: "Decline and rest", effects: { happiness: 5 } }
-      ]
-    }
-  ]
+"🎨 Artist": [
+  {
+    text: "You’re offered a small commission.",
+    choices: [
+      { text: "Accept it", effects: { money: 50, happiness: 3 } },
+      { text: "Decline and rest", effects: { happiness: 5 } }
+    ]
+  },
+  {
+    text: "Your artwork gets attention online.",
+    choices: [
+      { text: "Feel proud", effects: { happiness: 6 } }
+    ]
+  },
+  {
+    text: "Creative block hits you.",
+    choices: [
+      { text: "Push through", effects: { smarts: 1 } },
+      { text: "Take a break", effects: { happiness: 3 } }
+    ]
+  },
+  {
+    text: "Someone criticizes your work.",
+    choices: [
+      { text: "Take feedback", effects: { smarts: 2 } },
+      { text: "Feel hurt", effects: { happiness: -4 } }
+    ]
+  },
+  {
+    text: "You sell a painting unexpectedly.",
+    choices: [
+      { text: "Celebrate", effects: { money: 70, happiness: 5 } }
+    ]
+  },
+  {
+    text: "Art gallery invites you.",
+    choices: [
+      { text: "Attend", effects: { money: 100, happiness: 6 } }
+    ]
+  },
+  {
+    text: "You experiment with a new style.",
+    choices: [
+      { text: "Try it", effects: { smarts: 2 } }
+    ]
+  },
+  {
+    text: "You feel inspired today.",
+    choices: [
+      { text: "Create a masterpiece", effects: { happiness: 8 } }
+    ]
+  },
+  {
+    text: "Your supplies run low.",
+    choices: [
+      { text: "Buy more", effects: { money: -20 } }
+    ]
+  },
+  {
+    text: "A friend admires your work.",
+    choices: [
+      { text: "Feel motivated", effects: { happiness: 4 } }
+    ]
+  },
+  {
+    text: "You get commissioned for a big project.",
+    choices: [
+      { text: "Accept", effects: { money: 120 } }
+    ]
+  },
+  {
+    text: "You redo an old piece and improve it.",
+    choices: [
+      { text: "Feel proud", effects: { smarts: 2 } }
+    ]
+  },
+  {
+    text: "You spend the day drawing freely.",
+    choices: [
+      { text: "Relax", effects: { happiness: 5 } }
+    ]
+  }
+]
 };
 
 // Load base events + DLC later
