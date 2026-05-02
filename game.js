@@ -1,33 +1,28 @@
 const universities = [
   {
-    name: "🏛️ Chambers University",
-    req: { smarts: 85 },
-    programs: ["Law", "Medicine", "Business"],
-    scholarshipChance: 0.2
+    name: "🏛️ Maple University",
+    req: { math: 60, reading: 60, science: 60 },
+    programs: ["Arts", "Business", "Law"]
   },
   {
-    name: "🔬 Cambridge Institute of Tech",
-    req: { smarts: 75 },
-    programs: ["Computer Science", "Engineering", "AI"],
-    scholarshipChance: 0.25
+    name: "🔬 Tech Institute",
+    req: { math: 75, reading: 50, science: 75 },
+    programs: ["Engineering", "Computer Science"]
   },
   {
-    name: "🎨 Riverdale Arts College",
-    req: { smarts: 50 },
-    programs: ["Fine Arts", "Design", "Music"],
-    scholarshipChance: 0.35
+    name: "🎨 Fine Arts College",
+    req: { art: 70, reading: 50 },
+    programs: ["Painting", "Design"]
   },
   {
-    name: "📚 Eastern State University",
-    req: { smarts: 65 },
-    programs: ["Education", "History", "Psychology"],
-    scholarshipChance: 0.3
+    name: "🏥 Medical School",
+    req: { math: 85, science: 90 },
+    programs: ["Medicine"]
   },
   {
-    name: "⚕️ Polkin's Medical School",
-    req: { smarts: 90 },
-    programs: ["Medicine", "Surgery", "Nursing"],
-    scholarshipChance: 0.15
+    name: "📚 Community College",
+    req: { math: 40, reading: 40 },
+    programs: ["General Studies"]
   }
 ];
 
@@ -1952,14 +1947,32 @@ function chooseJobs() {
 function applyToUniversity(index) {
   const uni = universities[index];
 
-  if (player.smarts >= uni.req.smarts) {
+  if (!uni || !uni.req) {
+    console.error("Invalid university:", index);
+    return;
+  }
+
+  // Check ALL requirements
+  let accepted = true;
+
+  for (let subject in uni.req) {
+    const required = uni.req[subject];
+    const playerGrade = player.education.grades[subject] || 0;
+
+    if (playerGrade < required) {
+      accepted = false;
+      break;
+    }
+  }
+
+  closePopup();
+
+  if (accepted) {
     player.university = uni.name;
     player.programs = uni.programs;
 
-    closePopup();
     alert("🎉 You got accepted into " + uni.name);
   } else {
-    closePopup();
     alert("❌ You were not accepted.");
   }
 }
@@ -1967,7 +1980,11 @@ function applyToUniversity(index) {
 function tryScholarship(index) {
   const uni = universities[index];
 
-  if (Math.random() < uni.scholarshipChance) {
+  if (!uni) return;
+
+  const chance = uni.scholarshipChance || 0.3; // default 30%
+
+  if (Math.random() < chance) {
     player.scholarship = uni.name;
     alert("🎉 You received a scholarship!");
   } else {
@@ -1986,31 +2003,6 @@ function chooseUniversity() {
           ${u.name}
         </button>
       `).join("")}
-    </div>
-  `;
-
-  popup.style.display = "flex";
-}
-
-function openUniversity(index) {
-  const uni = universities[index];
-  const popup = document.getElementById("popup");
-
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${uni.name}</h2>
-
-      <p><b>Required Smarts:</b> ${uni.req.smarts}%</p>
-
-      <p><b>Programs:</b> ${uni.programs.join(", ")}</p>
-
-      <button class="popupBtn" onclick="applyToUniversity(${index})">
-        Apply
-      </button>
-
-      <button class="popupBtn" onclick="tryScholarship(${index})">
-        Apply for Scholarship
-      </button>
 
       <button class="popupBtn popupClose" onclick="closePopup()">
         Close
@@ -2021,12 +2013,51 @@ function openUniversity(index) {
   popup.style.display = "flex";
 }
 
+function openUniversity(index) {
+  const uni = universities[index];
 
+  if (!uni || !uni.req) {
+    console.error("Invalid university:", index);
+    return;
+  }
+
+  const popup = document.getElementById("popup");
+
+  // Dynamically show requirements
+  const requirements = Object.entries(uni.req)
+    .map(([subject, value]) => `<p><b>${subject}:</b> ${value}%</p>`)
+    .join("");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${uni.name}</h2>
+
+      <h3>📊 Requirements</h3>
+      ${requirements}
+
+      <h3>📚 Programs</h3>
+      <p>${uni.programs.join(", ")}</p>
+
+      <button class="popupBtn" onclick="applyToUniversity(${index})">
+        Apply
+      </button>
+
+      <button class="popupBtn" onclick="tryScholarship(${index})">
+        Apply for Scholarship
+      </button>
+
+      <button class="popupBtn popupClose" onclick="chooseUniversity()">
+        Back
+      </button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
 
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
-
 // ------------------------------
 // DEATH SYSTEM
 // ------------------------------
