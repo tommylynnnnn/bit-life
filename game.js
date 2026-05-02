@@ -1459,6 +1459,10 @@ function applyClubEffects(index, effects, clubName) {
 
 function ageUp() {
   player.age++;
+
+earnYearlyIncome();
+updateUI();
+  
   player.emoji = genderEmoji(player.gender, player.age);
 
   yearEventUsed = false;
@@ -1530,6 +1534,12 @@ function yearlyStatChanges() {
   player.health = clamp(player.health);
   player.smarts = clamp(player.smarts);
   player.looks = clamp(player.looks);
+}
+
+function earnYearlyIncome() {
+  if (!currentJob) return;
+
+  player.money += currentJob.salary;
 }
 
 // ------------------------------
