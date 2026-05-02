@@ -459,12 +459,6 @@ renderJobs(); // ← REQUIRED
   document.getElementById("startScreen").style.display = "none";
   updateUI();
 }
-
-function processYearlyIncome() {
-  if (!currentJob) return;
-
-  player.money += currentJob.salary;
-}
 // ------------------------------
 // UPDATE UI
 // ------------------------------
@@ -1234,6 +1228,30 @@ function doActivity(type, index) {
   updateUI();
 }
 
+function openJobPopup(index) {
+  const job = jobOpenings[index];
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${job.name}</h2>
+      <p>💰 Salary: $${job.salary}</p>
+      <p>🧠 Required Smarts: ${job.smarts}</p>
+      <p>🎂 Minimum Age: ${job.minAge}</p>
+
+      ${
+        player.age >= job.minAge && player.smarts >= job.smarts
+          ? `<button class="popupBtn" onclick="applyJob(${index})">Apply</button>`
+          : `<p style="color:red;">You do not meet the requirements.</p>`
+      }
+
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+
+  popup.style.display = "flex";
+}
+
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
@@ -1441,10 +1459,6 @@ function applyClubEffects(index, effects, clubName) {
 
 function ageUp() {
   player.age++;
-
-earnYearlyIncome();
-updateUI();
-  
   player.emoji = genderEmoji(player.gender, player.age);
 
   yearEventUsed = false;
@@ -1495,15 +1509,6 @@ updateUI();
   updateUI();
 }
 
-function ageUp() {
-  player.age++;
-
-  // 💰 yearly salary added here
-  processYearlyIncome();
-
-  updateUI();
-}
-
 // ------------------------------
 // YEARLY STAT CHANGES
 // ------------------------------
@@ -1525,12 +1530,6 @@ function yearlyStatChanges() {
   player.health = clamp(player.health);
   player.smarts = clamp(player.smarts);
   player.looks = clamp(player.looks);
-}
-
-function earnYearlyIncome() {
-  if (!currentJob) return;
-
-  player.money += currentJob.salary;
 }
 
 // ------------------------------
