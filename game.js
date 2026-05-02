@@ -78,6 +78,21 @@ let player = {
   }
 };
 
+// --- Added: startGame function for start screen ---
+function startGame() {
+  const nameInput = document.getElementById("playerNameInput");
+  const genderInput = document.getElementById("playerGenderInput");
+  const startScreen = document.getElementById("startScreen");
+
+  player.name = nameInput.value || "Player";
+  player.gender = genderInput.value || "male";
+  player.emoji = player.gender === "male" ? "🧑" : "👩";
+
+  startScreen.style.display = "none";
+  updateUI();
+}
+// --- End: startGame addition ---
+
 // ... (rest of code is unchanged up until applyChoice)
 
 function applyChoice(effects, npcName = null) {
