@@ -928,6 +928,7 @@ function startGame() {
 
 generateFamily();
 renderJobs(); // ← REQUIRED
+renderStores();
 
   document.getElementById("startScreen").style.display = "none";
   updateUI();
