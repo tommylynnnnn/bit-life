@@ -1,9 +1,29 @@
 const universities = [
-  { name: "🎨 Art University" },
-  { name: "🔬 STEM Institute" },
-  { name: "📚 Academic College" },
-  { name: "🏫 Teachers College" },
-  { name: "🏥 Medical School" }
+  {
+    name: "🎨 Art Institute",
+    req: { art: 70 },
+    programs: ["Fine Arts", "Design", "Animation"]
+  },
+  {
+    name: "🔬 STEM University",
+    req: { math: 75, science: 75 },
+    programs: ["Engineering", "Computer Science", "Physics"]
+  },
+  {
+    name: "📚 Liberal Arts College",
+    req: { reading: 65 },
+    programs: ["History", "Literature", "Philosophy"]
+  },
+  {
+    name: "🏫 Teachers College",
+    req: { reading: 70, art: 50 },
+    programs: ["Education", "Child Development"]
+  },
+  {
+    name: "🏥 Medical School",
+    req: { science: 85 },
+    programs: ["Medicine", "Nursing"]
+  }
 ];
 
 const jobOpenings = [
@@ -1909,9 +1929,9 @@ function showPostHighSchoolChoice() {
       <h2>🎓 What’s Next?</h2>
       <p>You’ve finished high school. What do you want to do?</p>
 
-      <button class="popupBtn" onclick="chooseUniversity()">
-        🎓 Apply to University
-      </button>
+     <button class="popupBtn" onclick="showUniversityOptions()">
+  🎓 Apply to University
+</button>
 
       <button class="popupBtn" onclick="chooseJobs()">
         💼 Look for Jobs
@@ -1956,6 +1976,105 @@ function chooseUniversity() {
   `;
 
   popup.style.display = "flex";
+}
+
+function showUniversityOptions() {
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>🎓 Apply to University</h2>
+      <div id="uniList"></div>
+
+      <button class="popupBtn popupClose" onclick="closePopup()">
+        Close
+      </button>
+    </div>
+  `;
+
+  const list = document.getElementById("uniList");
+
+  universities.forEach((uni, index) => {
+    const btn = document.createElement("button");
+    btn.className = "popupBtn";
+    btn.textContent = uni.name;
+
+    btn.onclick = () => openUniversityDetails(index);
+
+    list.appendChild(btn);
+  });
+
+  popup.style.display = "flex";
+}
+
+function openUniversityDetails(index) {
+  const uni = universities[index];
+  const popup = document.getElementById("popup");
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${uni.name}</h2>
+
+      <h3>📊 Requirements</h3>
+      <div id="reqBox"></div>
+
+      <h3>📚 Programs</h3>
+      <p>${uni.programs.join(", ")}</p>
+
+      <div id="applyBox"></div>
+
+      <button class="popupBtn popupClose" onclick="showUniversityOptions()">
+        Back
+      </button>
+    </div>
+  `;
+
+  // Fill requirements
+  const reqBox = document.getElementById("reqBox");
+
+  Object.entries(uni.req).forEach(([subject, value]) => {
+    const p = document.createElement("p");
+    p.innerHTML = `<b>${subject}:</b> ${value}%`;
+    reqBox.appendChild(p);
+  });
+
+  // Apply button
+  const applyBox = document.getElementById("applyBox");
+
+  const applyBtn = document.createElement("button");
+  applyBtn.className = "popupBtn";
+  applyBtn.textContent = "Apply";
+
+  applyBtn.onclick = () => applyToUniversity(index);
+
+  applyBox.appendChild(applyBtn);
+
+  popup.style.display = "flex";
+}
+
+function applyToUniversity(index) {
+  const uni = universities[index];
+
+  let accepted = true;
+
+  for (let subject in uni.req) {
+    const required = uni.req[subject];
+    const playerGrade = player.education.grades[subject] || 0;
+
+    if (playerGrade < required) {
+      accepted = false;
+      break;
+    }
+  }
+
+  closePopup();
+
+  if (accepted) {
+    player.university = uni.name;
+    alert("🎉 You got accepted into " + uni.name);
+  } else {
+    alert("❌ You were not accepted.");
+  }
 }
 
 // ------------------------------
