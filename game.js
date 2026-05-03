@@ -1119,9 +1119,12 @@ function updateUI() {
 else {
   // If player already chose university
   if (player.path === "university") {
-    schoolLevel.innerHTML = `
-      <p>🎓 Attending: ${player.university}</p>
-    `;
+   schoolLevel.innerHTML = `
+  <p>🎓 You finished high school.</p>
+  <button class="popupBtn" onclick="showUniversityOptions()">
+    🎓 Apply to University
+  </button>
+`;
   } 
   // If they haven’t chosen yet
   else {
@@ -1956,27 +1959,6 @@ function chooseJobs() {
 // ------------------------------
 // UNIVERSITY LIST (SIMPLE VERSION)
 // ------------------------------
-function chooseUniversity() {
-  const popup = document.getElementById("popup");
-
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>🎓 Apply to University</h2>
-
-      ${universities.map(u => `
-        <button class="popupBtn">
-          ${u.name}
-        </button>
-      `).join("")}
-
-      <button class="popupBtn popupClose" onclick="closePopup()">
-        Close
-      </button>
-    </div>
-  `;
-
-  popup.style.display = "flex";
-}
 
 function showUniversityOptions() {
   const popup = document.getElementById("popup");
