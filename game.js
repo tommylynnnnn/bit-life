@@ -1,24 +1,9 @@
 const universities = [
-  {
-    name: "🏛️ Maple University",
-    req: { math: 60, reading: 60, science: 60 }
-  },
-  {
-    name: "💻 Tech Institute",
-    req: { math: 75, science: 75 }
-  },
-  {
-    name: "🎨 Fine Arts College",
-    req: { art: 70, reading: 50 }
-  },
-  {
-    name: "🏥 Medical School",
-    req: { math: 85, science: 90 }
-  },
-  {
-    name: "📚 Community College",
-    req: { math: 40, reading: 40 }
-  }
+  { name: "🎨 Art University" },
+  { name: "🔬 STEM Institute" },
+  { name: "📚 Academic College" },
+  { name: "🏫 Teachers College" },
+  { name: "🏥 Medical School" }
 ];
 
 const jobOpenings = [
@@ -1956,10 +1941,10 @@ function chooseUniversity() {
 
   popup.innerHTML = `
     <div class="popupCard">
-      <h2>🎓 Choose a University</h2>
+      <h2>🎓 Apply to University</h2>
 
-      ${universities.map((u, i) => `
-        <button class="popupBtn" onclick="openUniversity(${i})">
+      ${universities.map(u => `
+        <button class="popupBtn">
           ${u.name}
         </button>
       `).join("")}
@@ -1972,105 +1957,6 @@ function chooseUniversity() {
 
   popup.style.display = "flex";
 }
-
-
-// ------------------------------
-// UNIVERSITY DETAILS
-// ------------------------------
-function openUniversity(index) {
-  const uni = universities[index];
-
-  if (!uni) {
-    console.error("Invalid university index:", index);
-    return;
-  }
-
-  const popup = document.getElementById("popup");
-
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${uni.name}</h2>
-
-      <h3>📊 Requirements</h3>
-      ${Object.entries(uni.req).map(([subject, value]) => `
-        <p><b>${subject}:</b> ${value}%</p>
-      `).join("")}
-
-      <h3>📚 Programs</h3>
-      <p>${uni.programs.join(", ")}</p>
-
-      <button class="popupBtn" onclick="applyToUniversity(${index})">
-        Apply
-      </button>
-
-      <button class="popupBtn" onclick="tryScholarship(${index})">
-        Apply for Scholarship
-      </button>
-
-      <button class="popupBtn popupClose" onclick="chooseUniversity()">
-        Back
-      </button>
-    </div>
-  `;
-
-  popup.style.display = "flex";
-}
-
-
-// ------------------------------
-// APPLY LOGIC (FIXED)
-// ------------------------------
-function applyToUniversity(index) {
-  const uni = universities[index];
-
-  if (!uni) {
-    console.error("Invalid university:", index);
-    return;
-  }
-
-  let accepted = true;
-
-  for (let subject in uni.req) {
-    const required = uni.req[subject];
-    const playerGrade = player.education.grades[subject] || 0;
-
-    if (playerGrade < required) {
-      accepted = false;
-      break;
-    }
-  }
-
-  closePopup();
-
-  if (accepted) {
-    player.university = uni.name;
-    player.programs = uni.programs;
-
-    alert("🎉 You got accepted into " + uni.name);
-  } else {
-    alert("❌ You were not accepted.");
-  }
-}
-
-
-// ------------------------------
-// SCHOLARSHIP
-// ------------------------------
-function tryScholarship(index) {
-  const uni = universities[index];
-
-  if (!uni) return;
-
-  const chance = uni.scholarshipChance || 0.3;
-
-  if (Math.random() < chance) {
-    player.scholarship = uni.name;
-    alert("🎉 You received a scholarship!");
-  } else {
-    alert("❌ You did not get the scholarship.");
-  }
-}
-
 
 // ------------------------------
 // CLOSE POPUP
