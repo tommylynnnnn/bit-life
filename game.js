@@ -2080,22 +2080,28 @@ function applyToUniversity(index) {
   closePopup();
 
   if (accepted) {
-  player.university = uni.name;
-  player.path = "university";
+    player.university = uni.name;
+    player.path = "university";
 
-  // 🎓 Generate dorm mates
-  player.relationships.classmates = [];
+    // 🎓 Generate dorm mates
+    player.relationships.classmates = [];
 
-  const count = Math.floor(Math.random() * 3) + 5; // 5–7
+    const count = Math.floor(Math.random() * 3) + 5; // 5–7
 
-  for (let i = 0; i < count; i++) {
-    player.relationships.classmates.push({
-      name: randomName(),
-      age: 18 + Math.floor(Math.random() * 5),
-      closeness: Math.floor(Math.random() * 40) + 30,
-      emoji: "🧑"
-    });
+    for (let i = 0; i < count; i++) {
+      player.relationships.classmates.push({
+        name: randomName(),
+        age: 18 + Math.floor(Math.random() * 5),
+        closeness: Math.floor(Math.random() * 40) + 30,
+        emoji: "🧑"
+      });
+    }
+
+    alert("🎉 You got accepted into " + uni.name);
+  } else {
+    alert("❌ You were not accepted.");
   }
+}
 
 // ------------------------------
 // CLOSE POPUP
