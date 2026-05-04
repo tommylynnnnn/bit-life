@@ -1040,6 +1040,7 @@ function updateUI() {
   // ------------------------------
   const schoolLevel = document.getElementById("schoolLevel");
   const classmatesList = document.getElementById("classmatesList");
+  const classmatesHeader = document.querySelector("#education h3:nth-of-type(2)");
   const gradesList = document.getElementById("gradesList");
   const clubSelector = document.getElementById("clubSelector");
   const joinedClubs = document.getElementById("joinedClubs");
@@ -1117,14 +1118,12 @@ function updateUI() {
   teachersList.style.display = "block";
 }
 else {
-  // If player already chose university
   if (player.path === "university") {
-  schoolLevel.innerHTML = `
-  <p>🎓 You finished high school.</p>
-  <button class="popupBtn" onclick="chooseUniversity()">
-    🎓 Apply to University
-  </button>
-`;
+    if (classmatesHeader) classmatesHeader.textContent = "Dorm Mates";
+    schoolLevel.innerHTML = `
+      <p>🎓 University</p>
+      <p>Attending: ${player.university}</p>
+    `;
   } 
   // If they haven’t chosen yet
   else {
@@ -2081,12 +2080,22 @@ function applyToUniversity(index) {
   closePopup();
 
   if (accepted) {
-    player.university = uni.name;
-    alert("🎉 You got accepted into " + uni.name);
-  } else {
-    alert("❌ You were not accepted.");
+  player.university = uni.name;
+  player.path = "university";
+
+  // 🎓 Generate dorm mates
+  player.relationships.classmates = [];
+
+  const count = Math.floor(Math.random() * 3) + 5; // 5–7
+
+  for (let i = 0; i < count; i++) {
+    player.relationships.classmates.push({
+      name: randomName(),
+      age: 18 + Math.floor(Math.random() * 5),
+      closeness: Math.floor(Math.random() * 40) + 30,
+      emoji: "🧑"
+    });
   }
-}
 
 // ------------------------------
 // CLOSE POPUP
