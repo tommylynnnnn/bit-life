@@ -1,3 +1,5 @@
+
+
 const universities = [
   {
     name: "🎨 Art Institute",
@@ -73,7 +75,6 @@ const stores = {
       description: "A small but cozy starter home."
     }
   ],
-
   "🚗 Vehicle Shop": [
     {
       name: "Old Bicycle",
@@ -82,7 +83,6 @@ const stores = {
       description: "Cheap transport."
     }
   ],
-
   "🖼️ Antique Shop": [
     {
       name: "Vintage Clock",
@@ -100,15 +100,12 @@ let player = {
   health: 50,
   looks: 50,
   money: 0,
-
-  path: null,          // ✅ FIXED
-  university: null,    // ✅ FIXED
-
+  path: null,
+  university: null,
   name: "",
   gender: "",
   emoji: "",
   lastName: "",
-
   relationships: {
     family: [],
     siblings: [],
@@ -118,13 +115,11 @@ let player = {
     deceased: [],
     classmates: []
   },
-
   activities: {
-  exercise: ["🚶 Go for a walk", "🤸 Do jumping jacks", "🏋️ Stretch"],
-  fun: ["🎮 Play a game", "📺 Watch a show", "✏️ Draw something"],
-  misc: ["🧹 Clean your room", "🗃️ Organize your desk", "🧘 Meditate", "✈️ Go on a vacation"]
-},
-
+    exercise: ["🚶 Go for a walk", "🤸 Do jumping jacks", "🏋️ Stretch"],
+    fun: ["🎮 Play a game", "📺 Watch a show", "✏️ Draw something"],
+    misc: ["🧹 Clean your room", "🗃️ Organize your desk", "🧘 Meditate", "✈️ Go on a vacation"]
+  },
   education: {
     grades: {
       math: 50,
@@ -133,11 +128,10 @@ let player = {
       art: 50
     },
     clubs: ["Chess Club", "Art Club", "Band", "Study Club"],
-    joinedClubs: [],   // ⭐⭐ REQUIRED ⭐⭐
+    joinedClubs: [],
     teachers: []
   }
 };
-
 
 // ------------------------------
 // RANDOM STARTING STATS
@@ -172,16 +166,15 @@ const lastNames = [
 ];
 
 let currentJob = null;
+let yearEventUsed = false;
 
 // ------------------------------
 // RANDOM NAME (gender-aware)
 // ------------------------------
 function randomName(gender) {
-  const first = gender === "male" ? maleFirst : femaleFirst;
-
+  const first = gender === "female" ? femaleFirst : maleFirst;
   const f = first[Math.floor(Math.random() * first.length)];
   const l = lastNames[Math.floor(Math.random() * lastNames.length)];
-
   return `${f} ${l}`;
 }
 
@@ -203,7 +196,6 @@ function genderEmoji(gender, age) {
 }
 
 let events = [];
-
 let eventQueue = [];
 let showingEvent = false;
 
@@ -251,7 +243,6 @@ const clubEvents = {
       ]
     }
   ],
-
   "Chess Club": [
     {
       text: "There’s a school chess tournament coming up.",
@@ -277,7 +268,6 @@ const clubEvents = {
       ]
     }
   ],
-
   "Band": [
     {
       text: "Your band is preparing for a school performance.",
@@ -304,7 +294,6 @@ const clubEvents = {
       ]
     }
   ],
-
   "Study Club": [
     {
       text: "A big exam is coming up.",
@@ -334,466 +323,70 @@ const clubEvents = {
 };
 
 const jobEvents = {
- "🍔 Fast Food Worker": [
-  {
-    text: "A rush hits the restaurant. Everything is chaos.",
-    choices: [
-      { text: "Work faster", effects: { money: 20, happiness: -2 } },
-      { text: "Stay calm and steady", effects: { money: 10 } },
-      { text: "Hide in the back for a bit", effects: { happiness: 5, money: -10 } }
-    ]
-  },
-  {
-    text: "An angry karen complains about their order.",
-    choices: [
-      { text: "Fix it politely", effects: { happiness: 3, money: 10 } },
-      { text: "Ignore them", effects: { happiness: -5 } }
-    ]
-  },
-  {
-    text: "A coworker calls in sick last minute.",
-    choices: [
-      { text: "Cover their shift", effects: { money: 25, happiness: -3 } },
-      { text: "Refuse extra work", effects: { happiness: 2 } }
-    ]
-  },
-  {
-    text: "You accidentally burn a batch of fries.",
-    choices: [
-      { text: "Fix it quickly", effects: { happiness: -2 } },
-      { text: "Blame equipment", effects: { happiness: -5 } }
-    ]
-  },
-  {
-    text: "A regular customer tips you extra.",
-    choices: [
-      { text: "Thank them warmly", effects: { money: 15, happiness: 3 } },
-      { text: "Stay professional", effects: { money: 10 } }
-    ]
-  },
-  {
-    text: "The manager is watching closely today.",
-    choices: [
-      { text: "Work extra hard", effects: { money: 20, happiness: -2 } },
-      { text: "Act natural", effects: { money: 10 } }
-    ]
-  },
-  {
-    text: "You drop a tray in front of customers.",
-    choices: [
-      { text: "Clean up quickly", effects: { happiness: -3 } },
-      { text: "Laugh it off", effects: { happiness: 2 } }
-    ]
-  },
-  {
-    text: "Break time is unusually long today.",
-    choices: [
-      { text: "Relax fully", effects: { happiness: 4 } },
-      { text: "Help anyway", effects: { money: 10 } }
-    ]
-  },
-  {
-    text: "A new employee asks you for help.",
-    choices: [
-      { text: "Teach them", effects: { happiness: 3 } },
-      { text: "Ignore them", effects: { happiness: -2 } }
-    ]
-  },
-  {
-    text: "The kitchen is running out of supplies.",
-    choices: [
-      { text: "Improvise quickly", effects: { money: 15 } },
-      { text: "Tell manager", effects: { happiness: -1 } }
-    ]
-  },
-  {
-    text: "A customer leaves a negative review about you.",
-    choices: [
-      { text: "Ignore it", effects: { happiness: -2 } },
-      { text: "Try harder next shift", effects: { happiness: 2 } }
-    ]
-  },
-  {
-    text: "You find free leftover food at the end of shift.",
-    choices: [
-      { text: "Take it home", effects: { happiness: 4 } },
-      { text: "Leave it", effects: { happiness: 1 } }
-    ]
-  },
-  {
-    text: "The music in the restaurant is awful today.",
-    choices: [
-      { text: "Push through it", effects: { happiness: -1 } },
-      { text: "Mentally tune it out", effects: { happiness: 2 } }
-    ]
-  },
-  {
-    text: "You get praised for good teamwork.",
-    choices: [
-      { text: "Feel proud", effects: { happiness: 5, money: 10 } }
-    ]
-  }
-],
-
- "🛒 Retail Employee": [
-  {
-    text: "The store is understaffed today.",
-    choices: [
-      { text: "Help extra customers", effects: { money: 15, happiness: 2 } },
-      { text: "Do only your section", effects: { happiness: -2 } }
-    ]
-  },
-  {
-    text: "A customer is angry about pricing.",
-    choices: [
-      { text: "Explain calmly", effects: { happiness: 3 } },
-      { text: "Call manager", effects: { happiness: -1 } }
-    ]
-  },
-  {
-    text: "You find a misplaced item worth a lot.",
-    choices: [
-      { text: "Return it to stock", effects: { happiness: 2 } },
-      { text: "Ignore it", effects: { happiness: -3 } }
-    ]
-  },
-  {
-    text: "Holiday rush begins unexpectedly.",
-    choices: [
-      { text: "Work harder", effects: { money: 25 } },
-      { text: "Stay steady", effects: { happiness: 1 } }
-    ]
-  },
-  {
-    text: "A coworker asks you to swap shifts.",
-    choices: [
-      { text: "Agree", effects: { happiness: 3 } },
-      { text: "Decline", effects: { happiness: -2 } }
-    ]
-  },
-  {
-    text: "A customer is very kind to you today.",
-    choices: [
-      { text: "Feel appreciated", effects: { happiness: 5 } }
-    ]
-  },
-  {
-    text: "You are asked to restock shelves all day.",
-    choices: [
-      { text: "Do it efficiently", effects: { money: 10 } },
-      { text: "Take it slow", effects: { happiness: 2 } }
-    ]
-  },
-  {
-    text: "A spill happens in aisle 4.",
-    choices: [
-      { text: "Clean it immediately", effects: { happiness: -1 } },
-      { text: "Report it", effects: { happiness: 1 } }
-    ]
-  },
-  {
-    text: "You get complimented by your manager.",
-    choices: [
-      { text: "Feel motivated", effects: { happiness: 4, money: 10 } }
-    ]
-  },
-  {
-    text: "A long line forms at checkout.",
-    choices: [
-      { text: "Work quickly", effects: { money: 15, happiness: -2 } },
-      { text: "Stay calm", effects: { money: 10 } }
-    ]
-  },
-  {
-    text: "You are trained on a new system.",
-    choices: [
-      { text: "Learn fast", effects: { smarts: 2 } },
-      { text: "Struggle a bit", effects: { happiness: -2 } }
-    ]
-  },
-  {
-    text: "You find a broken item on the shelf.",
-    choices: [
-      { text: "Remove it", effects: { happiness: 1 } },
-      { text: "Ignore it", effects: { happiness: -2 } }
-    ]
-  },
-  {
-    text: "End of shift arrives early today.",
-    choices: [
-      { text: "Leave happily", effects: { happiness: 3 } }
-    ]
-  }
-],
-
+  "🍔 Fast Food Worker": [
+    {
+      text: "A rush hits the restaurant. Everything is chaos.",
+      choices: [
+        { text: "Work faster", effects: { money: 20, happiness: -2 } },
+        { text: "Stay calm and steady", effects: { money: 10 } },
+        { text: "Hide in the back for a bit", effects: { happiness: 5, money: -10 } }
+      ]
+    },
+    {
+      text: "An angry customer complains about their order.",
+      choices: [
+        { text: "Fix it politely", effects: { happiness: 3, money: 10 } },
+        { text: "Ignore them", effects: { happiness: -5 } }
+      ]
+    }
+  ],
+  "🛒 Retail Employee": [
+    {
+      text: "The store is understaffed today.",
+      choices: [
+        { text: "Help extra customers", effects: { money: 15, happiness: 2 } },
+        { text: "Do only your section", effects: { happiness: -2 } }
+      ]
+    }
+  ],
   "💻 Junior Developer": [
-  {
-    text: "A bug breaks the entire system.",
-    choices: [
-      { text: "Fix it quickly", effects: { smarts: 2, money: 40 } },
-      { text: "Ask for help", effects: { happiness: 2 } }
-    ]
-  },
-  {
-    text: "Your code passes all tests.",
-    choices: [
-      { text: "Celebrate quietly", effects: { happiness: 5, money: 20 } }
-    ]
-  },
-  {
-    text: "You introduce a new bug accidentally.",
-    choices: [
-      { text: "Fix it immediately", effects: { smarts: 3 } },
-      { text: "Hide it for now", effects: { happiness: -5 } }
-    ]
-  },
-  {
-    text: "Senior developer reviews your code.",
-    choices: [
-      { text: "Accept feedback", effects: { smarts: 2 } },
-      { text: "Feel defensive", effects: { happiness: -3 } }
-    ]
-  },
-  {
-    text: "You discover a shortcut to optimize code.",
-    choices: [
-      { text: "Implement it", effects: { smarts: 3, money: 20 } }
-    ]
-  },
-  {
-    text: "Server goes down unexpectedly.",
-    choices: [
-      { text: "Fix urgently", effects: { money: 50, happiness: -4 } }
-    ]
-  },
-  {
-    text: "You finish early today.",
-    choices: [
-      { text: "Relax", effects: { happiness: 4 } }
-    ]
-  },
-  {
-    text: "You get praised in a team meeting.",
-    choices: [
-      { text: "Feel proud", effects: { happiness: 5, money: 30 } }
-    ]
-  },
-  {
-    text: "You are stuck debugging for hours.",
-    choices: [
-      { text: "Push through", effects: { smarts: 2 } },
-      { text: "Take a break", effects: { happiness: 2 } }
-    ]
-  },
-  {
-    text: "A coworker asks for help.",
-    choices: [
-      { text: "Help them", effects: { happiness: 3 } },
-      { text: "Ignore them", effects: { happiness: -2 } }
-    ]
-  },
-  {
-    text: "You accidentally delete a file.",
-    choices: [
-      { text: "Recover it", effects: { smarts: 2 } },
-      { text: "Panic", effects: { happiness: -5 } }
-    ]
-  },
-  {
-    text: "Your app gets a small feature request.",
-    choices: [
-      { text: "Build it", effects: { money: 25 } }
-    ]
-  },
-  {
-    text: "You learn a new programming trick.",
-    choices: [
-      { text: "Apply it", effects: { smarts: 3 } }
-    ]
-  },
-  {
-    text: "You fix a critical production bug.",
-    choices: [
-      { text: "Get praised", effects: { money: 60, happiness: 5 } }
-    ]
-  }
-],
-
+    {
+      text: "A bug breaks the entire system.",
+      choices: [
+        { text: "Fix it quickly", effects: { smarts: 2, money: 40 } },
+        { text: "Ask for help", effects: { happiness: 2 } }
+      ]
+    }
+  ],
   "🏥 Doctor": [
-  {
-    text: "A difficult patient arrives.",
-    choices: [
-      { text: "Stay professional", effects: { happiness: 2, money: 80 } },
-      { text: "Take extra time with them", effects: { happiness: 5 } }
-    ]
-  },
-  {
-    text: "Emergency surgery goes well.",
-    choices: [
-      { text: "Feel relieved", effects: { happiness: 6, money: 100 } }
-    ]
-  },
-  {
-    text: "You make a small mistake.",
-    choices: [
-      { text: "Fix it immediately", effects: { smarts: 2 } },
-      { text: "Stress about it", effects: { happiness: -5 } }
-    ]
-  },
-  {
-    text: "Long shift in the hospital.",
-    choices: [
-      { text: "Push through", effects: { money: 50, happiness: -3 } }
-    ]
-  },
-  {
-    text: "Patient thanks you personally.",
-    choices: [
-      { text: "Feel appreciated", effects: { happiness: 5 } }
-    ]
-  },
-  {
-    text: "You get called into an emergency room.",
-    choices: [
-      { text: "Respond quickly", effects: { money: 70, happiness: -2 } }
-    ]
-  },
-  {
-    text: "You teach medical students.",
-    choices: [
-      { text: "Enjoy teaching", effects: { smarts: 2, happiness: 3 } }
-    ]
-  },
-  {
-    text: "A patient refuses treatment.",
-    choices: [
-      { text: "Try to convince them", effects: { happiness: -1 } }
-    ]
-  },
-  {
-    text: "You save a life.",
-    choices: [
-      { text: "Feel proud", effects: { happiness: 10, money: 120 } }
-    ]
-  },
-  {
-    text: "You are exhausted after shift.",
-    choices: [
-      { text: "Rest", effects: { happiness: 5 } }
-    ]
-  },
-  {
-    text: "A colleague praises you.",
-    choices: [
-      { text: "Feel motivated", effects: { happiness: 4 } }
-    ]
-  },
-  {
-    text: "Paperwork piles up.",
-    choices: [
-      { text: "Do it", effects: { smarts: 1 } }
-    ]
-  },
-  {
-    text: "You handle a crisis calmly.",
-    choices: [
-      { text: "Earn respect", effects: { money: 90, happiness: 5 } }
-    ]
-  }
-],
-
-"🎨 Artist": [
-  {
-    text: "You’re offered a small commission.",
-    choices: [
-      { text: "Accept it", effects: { money: 50, happiness: 3 } },
-      { text: "Decline and rest", effects: { happiness: 5 } }
-    ]
-  },
-  {
-    text: "Your artwork gets attention online.",
-    choices: [
-      { text: "Feel proud", effects: { happiness: 6 } }
-    ]
-  },
-  {
-    text: "Creative block hits you.",
-    choices: [
-      { text: "Push through", effects: { smarts: 1 } },
-      { text: "Take a break", effects: { happiness: 3 } }
-    ]
-  },
-  {
-    text: "Someone criticizes your work.",
-    choices: [
-      { text: "Take feedback", effects: { smarts: 2 } },
-      { text: "Feel hurt", effects: { happiness: -4 } }
-    ]
-  },
-  {
-    text: "You sell a painting unexpectedly.",
-    choices: [
-      { text: "Celebrate", effects: { money: 70, happiness: 5 } }
-    ]
-  },
-  {
-    text: "Art gallery invites you.",
-    choices: [
-      { text: "Attend", effects: { money: 100, happiness: 6 } }
-    ]
-  },
-  {
-    text: "You experiment with a new style.",
-    choices: [
-      { text: "Try it", effects: { smarts: 2 } }
-    ]
-  },
-  {
-    text: "You feel inspired today.",
-    choices: [
-      { text: "Create a masterpiece", effects: { happiness: 8 } }
-    ]
-  },
-  {
-    text: "Your supplies run low.",
-    choices: [
-      { text: "Buy more", effects: { money: -20 } }
-    ]
-  },
-  {
-    text: "A friend admires your work.",
-    choices: [
-      { text: "Feel motivated", effects: { happiness: 4 } }
-    ]
-  },
-  {
-    text: "You get commissioned for a big project.",
-    choices: [
-      { text: "Accept", effects: { money: 120 } }
-    ]
-  },
-  {
-    text: "You redo an old piece and improve it.",
-    choices: [
-      { text: "Feel proud", effects: { smarts: 2 } }
-    ]
-  },
-  {
-    text: "You spend the day drawing freely.",
-    choices: [
-      { text: "Relax", effects: { happiness: 5 } }
-    ]
-  }
-]
+    {
+      text: "A difficult patient arrives.",
+      choices: [
+        { text: "Stay professional", effects: { happiness: 2, money: 80 } },
+        { text: "Take extra time with them", effects: { happiness: 5 } }
+      ]
+    }
+  ],
+  "🎨 Artist": [
+    {
+      text: "You’re offered a small commission.",
+      choices: [
+        { text: "Accept it", effects: { money: 50, happiness: 3 } },
+        { text: "Decline and rest", effects: { happiness: 5 } }
+      ]
+    }
+  ]
 };
 
-// Load base events + DLC later
 async function loadEvents() {
-  const base = await fetch("data/events.json").then(r => r.json());
-  events = [...base];
+  try {
+    const base = await fetch("data/events.json").then(r => r.json());
+    events = [...base];
+  } catch (e) {
+    events = [];
+  }
 }
 
-// Clamp stats between 0–100
 function clamp(val) {
   return Math.max(0, Math.min(100, val));
 }
@@ -809,7 +402,6 @@ function changeStat(stat, value) {
 function runYearEvents() {
   const event = yearEvents[Math.floor(Math.random() * yearEvents.length)];
   eventQueue.push(event);
-
   if (!showingEvent) {
     showNextEvent();
   }
@@ -820,11 +412,10 @@ function showNextEvent() {
     showingEvent = false;
     return;
   }
-
   showingEvent = true;
-
   const event = eventQueue.shift();
   const popup = document.getElementById("popup");
+  if (!popup) return;
 
   popup.innerHTML = `
     <div class="popupCard">
@@ -835,15 +426,12 @@ function showNextEvent() {
   `;
 
   const choiceBox = document.getElementById("yearChoices");
-
   event.choices.forEach(choice => {
     const btn = document.createElement("button");
     btn.className = "popupBtn";
     btn.textContent = choice.text;
-
     btn.onclick = () => {
       applyChoice(choice.effects);
-
       popup.innerHTML = `
         <div class="popupCard">
           <h2>📅 Event Complete</h2>
@@ -852,10 +440,8 @@ function showNextEvent() {
         </div>
       `;
     };
-
     choiceBox.appendChild(btn);
   });
-
   popup.style.display = "flex";
 }
 
@@ -868,8 +454,6 @@ function processYearlyIncome() {
   if (currentJob) {
     changeStat("money", currentJob.salary);
   }
-
-  // optional: trigger job event like clubs
   if (currentJob && Math.random() < 0.6) {
     openJobEvent();
   }
@@ -882,40 +466,25 @@ function startGame() {
   generateStartingStats();
 
   function generateFamily() {
-
-    // ------------------------------
-    // ASSIGN FAMILY LAST NAME
-    // ------------------------------
     player.lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
 
-    // Parents
     const roll = Math.random();
-    let hasMom = false;
-    let hasDad = false;
+    let hasMom = roll < 0.66;
+    let hasDad = roll < 0.33 || roll >= 0.66;
 
-    if (roll < 0.33) {
-      hasMom = true;
-      hasDad = true;
-    } else if (roll < 0.66) {
-      hasMom = true;
-    } else {
-      hasDad = true;
+    if (hasMom) {
+      const momAge = Math.floor(Math.random() * 15) + 25;
+      const first = femaleFirst[Math.floor(Math.random() * femaleFirst.length)];
+      player.relationships.family.push({
+        name: first + " " + player.lastName,
+        gender: "female",
+        age: momAge,
+        emoji: genderEmoji("female", momAge),
+        closeness: 80,
+        relation: "Mother",
+        type: "parent"
+      });
     }
-
- if (hasMom) {
-  const momAge = Math.floor(Math.random() * 15) + 25;
-  const first = femaleFirst[Math.floor(Math.random() * femaleFirst.length)];
-
-  player.relationships.family.push({
-    name: first + " " + player.lastName,
-    gender: "female",
-    age: momAge,
-    emoji: genderEmoji("female", momAge),
-    closeness: 80,
-    relation: "Mother",
-    type: "parent"
-  });
-}
 
     if (hasDad) {
       const dadAge = Math.floor(Math.random() * 15) + 25;
@@ -930,18 +499,11 @@ function startGame() {
       });
     }
 
-    // ------------------------------
-    // SIBLINGS (0–3) — FIXED + IMPROVED
-    // ------------------------------
     const siblingCount = Math.floor(Math.random() * 4);
-
     for (let i = 0; i < siblingCount; i++) {
       const gender = randomGender();
-
-      // Age difference between -10 and +10 years
       const ageDifference = Math.floor(Math.random() * 21) - 10;
       const siblingAge = Math.max(0, player.age + ageDifference);
-
       let relation = "";
       if (siblingAge > player.age) relation = gender === "male" ? "Older Brother" : "Older Sister";
       else if (siblingAge < player.age) relation = gender === "male" ? "Younger Brother" : "Younger Sister";
@@ -958,11 +520,9 @@ function startGame() {
       });
     }
 
-    // Pets (50% chance)
     if (Math.random() < 0.5) {
       const petNames = ["Buddy", "Luna", "Max", "Bella", "Charlie", "Milo", "Coco"];
       const pet = petNames[Math.floor(Math.random() * petNames.length)];
-
       player.relationships.pets.push({
         name: pet,
         gender: randomGender(),
@@ -975,31 +535,28 @@ function startGame() {
     }
   }
 
-  // Player setup
-  const name = document.getElementById("playerNameInput").value.trim();
-  const gender = document.getElementById("playerGenderInput").value;
+  const nameInput = document.getElementById("playerNameInput");
+  const genderInput = document.getElementById("playerGenderInput");
+  const name = nameInput ? nameInput.value.trim() : "Player";
+  const gender = genderInput ? genderInput.value : "male";
 
-  if (!name) return alert("Please enter a name.");
-
-  // Player DOES NOT get a last name
   player.name = name;
   player.gender = gender;
   player.emoji = genderEmoji(gender, player.age);
 
-generateFamily();
-renderJobs(); // ← REQUIRED
-renderStores();
+  generateFamily();
+  renderJobs();
+  renderStores();
 
-  document.getElementById("startScreen").style.display = "none";
+  const startScreen = document.getElementById("startScreen");
+  if (startScreen) startScreen.style.display = "none";
   updateUI();
 }
+
 // ------------------------------
 // UPDATE UI
 // ------------------------------
 function updateUI() {
-  // ------------------------------
-  // HEADER + STATS
-  // ------------------------------
   const header = document.getElementById("playerHeader");
   if (header) header.textContent = player.name ? `${player.emoji} ${player.name}` : "";
 
@@ -1021,9 +578,6 @@ function updateUI() {
     if (text) text.textContent = val + "%";
   });
 
-  // ------------------------------
-  // PERSONAL TAB
-  // ------------------------------
   const personal = document.getElementById("personal");
   if (personal) {
     personal.innerHTML = `
@@ -1035,9 +589,6 @@ function updateUI() {
     `;
   }
 
-  // ------------------------------
-  // EDUCATION
-  // ------------------------------
   const schoolLevel = document.getElementById("schoolLevel");
   const classmatesList = document.getElementById("classmatesList");
   const classmatesHeader = document.querySelector("#education h3:nth-of-type(2)");
@@ -1046,145 +597,124 @@ function updateUI() {
   const joinedClubs = document.getElementById("joinedClubs");
   const teachersList = document.getElementById("teachersList");
 
-  // SCHOOL LEVEL + CLASSMATES
-  if (player.age < 3) {
-    schoolLevel.textContent = "Too young for school.";
-    classmatesList.innerHTML = "<p>No classmates yet.</p>";
-
-    gradesList.style.display = "none";
-    clubSelector.style.display = "none";
-    joinedClubs.style.display = "none";
-    teachersList.style.display = "none";
-  }
-  else if (player.age <= 5) {
-    schoolLevel.textContent = "Preschool";
-
-    classmatesList.innerHTML = player.relationships.classmates.length === 0
-      ? "<p>No classmates yet.</p>"
-      : player.relationships.classmates.map((c, index) => `
-          <p class="clickablePreschoolClassmate" data-index="${index}">
-            ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
-          </p>
-        `).join("");
-
-    document.querySelectorAll(".clickablePreschoolClassmate").forEach(el => {
-      el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
-    });
-
-    gradesList.style.display = "none";
-    clubSelector.style.display = "none";
-    joinedClubs.style.display = "none";
-    teachersList.style.display = "none";
-  }
-  else if (player.age <= 13) {
-    schoolLevel.textContent = "Elementary School";
-
-    classmatesList.innerHTML = player.relationships.classmates.length === 0
-      ? "<p>No classmates yet.</p>"
-      : player.relationships.classmates.map((c, index) => `
-          <p class="clickableElementaryClassmate" data-index="${index}">
-            ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
-          </p>
-        `).join("");
-
-    document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
-      el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
-    });
-
+  if (schoolLevel && classmatesList && gradesList && clubSelector && joinedClubs && teachersList) {
+    classmatesList.style.display = "block";
     gradesList.style.display = "block";
     clubSelector.style.display = "block";
     joinedClubs.style.display = "block";
     teachersList.style.display = "block";
-  }
-  else if (player.age <= 18) {
-  schoolLevel.textContent = "High School";
 
-  classmatesList.innerHTML =
-    player.relationships.classmates.length === 0
-      ? "<p>No classmates yet.</p>"
-      : player.relationships.classmates.map((c, index) => `
-          <p class="clickableHighSchoolClassmate" data-index="${index}">
-            ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
-          </p>
+    if (player.age < 3) {
+      schoolLevel.textContent = "Too young for school.";
+      classmatesList.innerHTML = "<p>No classmates yet.</p>";
+      gradesList.style.display = "none";
+      clubSelector.style.display = "none";
+      joinedClubs.style.display = "none";
+      teachersList.style.display = "none";
+    } else if (player.age <= 5) {
+      schoolLevel.textContent = "Preschool";
+      classmatesList.innerHTML = player.relationships.classmates.length === 0
+        ? "<p>No classmates yet.</p>"
+        : player.relationships.classmates.map((c, index) => `
+            <p class="clickablePreschoolClassmate" data-index="${index}">
+              ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+            </p>
+          `).join("");
+
+      document.querySelectorAll(".clickablePreschoolClassmate").forEach(el => {
+        el.addEventListener("click", () => openClassmatePopup(el.dataset.index));
+      });
+      gradesList.style.display = "none";
+      clubSelector.style.display = "none";
+      joinedClubs.style.display = "none";
+      teachersList.style.display = "none";
+    } else if (player.age <= 13) {
+      schoolLevel.textContent = "Elementary School";
+      classmatesList.innerHTML = player.relationships.classmates.length === 0
+        ? "<p>No classmates yet.</p>"
+        : player.relationships.classmates.map((c, index) => `
+            <p class="clickableElementaryClassmate" data-index="${index}">
+              ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+            </p>
+          `).join("");
+
+      document.querySelectorAll(".clickableElementaryClassmate").forEach(el => {
+        el.addEventListener("click", () => openElementaryClassmatePopup(el.dataset.index));
+      });
+    } else if (player.age <= 18) {
+      schoolLevel.textContent = "High School";
+      classmatesList.innerHTML = player.relationships.classmates.length === 0
+        ? "<p>No classmates yet.</p>"
+        : player.relationships.classmates.map((c, index) => `
+            <p class="clickableHighSchoolClassmate" data-index="${index}">
+              ${c.emoji} ${c.name} — age ${c.age}, closeness ${c.closeness}%
+            </p>
+          `).join("");
+
+      document.querySelectorAll(".clickableHighSchoolClassmate").forEach(el => {
+        el.addEventListener("click", () => openHighSchoolClassmatePopup(el.dataset.index));
+      });
+    } else {
+      if (player.path === "university") {
+        if (classmatesHeader) classmatesHeader.textContent = "Dorm Mates";
+        schoolLevel.innerHTML = `
+          <p>🎓 University</p>
+          <p>Attending: ${player.university}</p>
+        `;
+      } else {
+        schoolLevel.innerHTML = `
+          <p>🎓 You finished high school.</p>
+          <button class="popupBtn" onclick="chooseUniversity()">🎓 Apply to University</button>
+        `;
+      }
+      classmatesList.style.display = "none";
+      gradesList.style.display = "none";
+      clubSelector.style.display = "none";
+      joinedClubs.style.display = "none";
+      teachersList.style.display = "none";
+    }
+
+    gradesList.innerHTML = `
+      <p>Math: ${player.education.grades.math}%</p>
+      <p>Reading: ${player.education.grades.reading}%</p>
+      <p>Science: ${player.education.grades.science}%</p>
+      <p>Art: ${player.education.grades.art}%</p>
+      <button class="popupBtn" onclick="study()">Study</button>
+    `;
+
+    clubSelector.innerHTML = player.education.clubs.map(club => `
+      <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
+    `).join("");
+
+    joinedClubs.innerHTML = player.education.joinedClubs.length === 0
+      ? "<p>You have not joined any clubs yet.</p>"
+      : player.education.joinedClubs.map((c, index) => `
+          <div class="clickableClub" data-index="${index}">
+            ${c.name} — Loyalty: ${c.loyalty}% — Rank: ${c.rank}
+            <button class="popupBtn smallQuitBtn" onclick="quitClub(${index})">Quit</button>
+          </div>
         `).join("");
 
-  document.querySelectorAll(".clickableHighSchoolClassmate").forEach(el => {
-    el.addEventListener("click", () => openHighSchoolClassmatePopup(el.dataset.index));
-  });
+    document.querySelectorAll(".clickableClub").forEach((el, i) => {
+      el.addEventListener("click", (e) => {
+        if (!e.target.classList.contains("smallQuitBtn")) {
+          openClubPopup(i);
+        }
+      });
+    });
 
-  gradesList.style.display = "block";
-  clubSelector.style.display = "block";
-  joinedClubs.style.display = "block";
-  teachersList.style.display = "block";
-}
-else {
-  if (player.path === "university") {
-    if (classmatesHeader) classmatesHeader.textContent = "Dorm Mates";
-    schoolLevel.innerHTML = `
-      <p>🎓 University</p>
-      <p>Attending: ${player.university}</p>
-    `;
-  } 
-  // If they haven’t chosen yet
-  else {
-    schoolLevel.innerHTML = `
-      <p>🎓 You finished high school.</p>
-      <button onclick="chooseUniversity()">🎓 Apply to University</button>
-        Apply to University
-      </button>
-    `;
+    teachersList.innerHTML = player.education.teachers.map((t, index) => `
+      <p class="clickableTeacher" data-index="${index}">
+        📘 ${t.subject}: ${t.name} — Respect: ${t.respect}%
+      </p>
+    `).join("");
+
+    document.querySelectorAll(".clickableTeacher").forEach(el => {
+      el.addEventListener("click", () => openTeacherPopup(el.dataset.index));
+    });
   }
 
-  // 🔴 HIDE EVERYTHING ELSE
-  classmatesList.style.display = "none";
-  gradesList.style.display = "none";
-  clubSelector.style.display = "none";
-  joinedClubs.style.display = "none";
-  teachersList.style.display = "none";
-}
-
-  // GRADES
-  gradesList.innerHTML = `
-    <p>Math: ${player.education.grades.math}%</p>
-    <p>Reading: ${player.education.grades.reading}%</p>
-    <p>Science: ${player.education.grades.science}%</p>
-    <p>Art: ${player.education.grades.art}%</p>
-    <button class="popupBtn" onclick="study()">Study</button>
-  `;
-
-  // CLUB SELECTOR
- clubSelector.innerHTML = player.education.clubs.map(club => `
-  <button class="popupBtn" onclick="joinClub('${club}')">${club}</button>
-`).join("");
-
-  // JOINED CLUBS
-joinedClubs.innerHTML =
-  player.education.joinedClubs.length === 0
-    ? "<p>You have not joined any clubs yet.</p>"
-    : player.education.joinedClubs.map((c, index) => `
-        <p class="clickableClub" data-index="${index}">
-          ${c.name} — Loyalty: ${c.loyalty}% — Rank: ${c.rank}
-          <button class="popupBtn smallQuitBtn" onclick="quitClub(${index})">Quit</button>
-        </p>
-      `).join("");
-
-document.querySelectorAll(".clickableClub").forEach((el, i) => {
-  el.addEventListener("click", () => openClubPopup(i));
-});
-
- teachersList.innerHTML =
-  player.education.teachers.map((t, index) => `
-    <p class="clickableTeacher" data-index="${index}">
-      📘 ${t.subject}: ${t.name} — Respect: ${t.respect}%
-    </p>
-  `).join("");
-
-document.querySelectorAll(".clickableTeacher").forEach(el => {
-  el.addEventListener("click", () => openTeacherPopup(el.dataset.index));
-});
-  // ------------------------------
-  // RELATIONSHIPS LISTS
-  // ------------------------------
+  // RELATIONSHIPS
   const familyList = document.getElementById("familyList");
   const siblingsList = document.getElementById("siblingsList");
   const friendsList = document.getElementById("friendsList");
@@ -1193,153 +723,105 @@ document.querySelectorAll(".clickableTeacher").forEach(el => {
   const deceasedList = document.getElementById("deceasedList");
 
   if (familyList) {
-    familyList.innerHTML =
-      player.relationships.family.length === 0
-        ? "<p>No parents listed.</p>"
-        : player.relationships.family.map((p, index) => `
-            <p class="clickableFamily" data-index="${index}">
-              ${p.emoji} ${p.relation}: ${p.name} — age ${p.age}, closeness ${p.closeness}%
-            </p>
-          `).join("");
-
+    familyList.innerHTML = player.relationships.family.length === 0
+      ? "<p>No parents listed.</p>"
+      : player.relationships.family.map((p, index) => `
+          <p class="clickableFamily" data-index="${index}">
+            ${p.emoji} ${p.relation}: ${p.name} — age ${p.age}, closeness ${p.closeness}%
+          </p>
+        `).join("");
     document.querySelectorAll(".clickableFamily").forEach(el => {
       el.addEventListener("click", () => openParentPopup(el.dataset.index));
     });
   }
 
   if (siblingsList) {
-    siblingsList.innerHTML =
-      player.relationships.siblings.length === 0
-        ? "<p>No siblings.</p>"
-        : player.relationships.siblings.map((s, index) => `
-            <p class="clickableSibling" data-index="${index}">
-              ${s.emoji} ${s.relation}: ${s.name} — age ${s.age}, closeness ${s.closeness}%
-            </p>
-          `).join("");
-
+    siblingsList.innerHTML = player.relationships.siblings.length === 0
+      ? "<p>No siblings.</p>"
+      : player.relationships.siblings.map((s, index) => `
+          <p class="clickableSibling" data-index="${index}">
+            ${s.emoji} ${s.relation}: ${s.name} — age ${s.age}, closeness ${s.closeness}%
+          </p>
+        `).join("");
     document.querySelectorAll(".clickableSibling").forEach(el => {
       el.addEventListener("click", () => openSiblingPopup(el.dataset.index));
     });
   }
 
   if (friendsList) {
-    friendsList.innerHTML =
-      player.relationships.friends.length === 0
-        ? "<p>No friends yet.</p>"
-        : player.relationships.friends.map((fr, index) => `
-            <p class="clickableFriend" data-index="${index}">
-              ${fr.emoji} ${fr.name} — age ${fr.age}, closeness ${fr.closeness}%
-            </p>
-          `).join("");
-
+    friendsList.innerHTML = player.relationships.friends.length === 0
+      ? "<p>No friends yet.</p>"
+      : player.relationships.friends.map((fr, index) => `
+          <p class="clickableFriend" data-index="${index}">
+            ${fr.emoji} ${fr.name} — age ${fr.age}, closeness ${fr.closeness}%
+          </p>
+        `).join("");
     document.querySelectorAll(".clickableFriend").forEach(el => {
       el.addEventListener("click", () => openFriendPopup(el.dataset.index));
     });
   }
 
   if (romanticList) {
-  romanticList.innerHTML =
-    player.relationships.romantic.length === 0
+    romanticList.innerHTML = player.relationships.romantic.length === 0
       ? "<p>No romantic relationships yet.</p>"
       : player.relationships.romantic.map((r, index) => `
           <p class="clickableRomantic" data-index="${index}">
             ${r.emoji} ${r.name} — ❤️ ${r.closeness}%
           </p>
         `).join("");
-
-  document.querySelectorAll(".clickableRomantic").forEach(el => {
-    el.addEventListener("click", () =>
-      openRomanticPopup(el.dataset.index)
-    );
-  });
-}
+    document.querySelectorAll(".clickableRomantic").forEach(el => {
+      el.addEventListener("click", () => openRomanticPopup(el.dataset.index));
+    });
+  }
 
   if (petsList) {
-    petsList.innerHTML =
-      player.relationships.pets.length === 0
-        ? "<p>No pets.</p>"
-        : player.relationships.pets.map((p, index) => `
-            <p class="clickablePet" data-index="${index}">
-              ${p.emoji} ${p.name} — age ${p.age}, closeness ${p.closeness}%
-            </p>
-          `).join("");
-
+    petsList.innerHTML = player.relationships.pets.length === 0
+      ? "<p>No pets.</p>"
+      : player.relationships.pets.map((p, index) => `
+          <p class="clickablePet" data-index="${index}">
+            ${p.emoji} ${p.name} — age ${p.age}, closeness ${p.closeness}%
+          </p>
+        `).join("");
     document.querySelectorAll(".clickablePet").forEach(el => {
       el.addEventListener("click", () => openPetPopup(el.dataset.index));
     });
   }
 
   if (deceasedList) {
-    deceasedList.innerHTML =
-      player.relationships.deceased.length === 0
-        ? "<p>No deceased family members.</p>"
-        : player.relationships.deceased.map(d => `
-            <p>${d.emoji} ${d.relation}: ${d.name} — died at ${d.age}</p>
-          `).join("");
+    deceasedList.innerHTML = player.relationships.deceased.length === 0
+      ? "<p>No deceased family members.</p>"
+      : player.relationships.deceased.map(d => `
+          <p>${d.emoji} ${d.relation}: ${d.name} — died at ${d.age}</p>
+        `).join("");
   }
 
-  // ------------------------------
-// ACTIVITIES TAB (AGE 6+)
-// ------------------------------
-const activitiesTab = document.getElementById("activitiesTab");
-
-if (activitiesTab) {
-  if (player.age < 6) {
-    activitiesTab.innerHTML = "<p>You are too young for activities.</p>";
-  } else {
-    activitiesTab.innerHTML = `
-      <div id="exerciseSection">
-        <h3>Exercise</h3>
-        ${player.activities.exercise.map((a, i) => `
-          <button class="popupBtn" onclick="doActivity('exercise', ${i})">${a}</button>
-        `).join("")}
-      </div>
-
-      <div id="funSection">
-        <h3>Fun</h3>
-        ${player.activities.fun.map((a, i) => `
-          <button class="popupBtn" onclick="doActivity('fun', ${i})">${a}</button>
-        `).join("")}
-      </div>
-
-      <div id="miscSection">
-        <h3>Misc</h3>
-        ${player.activities.misc.map((a, i) => `
-          <button class="popupBtn" onclick="doActivity('misc', ${i})">${a}</button>
-        `).join("")}
-      </div>
-    `;
+  const activitiesTab = document.getElementById("activitiesTab");
+  if (activitiesTab) {
+    if (player.age < 6) {
+      activitiesTab.innerHTML = "<p>You are too young for activities.</p>";
+    } else {
+      activitiesTab.innerHTML = `
+        <div id="exerciseSection">
+          <h3>Exercise</h3>
+          ${player.activities.exercise.map((a, i) => `
+            <button class="popupBtn" onclick="doActivity('exercise', ${i})">${a}</button>
+          `).join("")}
+        </div>
+        <div id="funSection">
+          <h3>Fun</h3>
+          ${player.activities.fun.map((a, i) => `
+            <button class="popupBtn" onclick="doActivity('fun', ${i})">${a}</button>
+          `).join("")}
+        </div>
+        <div id="miscSection">
+          <h3>Misc</h3>
+          ${player.activities.misc.map((a, i) => `
+            <button class="popupBtn" onclick="doActivity('misc', ${i})">${a}</button>
+          `).join("")}
+        </div>
+      `;
+    }
   }
-}
-
-  // ASSETS SUBTAB SWITCHING
-document.addEventListener("click", e => {
-  if (!e.target.classList.contains("subtabBtn")) return;
-
-  const target = e.target.dataset.subtab;
-
-  // Remove active from all subtabs
-  document.querySelectorAll("#assets .subtab").forEach(s => s.classList.remove("active"));
-
-  // Remove active from all buttons
-  document.querySelectorAll("#assets .subtabBtn").forEach(b => b.classList.remove("active"));
-
-  // Activate clicked button + matching subtab
-  e.target.classList.add("active");
-  document.getElementById("assets-" + target).classList.add("active");
-});
-
-
-  // ------------------------------
-  // SUBTAB BUTTONS
-  // ------------------------------
-  document.querySelectorAll(".subtabBtn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".subtab").forEach(s => s.classList.remove("active"));
-      const target = document.getElementById("edu-" + btn.dataset.subtab);
-      if (target) target.classList.add("active");
-    });
-  });
 }
 
 // ------------------------------
@@ -1347,23 +829,20 @@ document.addEventListener("click", e => {
 // ------------------------------
 function openParentPopup(index) {
   const p = player.relationships.family[index];
-
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${p.emoji} ${p.relation}: ${p.name}</h2>
       <p>Age: ${p.age}</p>
       <p>Closeness: ${p.closeness}%</p>
-
       <button class="popupBtn" onclick="parentInteract(${index}, 'talk')">Talk To</button>
       <button class="popupBtn" onclick="parentInteract(${index}, 'hug')">Hug</button>
       <button class="popupBtn" onclick="parentInteract(${index}, 'spend')">Spend Time</button>
       <button class="popupBtn" onclick="parentInteract(${index}, 'advice')">Ask for Advice</button>
-
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
@@ -1371,66 +850,52 @@ function parentInteract(index, type) {
   const p = player.relationships.family[index];
   let result = "";
   let change = 0;
-
   if (type === "talk") {
     change = Math.floor(Math.random() * 6) + 2;
     result = `You had a conversation with ${p.name}.`;
-  }
-
-  if (type === "hug") {
+  } else if (type === "hug") {
     change = Math.floor(Math.random() * 8) + 3;
     result = `You hugged ${p.name}.`;
-  }
-
-  if (type === "spend") {
+  } else if (type === "spend") {
     change = Math.floor(Math.random() * 10) + 4;
     result = `You spent quality time with ${p.name}.`;
-  }
-
-  if (type === "advice") {
+  } else if (type === "advice") {
     change = Math.floor(Math.random() * 5) + 1;
     result = `${p.name} gave you advice.`;
   }
-
   p.closeness = clamp(p.closeness + change);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${p.emoji} ${p.relation}: ${p.name}</h2>
-      <p>${result}</p>
-      <p>Closeness is now ${p.closeness}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${p.emoji} ${p.relation}: ${p.name}</h2>
+        <p>${result}</p>
+        <p>Closeness is now ${p.closeness}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
-// ------------------------------
-// POPUP SYSTEM (SIBLINGS)
-// ------------------------------
 function openSiblingPopup(index) {
   const s = player.relationships.siblings[index];
-
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${s.emoji} ${s.relation}: ${s.name}</h2>
       <p>Age: ${s.age}</p>
       <p>Closeness: ${s.closeness}%</p>
-
       <button class="popupBtn" onclick="siblingInteract(${index}, 'play')">Play</button>
       <button class="popupBtn" onclick="siblingInteract(${index}, 'joke')">Joke Around</button>
       <button class="popupBtn" onclick="siblingInteract(${index}, 'compliment')">Compliment</button>
       <button class="popupBtn" onclick="siblingInteract(${index}, 'insult')">Insult</button>
       <button class="popupBtn" onclick="siblingInteract(${index}, 'bond')">Bond</button>
       <button class="popupBtn" onclick="siblingInteract(${index}, 'fight')">Fight</button>
-
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
@@ -1438,49 +903,37 @@ function siblingInteract(index, type) {
   const s = player.relationships.siblings[index];
   let result = "";
   let change = 0;
-
   if (type === "play") {
     change = Math.floor(Math.random() * 10) + 3;
     result = `You played with ${s.name}.`;
-  }
-
-  if (type === "joke") {
+  } else if (type === "joke") {
     change = Math.floor(Math.random() * 8) + 2;
     result = `You joked around with ${s.name}.`;
-  }
-
-  if (type === "compliment") {
+  } else if (type === "compliment") {
     change = Math.floor(Math.random() * 6) + 2;
     result = `You complimented ${s.name}.`;
-  }
-
-  if (type === "insult") {
+  } else if (type === "insult") {
     change = -(Math.floor(Math.random() * 10) + 5);
     result = `You insulted ${s.name}.`;
-  }
-
-  if (type === "bond") {
+  } else if (type === "bond") {
     change = Math.floor(Math.random() * 12) + 4;
     result = `You bonded with ${s.name}.`;
-  }
-
-  if (type === "fight") {
+  } else if (type === "fight") {
     change = -(Math.floor(Math.random() * 15) + 5);
     result = `You fought with ${s.name}.`;
   }
-
   s.closeness = clamp(s.closeness + change);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${s.emoji} ${s.relation}: ${s.name}</h2>
-      <p>${result}</p>
-      <p>Closeness is now ${s.closeness}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${s.emoji} ${s.relation}: ${s.name}</h2>
+        <p>${result}</p>
+        <p>Closeness is now ${s.closeness}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
@@ -1488,17 +941,15 @@ function renderJobs() {
   const jobsList = document.getElementById("jobsList");
   if (!jobsList) return;
 
-  // If player already has a job
   if (currentJob) {
     jobsList.innerHTML = `
       <p>${currentJob.name}</p>
       <p>Salary: $${currentJob.salary}</p>
-      <button class="popupBtn" onclick="quitJob()">Quit Job</button>
+      <button class="popupBtn" onclick="openQuitJobPopup()">Quit Job</button>
     `;
     return;
   }
 
-  // Show all available jobs
   jobsList.innerHTML = jobOpenings.map((job, index) => `
     <button class="popupBtn" onclick="openJobPopup(${index})">
       ${job.name}
@@ -1509,37 +960,30 @@ function renderJobs() {
 function openJobPopup(index) {
   const job = jobOpenings[index];
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${job.name}</h2>
       <p>💰 Salary: $${job.salary}</p>
       <p>🧠 Required Smarts: ${job.smarts}</p>
       <p>🎂 Minimum Age: ${job.minAge}</p>
-
       ${
         player.age >= job.minAge && player.smarts >= job.smarts
           ? `<button class="popupBtn" onclick="applyJob(${index})">Apply</button>`
           : `<p style="color:red;">You do not meet the requirements.</p>`
       }
-
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function applyJob(index) {
   const job = jobOpenings[index];
-
   if (player.age < job.minAge || player.smarts < job.smarts) {
-    alert("You don't qualify.");
     return;
   }
-
   currentJob = job;
-
   closePopup();
   renderJobs();
   updateUI();
@@ -1547,7 +991,7 @@ function applyJob(index) {
 
 function openQuitJobPopup() {
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>Quit Job?</h2>
@@ -1555,24 +999,23 @@ function openQuitJobPopup() {
       <button class="popupBtn" onclick="closePopup()">No</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function quitJob() {
   currentJob = null;
+  closePopup();
   renderJobs();
+  updateUI();
 }
 
 function openJobEvent() {
   if (!currentJob) return;
-
-  const events = jobEvents[currentJob.name];
-  if (!events) return;
-
-  const event = events[Math.floor(Math.random() * events.length)];
+  const jobEvts = jobEvents[currentJob.name];
+  if (!jobEvts || jobEvts.length === 0) return;
+  const event = jobEvts[Math.floor(Math.random() * jobEvts.length)];
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>💼 Work Event</h2>
@@ -1580,17 +1023,13 @@ function openJobEvent() {
       <div id="jobChoices"></div>
     </div>
   `;
-
   const choiceBox = document.getElementById("jobChoices");
-
   event.choices.forEach(choice => {
     const btn = document.createElement("button");
     btn.className = "popupBtn";
     btn.textContent = choice.text;
-
     btn.onclick = () => {
       applyJobEffects(choice.effects);
-
       popup.innerHTML = `
         <div class="popupCard">
           <h2>Work Complete</h2>
@@ -1599,10 +1038,8 @@ function openJobEvent() {
         </div>
       `;
     };
-
     choiceBox.appendChild(btn);
   });
-
   popup.style.display = "flex";
 }
 
@@ -1610,58 +1047,45 @@ function applyJobEffects(effects) {
   if (effects.money) changeStat("money", effects.money);
   if (effects.happiness) changeStat("happiness", effects.happiness);
   if (effects.smarts) changeStat("smarts", effects.smarts);
-
   updateUI();
 }
 
 function openStorePopup(storeName, index) {
   const item = stores[storeName][index];
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${item.name}</h2>
       <p>💰 Price: $${item.price}</p>
       <p>${item.description}</p>
-
       <p>Effects:</p>
       <ul>
         ${Object.entries(item.effects).map(([key, val]) => `
           <li>${key}: ${val > 0 ? "+" : ""}${val}</li>
         `).join("")}
       </ul>
-
       ${
         player.money >= item.price
           ? `<button class="popupBtn" onclick="buyStoreItem('${storeName}', ${index})">Buy</button>`
           : `<p style="color:red;">Not enough money</p>`
       }
-
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function buyStoreItem(storeName, index) {
   const item = stores[storeName][index];
+  if (player.money < item.price) return;
 
-  if (player.money < item.price) {
-    alert("Not enough money!");
-    return;
-  }
-
-  // subtract money
   player.money -= item.price;
-
-  // apply effects
   for (let key in item.effects) {
     if (player.hasOwnProperty(key)) {
       player[key] = clamp(player[key] + item.effects[key]);
     }
   }
-
   closePopup();
   updateUI();
 }
@@ -1669,7 +1093,6 @@ function buyStoreItem(storeName, index) {
 function renderStores() {
   const container = document.getElementById("storesList");
   if (!container) return;
-
   container.innerHTML = Object.keys(stores).map(storeName => {
     return `
       <div class="storeBlock">
@@ -1683,26 +1106,21 @@ function renderStores() {
     `;
   }).join("");
 }
-// ------------------------------
-// POPUP SYSTEM (PETS)
-// ------------------------------
+
 function openPetPopup(index) {
   const p = player.relationships.pets[index];
-
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${p.emoji} ${p.name}</h2>
       <p>Age: ${p.age}</p>
       <p>Closeness: ${p.closeness}%</p>
-
       <button class="popupBtn" onclick="petInteract(${index}, 'play')">Play</button>
       <button class="popupBtn" onclick="petInteract(${index}, 'outside')">Take Outside</button>
-
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
@@ -1710,95 +1128,76 @@ function petInteract(index, type) {
   const p = player.relationships.pets[index];
   let result = "";
   let change = 0;
-
   if (type === "play") {
     change = Math.floor(Math.random() * 10) + 3;
     result = `You played with ${p.name}.`;
-  }
-
-  if (type === "outside") {
+  } else if (type === "outside") {
     change = Math.floor(Math.random() * 8) + 2;
     result = `You took ${p.name} outside.`;
   }
-
   p.closeness = clamp(p.closeness + change);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${p.emoji} ${p.name}</h2>
-      <p>${result}</p>
-      <p>Closeness is now ${p.closeness}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${p.emoji} ${p.name}</h2>
+        <p>${result}</p>
+        <p>Closeness is now ${p.closeness}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
-// ------------------------------
-// FRIEND POPUP (unchanged)
-// ------------------------------
 function interact(index, type) {
   const fr = player.relationships.friends[index];
   let result = "";
   let change = 0;
-
   if (type === "hangout") {
     change = Math.floor(Math.random() * 10) + 3;
     result = `You hung out with ${fr.name}.`;
-  }
-
-  if (type === "talk") {
+  } else if (type === "talk") {
     change = Math.floor(Math.random() * 6) + 2;
     result = `You talked with ${fr.name}.`;
-  }
-
-  if (type === "play") {
+  } else if (type === "play") {
     change = Math.floor(Math.random() * 8) + 3;
     result = `You played with ${fr.name}.`;
-  }
-
-  if (type === "study") {
+  } else if (type === "study") {
     change = Math.floor(Math.random() * 5) + 1;
     result = `You studied with ${fr.name}.`;
-  }
-
-  if (type === "party") {
+  } else if (type === "party") {
     change = Math.floor(Math.random() * 12) + 4;
     result = `You partied with ${fr.name}.`;
   }
-
   fr.closeness = clamp(fr.closeness + change);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${fr.emoji} ${fr.name}</h2>
-      <p>${result}</p>
-      <p>Closeness is now ${fr.closeness}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${fr.emoji} ${fr.name}</h2>
+        <p>${result}</p>
+        <p>Closeness is now ${fr.closeness}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
 function openFriendPopup(index) {
   const fr = player.relationships.friends[index];
-
   let buttons = `
     <button class="popupBtn" onclick="interact(${index}, 'hangout')">Hang Out</button>
     <button class="popupBtn" onclick="interact(${index}, 'talk')">Talk To</button>
   `;
-
   if (player.age <= 12) buttons += `<button class="popupBtn" onclick="interact(${index}, 'play')">Play</button>`;
   if (player.age >= 10) buttons += `<button class="popupBtn" onclick="interact(${index}, 'study')">Study</button>`;
   if (player.age >= 16) buttons += `<button class="popupBtn" onclick="interact(${index}, 'party')">Party</button>`;
-
   buttons += `<button class="popupBtn popupClose" onclick="closePopup()">Close</button>`;
 
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${fr.emoji} ${fr.name}</h2>
@@ -1807,66 +1206,56 @@ function openFriendPopup(index) {
       ${buttons}
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function openClubPopup(index) {
-  const club = player.education.joinedClubs[index];
-
-  const popup = document.getElementById("popupOverlay");
-  const card = document.getElementById("popupCard");
-
-  card.innerHTML = `
-    <h2>${club.name}</h2>
-    <p>Your Rank: <strong>${club.rank}</strong></p>
-    <p>Loyalty: ${club.loyalty}%</p>
-
-    <button class="popupBtn" onclick="attendMeeting(${index})">Attend Meeting</button>
-    <button class="popupBtn" onclick="showSpirit(${index})">Show Spirit</button>
-
-    ${
-      club.rank === "Member"
-        ? `<button class="popupBtn" onclick="becomeClubLeader(${index})">Become Club Leader</button>`
-        : ``
-    }
-
-    <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+  const c = player.education.joinedClubs[index];
+  const popup = document.getElementById("popup");
+  if (!popup) return;
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>${c.name}</h2>
+      <p>Your Rank: <strong>${c.rank}</strong></p>
+      <p>Loyalty: ${c.loyalty}%</p>
+      <button class="popupBtn" onclick="runClubEvent(${index})">Attend Meeting</button>
+      <button class="popupBtn" onclick="clubInteract(${index}, 'spirit')">Show Spirit</button>
+      ${c.rank === "Member" && c.loyalty >= 70 
+        ? `<button class="popupBtn" onclick="becomeClubLeader(${index})">Become Club Leader</button>` 
+        : ""}
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function openTeacherPopup(index) {
   const t = player.education.teachers[index];
-
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>📘 ${t.subject}: ${t.name}</h2>
       <p>Respect: ${t.respect}%</p>
       <p>Mood: ${t.mood}%</p>
-
       <button class="popupBtn" onclick="teacherInteract(${index}, 'talk')">Talk After Class</button>
       <button class="popupBtn" onclick="teacherInteract(${index}, 'ask')">Ask About Homework</button>
       <button class="popupBtn" onclick="teacherInteract(${index}, 'help')">Ask for Extra Help</button>
       <button class="popupBtn" onclick="teacherInteract(${index}, 'compliment')">Compliment Teacher</button>
       <button class="popupBtn" onclick="teacherInteract(${index}, 'ignore')">Do Nothing</button>
-
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function doActivity(type, index) {
   const activity = player.activities[type][index];
 
-  // ⭐ AGE RESTRICTION FOR VACATION
   if (activity.includes("vacation")) {
     if (player.age < 18) {
       const popup = document.getElementById("popup");
+      if (!popup) return;
       popup.innerHTML = `
         <div class="popupCard">
           <h2>✈️ Vacation Locked</h2>
@@ -1877,15 +1266,13 @@ function doActivity(type, index) {
       popup.style.display = "flex";
       return;
     }
-
     openVacationPopup();
     return;
   }
 
-  // Basic activity effect
   changeStat("happiness", 3);
-
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>Activity</h2>
@@ -1895,168 +1282,90 @@ function doActivity(type, index) {
     </div>
   `;
   popup.style.display = "flex";
-
   updateUI();
-}
-
-function openJobPopup(index) {
-  const job = jobOpenings[index];
-  const popup = document.getElementById("popup");
-
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${job.name}</h2>
-      <p>💰 Salary: $${job.salary}</p>
-      <p>🧠 Required Smarts: ${job.smarts}</p>
-      <p>🎂 Minimum Age: ${job.minAge}</p>
-
-      ${
-        player.age >= job.minAge && player.smarts >= job.smarts
-          ? `<button class="popupBtn" onclick="applyJob(${index})">Apply</button>`
-          : `<p style="color:red;">You do not meet the requirements.</p>`
-      }
-
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
-  popup.style.display = "flex";
 }
 
 function showPostHighSchoolChoice() {
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>🎓 What’s Next?</h2>
       <p>You’ve finished high school. What do you want to do?</p>
-
-     <button class="popupBtn" onclick="showUniversityOptions()">
-  🎓 Apply to University
-</button>
-
+      <button class="popupBtn" onclick="showUniversityOptions()">
+        🎓 Apply to University
+      </button>
       <button class="popupBtn" onclick="chooseJobs()">
         💼 Look for Jobs
       </button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
-
-// ------------------------------
-// JOB PATH
-// ------------------------------
 function chooseJobs() {
   player.path = "jobs";
   closePopup();
   updateUI();
 }
 
-
-// ------------------------------
-// UNIVERSITY LIST (SIMPLE VERSION)
-// ------------------------------
-
 function chooseUniversity() {
-  const popup = document.getElementById("popup");
-
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>🎓 Apply to University</h2>
-      <div id="uniList"></div>
-
-      <button class="popupBtn popupClose" onclick="closePopup()">
-        Close
-      </button>
-    </div>
-  `;
-
-  const list = document.getElementById("uniList");
-
-  universities.forEach((uni, index) => {
-    const btn = document.createElement("button");
-    btn.className = "popupBtn";
-    btn.textContent = uni.name;
-
-    btn.onclick = () => openUniversityDetails(index);
-
-    list.appendChild(btn);
-  });
-
-  popup.style.display = "flex";
+  showUniversityOptions();
 }
 
 function showUniversityOptions() {
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>🎓 Apply to University</h2>
       <div id="uniList"></div>
-
       <button class="popupBtn popupClose" onclick="closePopup()">
         Close
       </button>
     </div>
   `;
-
   const list = document.getElementById("uniList");
-
   universities.forEach((uni, index) => {
     const btn = document.createElement("button");
     btn.className = "popupBtn";
     btn.textContent = uni.name;
-
     btn.onclick = () => openUniversityDetails(index);
-
     list.appendChild(btn);
   });
-
   popup.style.display = "flex";
 }
 
 function openUniversityDetails(index) {
   const uni = universities[index];
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${uni.name}</h2>
-
       <h3>📊 Requirements</h3>
       <div id="reqBox"></div>
-
       <h3>📚 Programs</h3>
       <p>${uni.programs.join(", ")}</p>
-
       <div id="applyBox"></div>
-
       <button class="popupBtn popupClose" onclick="showUniversityOptions()">
         Back
       </button>
     </div>
   `;
 
-  // Fill requirements
   const reqBox = document.getElementById("reqBox");
-
   Object.entries(uni.req).forEach(([subject, value]) => {
     const p = document.createElement("p");
     p.innerHTML = `<b>${subject}:</b> ${value}%`;
     reqBox.appendChild(p);
   });
 
-  // Apply button
   const applyBox = document.getElementById("applyBox");
-
   const applyBtn = document.createElement("button");
   applyBtn.className = "popupBtn";
   applyBtn.textContent = "Apply";
-
   applyBtn.onclick = () => applyToUniversity(index);
-
   applyBox.appendChild(applyBtn);
 
   popup.style.display = "flex";
@@ -2064,13 +1373,10 @@ function openUniversityDetails(index) {
 
 function applyToUniversity(index) {
   const uni = universities[index];
-
   let accepted = true;
-
   for (let subject in uni.req) {
     const required = uni.req[subject];
     const playerGrade = player.education.grades[subject] || 0;
-
     if (playerGrade < required) {
       accepted = false;
       break;
@@ -2078,51 +1384,38 @@ function applyToUniversity(index) {
   }
 
   closePopup();
-
   if (accepted) {
     player.university = uni.name;
     player.path = "university";
-
-    // 🎓 Generate dorm mates
     player.relationships.classmates = [];
-
-    const count = Math.floor(Math.random() * 3) + 5; // 5–7
-
+    const count = Math.floor(Math.random() * 3) + 5;
     for (let i = 0; i < count; i++) {
+      const g = randomGender();
       player.relationships.classmates.push({
-        name: randomName(),
+        name: randomName(g),
+        gender: g,
         age: 18 + Math.floor(Math.random() * 5),
         closeness: Math.floor(Math.random() * 40) + 30,
-        emoji: "🧑"
+        emoji: genderEmoji(g, 18)
       });
     }
-
-    alert("🎉 You got accepted into " + uni.name);
-  } else {
-    alert("❌ You were not accepted.");
   }
 }
 
-// ------------------------------
-// CLOSE POPUP
-// ------------------------------
 function closePopup() {
-  document.getElementById("popup").style.display = "none";
+  const popup = document.getElementById("popup");
+  if (popup) popup.style.display = "none";
 }
-// ------------------------------
-// DEATH SYSTEM
-// ------------------------------
+
 function checkDeaths() {
-  // PLAYER DEATH
   if (player.age > 65) {
-    const chance = (player.age - 65) * 0.02; // 2% per year past 65
+    const chance = (player.age - 65) * 0.02;
     if (Math.random() < chance) {
       showGameOver();
       return;
     }
   }
 
-  // PARENTS
   player.relationships.family = player.relationships.family.filter(p => {
     if (p.age > 65 && Math.random() < (p.age - 65) * 0.03) {
       showDeathPopup(p);
@@ -2132,7 +1425,6 @@ function checkDeaths() {
     return true;
   });
 
-  // SIBLINGS
   player.relationships.siblings = player.relationships.siblings.filter(s => {
     if (s.age > 65 && Math.random() < (s.age - 65) * 0.02) {
       showDeathPopup(s);
@@ -2142,7 +1434,6 @@ function checkDeaths() {
     return true;
   });
 
-  // PETS
   player.relationships.pets = player.relationships.pets.filter(p => {
     if (p.age > 12 && Math.random() < (p.age - 12) * 0.05) {
       showDeathPopup(p);
@@ -2164,6 +1455,7 @@ function moveToDeceased(person) {
 
 function showDeathPopup(person) {
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${person.emoji} ${person.name}</h2>
@@ -2176,6 +1468,7 @@ function showDeathPopup(person) {
 
 function showGameOver() {
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>💀 You Have Died</h2>
@@ -2185,16 +1478,12 @@ function showGameOver() {
   `;
   popup.style.display = "flex";
 
-  // Freeze game
-  document.getElementById("ageBtn").disabled = true;
+  const ageBtn = document.getElementById("ageBtn");
+  if (ageBtn) ageBtn.disabled = true;
 }
 
-// ------------------------------
-// AGE UP
-// ------------------------------
 function applyChoice(effects, npcName = null) {
   for (let stat in effects) {
-
     if (stat === "addFriend" && npcName) {
       const gender = randomGender();
       player.relationships.friends.push({
@@ -2206,12 +1495,12 @@ function applyChoice(effects, npcName = null) {
       });
       continue;
     }
-
     changeStat(stat, effects[stat]);
   }
-
-  document.getElementById("choices").innerHTML = "";
-  document.getElementById("eventText").textContent = "You made your choice.";
+  const choicesBox = document.getElementById("choices");
+  const eventText = document.getElementById("eventText");
+  if (choicesBox) choicesBox.innerHTML = "";
+  if (eventText) eventText.textContent = "You made your choice.";
   updateUI();
 }
 
@@ -2222,6 +1511,7 @@ function runEvent() {
 
   const eventText = document.getElementById("eventText");
   const choiceBox = document.getElementById("choices");
+  if (!eventText || !choiceBox) return;
 
   if (possible.length === 0) {
     eventText.textContent = "Nothing special happened this year.";
@@ -2230,15 +1520,12 @@ function runEvent() {
   }
 
   const event = possible[Math.floor(Math.random() * possible.length)];
-
   let npcName = null;
   if (event.text.includes("{name}")) {
-    npcName = randomName(gender);
+    npcName = randomName(player.gender);
   }
-
   const finalText = npcName ? event.text.replace("{name}", npcName) : event.text;
   eventText.textContent = finalText;
-
   choiceBox.innerHTML = "";
 
   event.choices.forEach(choice => {
@@ -2251,14 +1538,12 @@ function runEvent() {
 
 function runClubEvent(index) {
   const club = player.education.joinedClubs[index];
-  const events = clubEvents[club.name];
+  const evts = clubEvents[club.name];
+  if (!evts || evts.length === 0) return;
 
-  if (!events || events.length === 0) return;
-
-  const event = events[Math.floor(Math.random() * events.length)];
-
+  const event = evts[Math.floor(Math.random() * evts.length)];
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${club.name}</h2>
@@ -2268,23 +1553,18 @@ function runClubEvent(index) {
   `;
 
   const choiceBox = document.getElementById("clubChoices");
-
   event.choices.forEach(choice => {
     const btn = document.createElement("button");
     btn.className = "popupBtn";
     btn.textContent = choice.text;
-
     btn.onclick = () => applyClubEffects(index, choice.effects, club.name);
-
     choiceBox.appendChild(btn);
   });
-
   popup.style.display = "flex";
 }
 
 function applyClubEffects(index, effects, clubName) {
   const club = player.education.joinedClubs[index];
-
   for (let key in effects) {
     if (key === "loyalty") {
       club.loyalty = clamp(club.loyalty + effects[key]);
@@ -2294,47 +1574,42 @@ function applyClubEffects(index, effects, clubName) {
   }
 
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${clubName}</h2>
-      <p>You made your choice.</p>
-      <p>Loyalty is now ${club.loyalty}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${clubName}</h2>
+        <p>You made your choice.</p>
+        <p>Loyalty is now ${club.loyalty}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
 function ageUp() {
   player.age++;
-
   processYearlyIncome();
-  
-  player.emoji = genderEmoji(player.gender, player.age);
 
+  player.emoji = genderEmoji(player.gender, player.age);
   yearEventUsed = false;
 
-  // Age family
   player.relationships.family.forEach(p => {
     p.age++;
     p.emoji = genderEmoji(p.gender, p.age);
   });
 
-  // Age siblings
   player.relationships.siblings.forEach(s => {
     s.age++;
     s.emoji = genderEmoji(s.gender, s.age);
   });
 
-  // Age friends
   player.relationships.friends.forEach(fr => {
     fr.age++;
     fr.emoji = genderEmoji(fr.gender, fr.age);
     fr.closeness = clamp(fr.closeness - Math.floor(Math.random() * 4));
   });
 
-  // Age pets
   player.relationships.pets.forEach(p => {
     p.age++;
   });
@@ -2345,7 +1620,6 @@ function ageUp() {
   });
 
   if (player.age === 3) generatePreschoolClassmates();
-
   if (player.age === 6) {
     player.relationships.classmates = [];
     generateElementaryClassmates();
@@ -2355,99 +1629,60 @@ function ageUp() {
 
   checkDeaths();
   runEvent();
-
   yearlyStatChanges();
-  
+
   updateUI();
 }
 
-// ------------------------------
-// YEARLY STAT CHANGES
-// ------------------------------
 function yearlyStatChanges() {
-  // Happiness naturally shifts
-  player.happiness += Math.floor(Math.random() * 7) - 3; // -3 to +3
+  player.happiness += Math.floor(Math.random() * 7) - 3;
+  player.health += Math.floor(Math.random() * 5) - 2;
+  player.smarts += Math.floor(Math.random() * 4) - 1;
+  player.looks += Math.floor(Math.random() * 3) - 2;
 
-  // Health slowly declines or improves
-  player.health += Math.floor(Math.random() * 5) - 2; // -2 to +2
-
-  // Smarts slightly improves with age (or drifts)
-  player.smarts += Math.floor(Math.random() * 4) - 1; // -1 to +2
-
-  // Looks slowly declines with age (subtle realism)
-  player.looks += Math.floor(Math.random() * 3) - 2; // -2 to +0
-
-  // Clamp everything
   player.happiness = clamp(player.happiness);
   player.health = clamp(player.health);
   player.smarts = clamp(player.smarts);
   player.looks = clamp(player.looks);
 }
 
-// ------------------------------
-// CLOSE POPUP
-// ------------------------------
-// ------------------------------
-// POPUP CLOSE
-// ------------------------------
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
-
-// ------------------------------
-// PRESCHOOL CLASSMATES
-// ------------------------------
 function generatePreschoolClassmates() {
-  const count = Math.floor(Math.random() * 7) + 7; // 7–13 classmates
-
+  const count = Math.floor(Math.random() * 7) + 7;
   player.relationships.classmates = [];
-
   for (let i = 0; i < count; i++) {
     const gender = randomGender();
-    const age = Math.floor(Math.random() * 3) + 3; // ages 3–5
-
+    const age = Math.floor(Math.random() * 3) + 3;
     player.relationships.classmates.push({
       name: randomName(gender),
       gender: gender,
       age: age,
       emoji: genderEmoji(gender, age),
-      closeness: Math.floor(Math.random() * 16) + 15, // 15–30
+      closeness: Math.floor(Math.random() * 16) + 15,
       type: "classmate"
     });
   }
 }
 
-// ------------------------------
-// ELEMENTARY CLASSMATE GENERATOR
-// ------------------------------
 function generateElementaryClassmates() {
-  const count = Math.floor(Math.random() * 6) + 10; // 10–15 classmates
-
+  const count = Math.floor(Math.random() * 6) + 10;
   player.relationships.classmates = [];
-
   for (let i = 0; i < count; i++) {
     const gender = randomGender();
-    const age = Math.floor(Math.random() * 3) + 6; // ages 6–8
-
+    const age = Math.floor(Math.random() * 3) + 6;
     player.relationships.classmates.push({
       name: randomName(gender),
       gender: gender,
       age: age,
       emoji: genderEmoji(gender, age),
-      closeness: Math.floor(Math.random() * 16) + 15, // 15–30
+      closeness: Math.floor(Math.random() * 16) + 15,
       type: "classmate"
     });
   }
 }
 
-// ------------------------------
-// TEACHER GENERATOR
-// ------------------------------
 function generateTeachers() {
   const teacherNames = ["Ms. Carter", "Mr. Lopez", "Mrs. Singh", "Mr. Brown", "Ms. Nguyen", "Mr. Smithers", "Ms. Inglethorp", "Ms. Printz", "Ms. Chambers", "Ms. Shen", "Mr. Maputena", "Mr. Stefanov", "Mr. Jones", "Ms. Swan", "Ms. MacDonald"];
-
   const subjects = ["Math", "Reading", "Science", "Art"];
-
   player.education.teachers = subjects.map(subject => {
     return {
       subject: subject,
@@ -2458,148 +1693,103 @@ function generateTeachers() {
   });
 }
 
-// ------------------------------
-// CLUB GENERATOR
-// ------------------------------
 function generateClubs() {
-  // All clubs are always available
   player.education.clubs = ["Chess Club", "Art Club", "Band", "Study Club"];
-  player.education.joinedClubs = []; // clubs the player actually joins
+  player.education.joinedClubs = [];
 }
 
-// ------------------------------
-// PRESCHOOL POPUP
-// ------------------------------
 function openClassmatePopup(index) {
   const c = player.relationships.classmates[index];
-
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${c.emoji} ${c.name}</h2>
       <p>Age: ${c.age}</p>
       <p>Closeness: ${c.closeness}%</p>
-
-<button class="popupBtn" onclick="classmateInteract(${index})">Arrange Playdate</button>
-
-${player.relationships.classmates[index].closeness >= 50
-  ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
-  : ""
-}
-
-<button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      <button class="popupBtn" onclick="classmateInteract(${index})">Arrange Playdate</button>
+      ${c.closeness >= 50
+        ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
+        : ""
+      }
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function classmateInteract(index) {
   const c = player.relationships.classmates[index];
-
   const change = Math.floor(Math.random() * 10) + 5;
   c.closeness = clamp(c.closeness + change);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${c.emoji} ${c.name}</h2>
-      <p>You arranged a playdate with ${c.name}.</p>
-      <p>Closeness is now ${c.closeness}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${c.emoji} ${c.name}</h2>
+        <p>You arranged a playdate with ${c.name}.</p>
+        <p>Closeness is now ${c.closeness}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
-function tryBecomeFriend(index) {
-  const c = player.relationships.classmates[index];
-
-  if (c.closeness < 50) return; // not enough bond
-
-  // prevent duplicates
-  const alreadyFriend = player.relationships.friends.some(f => f.name === c.name);
-  if (alreadyFriend) return;
-
-  player.relationships.friends.push({
-    name: c.name,
-    gender: c.gender,
-    age: c.age,
-    emoji: c.emoji,
-    closeness: c.closeness
-  });
-}
-
-// ------------------------------
-// ELEMENTARY POPUP
-// ------------------------------
 function openElementaryClassmatePopup(index) {
   const c = player.relationships.classmates[index];
-
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${c.emoji} ${c.name}</h2>
       <p>Age: ${c.age}</p>
       <p>Closeness: ${c.closeness}%</p>
-
       <button class="popupBtn" onclick="elementaryInteract(${index}, 'hangout')">Hang Out</button>
       <button class="popupBtn" onclick="elementaryInteract(${index}, 'recess')">Play at Recess</button>
       <button class="popupBtn" onclick="elementaryInteract(${index}, 'study')">Study Together</button>
       <button class="popupBtn" onclick="elementaryInteract(${index}, 'project')">Work on a Project</button>
       <button class="popupBtn" onclick="elementaryInteract(${index}, 'lunch')">Sit Together at Lunch</button>
-
+      ${c.closeness >= 50
+        ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
+        : ""
+      }
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-      ${player.relationships.classmates[index].closeness >= 50
-  ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
-  : ""
-}
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function openHighSchoolClassmatePopup(index) {
   const c = player.relationships.classmates[index];
-
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${c.emoji} ${c.name}</h2>
       <p>Age: ${c.age}</p>
       <p>Closeness: ${c.closeness}%</p>
-
       <button class="popupBtn" onclick="highSchoolInteract(${index}, 'talk')">Talk</button>
       <button class="popupBtn" onclick="highSchoolInteract(${index}, 'hangout')">Hang Out</button>
       <button class="popupBtn" onclick="highSchoolInteract(${index}, 'study')">Study Together</button>
       <button class="popupBtn" onclick="highSchoolInteract(${index}, 'drama')">Get Involved in Drama</button>
       <button class="popupBtn" onclick="highSchoolInteract(${index}, 'ignore')">Ignore</button>
-
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-
       ${c.closeness >= 50
         ? `<button class="popupBtn" onclick="becomeFriendFromClassmate(${index})">Become Friends</button>`
         : ""
       }
-
       ${c.closeness >= 85
         ? `<button class="popupBtn" onclick="becomeRomantic(${index})">Become Romantic</button>`
         : ""
       }
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
-// ------------------------------
-// ROMANCE SYSTEM
-// ------------------------------
 function becomeRomantic(index) {
   const c = player.relationships.classmates[index];
-
   const alreadyRomantic = player.relationships.romantic.some(r => r.name === c.name);
   if (alreadyRomantic) return;
 
@@ -2615,23 +1805,23 @@ function becomeRomantic(index) {
   });
 
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${c.emoji} ${c.name}</h2>
-      <p>💘 You started a romantic relationship!</p>
-      <p>They have been added to your Romantic tab.</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${c.emoji} ${c.name}</h2>
+        <p>💘 You started a romantic relationship!</p>
+        <p>They have been added to your Romantic tab.</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
 function openRomanticPopup(index) {
   const r = player.relationships.romantic[index];
-
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>${r.emoji} ${r.name}</h2>
@@ -2639,27 +1829,22 @@ function openRomanticPopup(index) {
       <p>Closeness: ${r.closeness}%</p>
       <p>Trust: ${r.trust}%</p>
       <p>Attraction: ${r.attraction}%</p>
-
       <button class="popupBtn" onclick="romanticInteract(${index}, 'talk')">Talk</button>
       <button class="popupBtn" onclick="romanticInteract(${index}, 'date')">Go on a Date</button>
       <button class="popupBtn" onclick="romanticInteract(${index}, 'kiss')">Kiss</button>
-
       ${
         r.closeness >= 100
           ? `<button class="popupBtn" onclick="romanticInteract(${index}, 'intimate')">Be Intimate 😈</button>`
           : ""
       }
-
       <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function romanticInteract(index, type) {
   const r = player.relationships.romantic[index];
-
   let change = 0;
   let trustChange = 0;
   let attractionChange = 0;
@@ -2669,25 +1854,18 @@ function romanticInteract(index, type) {
     change = Math.floor(Math.random() * 6) + 2;
     trustChange = 2;
     result = `You had a deep conversation with ${r.name}.`;
-  }
-
-  if (type === "date") {
+  } else if (type === "date") {
     change = Math.floor(Math.random() * 12) + 5;
     trustChange = 3;
     attractionChange = 3;
     result = `You went on a date with ${r.name}.`;
-  }
-
-  if (type === "kiss") {
+  } else if (type === "kiss") {
     change = Math.floor(Math.random() * 15) + 8;
     trustChange = 4;
     attractionChange = 5;
     result = `You kissed ${r.name}.`;
-  }
-
-  if (type === "intimate") {
+  } else if (type === "intimate") {
     if (r.closeness < 100) return;
-
     change = 10;
     trustChange = -2;
     attractionChange = 6;
@@ -2699,22 +1877,21 @@ function romanticInteract(index, type) {
   r.attraction = clamp(r.attraction + attractionChange);
 
   const popup = document.getElementById("popup");
-
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${r.emoji} ${r.name}</h2>
-      <p>${result}</p>
-      <p>Closeness: ${r.closeness}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${r.emoji} ${r.name}</h2>
+        <p>${result}</p>
+        <p>Closeness: ${r.closeness}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
 function becomeFriendFromClassmate(index) {
   const c = player.relationships.classmates[index];
-
   const alreadyFriend = player.relationships.friends.some(f => f.name === c.name);
   if (!alreadyFriend) {
     player.relationships.friends.push({
@@ -2726,76 +1903,66 @@ function becomeFriendFromClassmate(index) {
     });
   }
 
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${c.emoji} ${c.name}</h2>
-      <p>You are now friends!</p>
-      <p>They have been added to your Friends list.</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${c.emoji} ${c.name}</h2>
+        <p>You are now friends!</p>
+        <p>They have been added to your Friends list.</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
 function openVacationPopup() {
   const popup = document.getElementById("popup");
-
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>✈️ Vacation Time!</h2>
       <p>Where would you like to go?</p>
-
       <button class="popupBtn" onclick="vacationChoice('beach')">🏖️ Beach</button>
       <button class="popupBtn" onclick="vacationChoice('mountains')">⛰️ Mountains</button>
       <button class="popupBtn" onclick="vacationChoice('city')">🏙️ City</button>
       <button class="popupBtn" onclick="vacationChoice('stayhome')">🏠 Stay Home</button>
-
       <button class="popupBtn popupClose" onclick="closePopup()">Cancel</button>
     </div>
   `;
-
   popup.style.display = "flex";
 }
 
 function vacationChoice(type) {
   let result = "";
   let happinessGain = 0;
-
   if (type === "beach") {
     result = "You relaxed at the beach and swam in the ocean.";
     happinessGain = 15;
-  }
-
-  if (type === "mountains") {
+  } else if (type === "mountains") {
     result = "You went hiking and enjoyed the fresh air.";
     happinessGain = 12;
-  }
-
-  if (type === "city") {
+  } else if (type === "city") {
     result = "You explored a busy city full of lights and food.";
     happinessGain = 10;
-  }
-
-  if (type === "stayhome") {
+  } else if (type === "stayhome") {
     result = "You stayed home and rested all week.";
     happinessGain = 8;
   }
 
   player.happiness = clamp(player.happiness + happinessGain);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>✈️ Vacation Result</h2>
-      <p>${result}</p>
-      <p>You gained +${happinessGain}% happiness!</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>✈️ Vacation Result</h2>
+        <p>${result}</p>
+        <p>You gained +${happinessGain}% happiness!</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
@@ -2803,82 +1970,65 @@ function elementaryInteract(index, type) {
   const c = player.relationships.classmates[index];
   let result = "";
   let change = 0;
-
   if (type === "hangout") {
     change = Math.floor(Math.random() * 10) + 5;
     result = `You hung out with ${c.name}.`;
-  }
-
-  if (type === "recess") {
+  } else if (type === "recess") {
     change = Math.floor(Math.random() * 12) + 4;
     result = `You played at recess with ${c.name}.`;
-  }
-
-  if (type === "study") {
+  } else if (type === "study") {
     change = Math.floor(Math.random() * 8) + 3;
     result = `You studied together with ${c.name}.`;
   }
-
   c.closeness = clamp(c.closeness + change);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${c.emoji} ${c.name}</h2>
-      <p>${result}</p>
-      <p>Closeness is now ${c.closeness}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${c.emoji} ${c.name}</h2>
+        <p>${result}</p>
+        <p>Closeness is now ${c.closeness}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
 function highSchoolInteract(index, type) {
   const c = player.relationships.classmates[index];
-
   let change = 0;
   let result = "";
-
   if (type === "talk") {
     change = Math.floor(Math.random() * 8) + 2;
     result = `You had a conversation with ${c.name}.`;
-  }
-
-  if (type === "hangout") {
+  } else if (type === "hangout") {
     change = Math.floor(Math.random() * 12) + 4;
     result = `You hung out with ${c.name} after school.`;
-  }
-
-  if (type === "study") {
+  } else if (type === "study") {
     change = Math.floor(Math.random() * 10) + 3;
     player.smarts = clamp(player.smarts + 2);
     result = `You studied together with ${c.name}.`;
-  }
-
-  if (type === "drama") {
-    change = Math.floor(Math.random() * 6) - 4; // risky choice
+  } else if (type === "drama") {
+    change = Math.floor(Math.random() * 6) - 4;
     result = `You got involved in school drama with ${c.name}.`;
-  }
-
-  if (type === "ignore") {
+  } else if (type === "ignore") {
     change = -Math.floor(Math.random() * 6);
     result = `You ignored ${c.name}.`;
   }
 
   c.closeness = clamp(c.closeness + change);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${c.emoji} ${c.name}</h2>
-      <p>${result}</p>
-      <p>Closeness is now ${c.closeness}%</p>
-
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${c.emoji} ${c.name}</h2>
+        <p>${result}</p>
+        <p>Closeness is now ${c.closeness}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
@@ -2886,55 +2036,23 @@ function joinClub(clubName) {
   player.education.joinedClubs.push({
     name: clubName,
     loyalty: 50,
-    rank: "Member"   // ⭐ default rank
+    rank: "Member"
   });
-
   player.education.clubs = player.education.clubs.filter(c => c !== clubName);
-
   updateUI();
 }
 
 function becomeClubLeader(index) {
   const club = player.education.joinedClubs[index];
-
   club.rank = "Leader";
-
   updateUI();
-  openClubPopup(index); // 🔥 THIS is what refreshes the button
-}
-
-function openClubPopup(index) {
-  const c = player.education.joinedClubs[index];
-
-  const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${c.name}</h2>
-      <p>Loyalty: ${c.loyalty}%</p>
-
-      <button class="popupBtn" onclick="runClubEvent(${index})">Attend Meeting</button>
-      <button class="popupBtn" onclick="clubInteract(${index}, 'spirit')">Show Spirit</button>
-
-      ${c.rank === "Member" && c.loyalty >= 70 
-  ? `<button class="popupBtn" onclick="becomeClubLeader(${index})">Become Club Leader</button>` 
-  : ""}
-
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
-  popup.style.display = "flex";
+  openClubPopup(index);
 }
 
 function quitClub(index) {
   const club = player.education.joinedClubs[index];
-
-  // Return club to available list
   player.education.clubs.push(club.name);
-
-  // Remove from joined list
   player.education.joinedClubs.splice(index, 1);
-
   updateUI();
 }
 
@@ -2942,89 +2060,73 @@ function clubInteract(index, type) {
   const c = player.education.joinedClubs[index];
   let result = "";
   let change = 0;
-
   if (type === "attend") {
     change = Math.floor(Math.random() * 8) + 3;
     result = `You attended a meeting for ${c.name}.`;
-  }
-
-  if (type === "spirit") {
+  } else if (type === "spirit") {
     change = Math.floor(Math.random() * 6) + 2;
     result = `You showed spirit for ${c.name}.`;
   }
-
   c.loyalty = clamp(c.loyalty + change);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>${c.name}</h2>
-      <p>${result}</p>
-      <p>Loyalty is now ${c.loyalty}%</p>
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>${c.name}</h2>
+        <p>${result}</p>
+        <p>Loyalty is now ${c.loyalty}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
 function teacherInteract(index, type) {
   const t = player.education.teachers[index];
-
   let change = 0;
   let result = "";
-
   if (type === "talk") {
     change = Math.floor(Math.random() * 6) + 2;
     result = `You had a casual conversation with ${t.name}.`;
-  }
-
-  if (type === "ask") {
+  } else if (type === "ask") {
     change = Math.floor(Math.random() * 8) + 3;
     player.smarts = clamp(player.smarts + 2);
     result = `You asked ${t.name} about homework. You feel slightly smarter.`;
-  }
-
-  if (type === "help") {
+  } else if (type === "help") {
     change = Math.floor(Math.random() * 10) + 5;
     player.smarts = clamp(player.smarts + 3);
     result = `${t.name} helped you understand the topic better.`;
-  }
-
-  if (type === "compliment") {
+  } else if (type === "compliment") {
     change = Math.floor(Math.random() * 12) + 4;
     result = `You complimented ${t.name}. They seem happier.`;
-  }
-
-  if (type === "ignore") {
+  } else if (type === "ignore") {
     change = -Math.floor(Math.random() * 6) - 2;
     result = `You ignored ${t.name}.`;
   }
 
   t.respect = clamp(t.respect + change);
-
   const popup = document.getElementById("popup");
-  popup.innerHTML = `
-    <div class="popupCard">
-      <h2>📘 ${t.subject}: ${t.name}</h2>
-      <p>${result}</p>
-      <p>Respect is now ${t.respect}%</p>
-
-      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
-    </div>
-  `;
-
+  if (popup) {
+    popup.innerHTML = `
+      <div class="popupCard">
+        <h2>📘 ${t.subject}: ${t.name}</h2>
+        <p>${result}</p>
+        <p>Respect is now ${t.respect}%</p>
+        <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+      </div>
+    `;
+  }
   updateUI();
 }
 
 function study() {
   const subjects = ["math", "reading", "science", "art"];
   const subject = subjects[Math.floor(Math.random() * subjects.length)];
-
   const gain = Math.floor(Math.random() * 6) + 3;
   player.education.grades[subject] = clamp(player.education.grades[subject] + gain);
-
   const popup = document.getElementById("popup");
+  if (!popup) return;
   popup.innerHTML = `
     <div class="popupCard">
       <h2>📚 Studied</h2>
@@ -3034,21 +2136,23 @@ function study() {
     </div>
   `;
   popup.style.display = "flex";
-
   updateUI();
 }
+
 // ------------------------------
-// TABS + AGE BUTTON
+// INITIALIZATION
 // ------------------------------
 window.onload = () => {
   document.querySelectorAll(".tabBtn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-      document.getElementById(btn.dataset.tab).classList.add("active");
+      const target = document.getElementById(btn.dataset.tab);
+      if (target) target.classList.add("active");
     });
   });
 
-  document.getElementById("ageBtn").addEventListener("click", ageUp);
+  const ageBtn = document.getElementById("ageBtn");
+  if (ageBtn) ageBtn.addEventListener("click", ageUp);
 
   loadEvents().then(updateUI);
 };
