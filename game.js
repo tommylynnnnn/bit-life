@@ -1,5 +1,3 @@
-
-
 const universities = [
   {
     name: "🎨 Art Institute",
@@ -25,6 +23,31 @@ const universities = [
     name: "🏥 Medical School",
     req: { science: 85 },
     programs: ["Medicine", "Nursing"]
+  }
+];
+
+// Expanded University Data structures
+const uniCampusEvents = [
+  { 
+    text: "🏛️ A professor invites you to assist on a breakthrough research project.", 
+    choices: [
+      { text: "Accept and study hard", effects: { gpa: 0.3, stress: 15, smarts: 5 } }, 
+      { text: "Decline to maintain free time", effects: { happiness: 5 } }
+    ] 
+  },
+  { 
+    text: "🎉 There's a massive campus event / Greek Life party tonight!", 
+    choices: [
+      { text: "Party all night!", effects: { happiness: 15, stress: -10, gpa: -0.2 } }, 
+      { text: "Stay in and study", effects: { gpa: 0.2, stress: 5 } }
+    ] 
+  },
+  { 
+    text: "☕ You find a cozy coffee shop near campus with great study vibes.", 
+    choices: [
+      { text: "Cram for finals here", effects: { gpa: 0.2, smarts: 3 } }, 
+      { text: "Chat with fellow students", effects: { happiness: 8 } }
+    ] 
   }
 ];
 
@@ -102,6 +125,7 @@ let player = {
   money: 0,
   path: null,
   university: null,
+  universityData: null,
   name: "",
   gender: "",
   emoji: "",
@@ -657,9 +681,20 @@ function updateUI() {
     } else {
       if (player.path === "university") {
         if (classmatesHeader) classmatesHeader.textContent = "Dorm Mates";
+        
+        const u = player.universityData || { program: "General Studies", gpa: 3.0, semester: 1, stress: 10 };
         schoolLevel.innerHTML = `
-          <p>🎓 University</p>
-          <p>Attending: ${player.university}</p>
+          <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+            <p>🎓 <strong>${player.university}</strong></p>
+            <p>Major: ${u.program}</p>
+            <p>GPA: <strong>${u.gpa.toFixed(2)} / 4.00</strong></p>
+            <p>Semester: ${u.semester} / 8</p>
+            <p>Stress Level: ${u.stress}%</p>
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+              <button class="popupBtn" onclick="attendLecture()">📖 Attend Lecture</button>
+              <button class="popupBtn" onclick="studyInLibrary()">📚 Library Cram Session</button>
+            </div>
+          </div>
         `;
       } else {
         schoolLevel.innerHTML = `
@@ -1387,6 +1422,12 @@ function applyToUniversity(index) {
   if (accepted) {
     player.university = uni.name;
     player.path = "university";
+    player.universityData = {
+      program: uni.programs[Math.floor(Math.random() * uni.programs.length)],
+      gpa: 3.0,
+      semester: 1,
+      stress: 20
+    };
     player.relationships.classmates = [];
     const count = Math.floor(Math.random() * 3) + 5;
     for (let i = 0; i < count; i++) {
@@ -1400,6 +1441,87 @@ function applyToUniversity(index) {
       });
     }
   }
+}
+
+function attendLecture() {
+  if (!player.universityData) return;
+  const u = player.universityData;
+  u.gpa = Math.min(4.0, u.gpa + 0.05);
+  u.stress = clamp(u.stress + 5);
+  player.smarts = clamp(player.smarts + 2);
+
+  const popup = document.getElementById("popup");
+  if (!popup) return;
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>📖 Attended Lecture</h2>
+      <p>You took thorough notes and participated in class discussions.</p>
+      <p>+0.05 GPA | +2 Smarts | +5 Stress</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+  popup.style.display = "flex";
+  updateUI();
+}
+
+function studyInLibrary() {
+  if (!player.universityData) return;
+  const u = player.universityData;
+  u.gpa = Math.min(4.0, u.gpa + 0.1);
+  u.stress = clamp(u.stress + 12);
+  player.happiness = clamp(player.happiness - 3);
+
+  const popup = document.getElementById("popup");
+  if (!popup) return;
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>📚 Library Cram Session</h2>
+      <p>You stayed late studying textbooks and reviewing materials.</p>
+      <p>+0.10 GPA | -3 Happiness | +12 Stress</p>
+      <button class="popupBtn popupClose" onclick="closePopup()">Close</button>
+    </div>
+  `;
+  popup.style.display = "flex";
+  updateUI();
+}
+
+function runUniversityEvent() {
+  if (!player.universityData) return;
+  const event = uniCampusEvents[Math.floor(Math.random() * uniCampusEvents.length)];
+  const popup = document.getElementById("popup");
+  if (!popup) return;
+
+  popup.innerHTML = `
+    <div class="popupCard">
+      <h2>🏫 Campus Event</h2>
+      <p>${event.text}</p>
+      <div id="uniChoices"></div>
+    </div>
+  `;
+
+  const choiceBox = document.getElementById("uniChoices");
+  event.choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.className = "popupBtn";
+    btn.textContent = choice.text;
+    btn.onclick = () => {
+      applyUniEventEffects(choice.effects);
+      closePopup();
+    };
+    choiceBox.appendChild(btn);
+  });
+  popup.style.display = "flex";
+}
+
+function applyUniEventEffects(effects) {
+  const u = player.universityData;
+  if (!u) return;
+  for (let key in effects) {
+    if (key === "gpa") u.gpa = Math.max(0, Math.min(4.0, u.gpa + effects[key]));
+    else if (key === "stress") u.stress = clamp(u.stress + effects[key]);
+    else changeStat(key, effects[key]);
+  }
+  updateUI();
 }
 
 function closePopup() {
@@ -1590,6 +1712,30 @@ function applyClubEffects(index, effects, clubName) {
 function ageUp() {
   player.age++;
   processYearlyIncome();
+
+  if (player.path === "university" && player.universityData) {
+    const u = player.universityData;
+    u.semester += 2;
+    if (u.semester >= 8) {
+      player.path = "graduated";
+      player.smarts = clamp(player.smarts + 15);
+      const popup = document.getElementById("popup");
+      if (popup) {
+        popup.innerHTML = `
+          <div class="popupCard">
+            <h2>🎓 Graduation Day!</h2>
+            <p>Congratulations! You graduated from <strong>${player.university}</strong> with a major in <strong>${u.program}</strong>!</p>
+            <p>Final GPA: <strong>${u.gpa.toFixed(2)}</strong></p>
+            <button class="popupBtn popupClose" onclick="closePopup()">Awesome!</button>
+          </div>
+        `;
+        popup.style.display = "flex";
+      }
+      player.universityData = null;
+    } else if (Math.random() < 0.6) {
+      runUniversityEvent();
+    }
+  }
 
   player.emoji = genderEmoji(player.gender, player.age);
   yearEventUsed = false;
